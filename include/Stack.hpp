@@ -13,7 +13,7 @@ public:
 
 public:
     void push(T item);
-    T pop();
+    T pop() const;
     T peek() const;
     bool isEmpty() const;
 

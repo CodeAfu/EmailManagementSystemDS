@@ -36,11 +36,13 @@ void Stack<T>::push(T item) {
 }
 
 template<typename T>
-T Stack<T>::pop() {
+T Stack<T>::pop() const {
     if (isEmpty()) {
         throw std::out_of_range("Stack is empty.");
     }
-    return _arr[_index--];
+    T poppedValue = _arr[_index];
+    _index--;
+    return poppedValue;
 }
 
 template<typename T>
