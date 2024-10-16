@@ -11,7 +11,6 @@ class Email {
 public:
     Email();
     Email(int id);
-    Email(int id, std::string from, std::string to);
     Email(int id, std::string from, std::string to, std::string subject);
     bool operator==(const Email& other) const;
 
@@ -20,6 +19,7 @@ public:
     void reply(std::string message);
     std::string getTime();
     std::string getDate();
+    int getNumReplies() const;
 
     std::string toString();
     void display(); // DEBUG
@@ -29,6 +29,7 @@ private:
     std::string _from; // Email Address of User
     std::string _to; // Email Address of User
     std::string _subject;
+    std::string _firstMessage;
     Email* _reply;
     Stack<std::string> messages;
 

@@ -12,11 +12,6 @@ Email::Email(int id)
     : _id(id), _from(""), _to(""), _subject(""), 
       _isRead(false), _isStarred(false), _isPinned(false), _isSpam(false), _isDraft(false),
       _type(Regular) {}
-
-Email::Email(int id, std::string from, std::string to)
-    : _id(id), _from(from), _to(to), _subject(""),
-      _isRead(false), _isStarred(false), _isPinned(false), _isSpam(false), _isDraft(false),
-      _type(Regular) {}
         
 Email::Email(int id, std::string from, std::string to, std::string subject)
     : _id(id), _from(from), _to(to), _subject(subject),
@@ -28,13 +23,12 @@ bool Email::operator==(const Email& other) const {
         && _from == other._from
         && _to == other._to
         && _subject == other._subject
+        && _firstMessage == other._firstMessage
+        && _reply == other._reply
         //TODO: compare messages stack
-        && _isRead == other._isRead
-        && _isStarred == other._isStarred
-        && _isPinned == other._isPinned
-        && _isSpam == other._isSpam
-        && _isDraft == other._isDraft
-        && _type == other._type;
+        && _type == other._type
+        && _timestamp == other._timestamp;
+        // TODO: Add boolean fields later
 }
 
 void Email::read() {
@@ -59,15 +53,34 @@ std::string Email::getDate() {
     return _timestamp.getDate();
 }
 
+int Email::getNumReplies() const {
+    Email* reply = _reply;
+    int count = 0;
+    while (reply != nullptr) { 
+        reply = reply->_reply;
+        count++;
+    }
+    return count;
+}
+
 std::string Email::toString() {
+    std::string replyExpression;
+    if (getNumReplies() > 1) {
+        replyExpression = "See " + std::to_string(getNumReplies()) + " replies";
+    } else if (getNumReplies() == 1) {
+        replyExpression = "See 1 reply";
+    } else {
+        replyExpression = "No replies";
+    }
+
     std::string s = "ID: " + std::to_string(_id) + "\n";
     s += "From: " + _from + "\n";
     s += "To: " + _to + "\n";
     s += "Subject: " + _subject + "\n";
-    // TODO: Add messages stack
-    // s += "Message: " + message + "\n";
+    s += "Message: " + _firstMessage + "\n";
     s += "Date: " + getDate() + "\n";
     s += "Time: " + getTime() + "\n";
+    s += replyExpression + "\n";
     return s;
 }
 

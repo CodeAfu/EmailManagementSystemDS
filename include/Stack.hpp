@@ -4,7 +4,7 @@ template<typename T>
 class Stack {
 public:
     Stack();
-    Stack(size_t capacity, int incrementValue);
+    Stack(size_t capacity, int increment_value);
     ~Stack();
 
 public:
@@ -18,11 +18,11 @@ public:
     bool isEmpty() const;
 
 private:
-    size_t _capacity = 20;
-    int _incrementValue = 20;
+    size_t _capacity = 10;
+    int _incrementValue = 10;
 
 private: 
-    void changeCapacity(size_t newSize);
+    void changeCapacity(size_t new_size);
     bool isIndexOutOfBounds();
 
 private:

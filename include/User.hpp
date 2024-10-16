@@ -7,8 +7,9 @@ class User {
 public:
     User(int id, std::string name, std::string email_address);
 
-public:
     bool operator==(const User& other) const;
+    void setStackConfig(size_t capacity, int increment_value);
+public:
     std::string getName() const;
     Stack<Email> getInbox() const;
     Email getEmail() const;

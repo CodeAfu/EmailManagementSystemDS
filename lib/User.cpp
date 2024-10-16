@@ -11,6 +11,11 @@ bool User::operator==(const User& other) const {
         && _emailAddress == other._emailAddress;
 }
 
+void User::setStackConfig(size_t capacity, int increment_value) {
+    _inbox.reserve(capacity);
+    _inbox.setIncrementValue(increment_value);
+}
+
 std::string User::getName() const {
     return _name;
 }
