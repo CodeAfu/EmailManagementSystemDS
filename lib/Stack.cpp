@@ -46,7 +46,7 @@ T Stack<T>::pop() const {
 }
 
 template<typename T>
-T Stack<T>::peek() const{
+T Stack<T>::peek() const {
     return _top;
 }
 
