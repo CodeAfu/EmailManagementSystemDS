@@ -28,6 +28,11 @@ Email User::getEmail() const {
     return *_composedEmail;
 }
 
+Email User::deleteEmail() const {
+    return _inbox.pop();
+}
+
+
 void User::composeEmail(Email email) {
     *_composedEmail = email;
 }

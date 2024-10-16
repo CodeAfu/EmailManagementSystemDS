@@ -29,7 +29,7 @@ void Stack<T>::setIncrementValue(int value) {
 template<typename T>
 void Stack<T>::push(T item) {
     _index++;
-    changeCapacity(_capacity + _incrementValue);
+    updateCapacity(_capacity + _incrementValue);
 
     _arr[_index] = item;
     _top = item;
@@ -56,7 +56,7 @@ bool Stack<T>::isEmpty() const {
 }
 
 template<typename T>
-void Stack<T>::changeCapacity(size_t newSize) {
+void Stack<T>::updateCapacity(size_t newSize) {
     if (!isIndexOutOfBounds()) {
         return;
     }

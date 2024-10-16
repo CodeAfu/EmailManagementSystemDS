@@ -22,7 +22,7 @@ private:
     int _incrementValue = 10;
 
 private: 
-    void changeCapacity(size_t new_size);
+    void updateCapacity(size_t new_size);
     bool isIndexOutOfBounds();
 
 private:

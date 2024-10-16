@@ -13,6 +13,7 @@ public:
     std::string getName() const;
     Stack<Email> getInbox() const;
     Email getEmail() const;
+    Email deleteEmail() const;
     void composeEmail(Email email);
     void sendEmail(Email email, User receiver);
 
