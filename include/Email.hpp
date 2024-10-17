@@ -4,7 +4,7 @@
 #include "Stack.hpp"
 
 enum EmailType {
-    Regular, Important, Promotion, Social
+    Regular, Promotion, Social
 };
 
 class Email {
@@ -52,13 +52,15 @@ private:
 
     Email* _topEmail;
     Email* _reply;
-    Stack<std::string> _childMessages;
+    Stack<std::string> _childReplies;
 
     bool _isRead;
     bool _isStarred;
     bool _isPinned;
+    bool _isSent;
     bool _isSpam;
     bool _isDraft;
+    bool _isImportant;
     EmailType _type;
 
     Timestamp _timestamp;

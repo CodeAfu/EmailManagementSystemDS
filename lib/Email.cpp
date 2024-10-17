@@ -5,25 +5,25 @@
 
 Email::Email() 
     : _id(-1), _from(""), _to(""), _subject(""), _body(""),
-      _isRead(false), _isStarred(false), _isPinned(false), _isSpam(false), _isDraft(false),
+      _isRead(false), _isStarred(false), _isPinned(false), _isSpam(false), _isDraft(false), _isImportant(false),
       _topEmail(nullptr), _reply(nullptr),
       _type(Regular) {}
 
 Email::Email(int id) 
     : _id(id), _from(""), _to(""), _subject(""),  _body(""),
-      _isRead(false), _isStarred(false), _isPinned(false), _isSpam(false), _isDraft(false),
+      _isRead(false), _isStarred(false), _isPinned(false), _isSpam(false), _isDraft(false), _isImportant(false),
       _topEmail(nullptr), _reply(nullptr),
       _type(Regular) {}
         
 Email::Email(int id, std::string from, std::string to, std::string subject)
     : _id(id), _from(from), _to(to), _subject(subject), _body(""),
-      _isRead(false), _isStarred(false), _isPinned(false), _isSpam(false), _isDraft(false),
+      _isRead(false), _isStarred(false), _isPinned(false), _isSpam(false), _isDraft(false), _isImportant(false),
       _topEmail(nullptr), _reply(nullptr),
       _type(Regular) {}
 
 Email::Email(int id, std::string from, std::string to, std::string subject, std::string body)
     : _id(id), _from(from), _to(to), _subject(subject), _body(body),
-      _isRead(false), _isStarred(false), _isPinned(false), _isSpam(false), _isDraft(false),
+      _isRead(false), _isStarred(false), _isPinned(false), _isSpam(false), _isDraft(false), _isImportant(false),
       _topEmail(nullptr), _reply(nullptr),
       _type(Regular) {}
 
@@ -34,7 +34,7 @@ bool Email::operator==(const Email& other) const {
         && _subject == other._subject
         && _body == other._body
         && _reply == other._reply
-        //TODO: compare _childMessages stack
+        //TODO: compare _childReplies stack
         && _type == other._type
         && _timestamp == other._timestamp;
         // TODO: Add boolean fields later
@@ -44,8 +44,8 @@ void Email::read() {
     // std::cout << "From: " << *_from->getName() << std::endl;
     // std::cout << "To: " << _to.getName() << std::endl;
     std::cout << "Subject: " << _subject << std::endl;
-    // TODO: Read _childMessages stack
-    // std::cout << "Message: " << _childMessages.display() << std::endl;
+    // TODO: Read _childReplies stack
+    // std::cout << "Message: " << _childReplies.display() << std::endl;
 
     this->_isRead = true;
 }
@@ -129,7 +129,7 @@ void Email::setIsDraft(bool status) {
 }
 
 void Email::create(std::string message) {
-    // TODO: Add to the _childMessages stack
+    // TODO: Add to the _childReplies stack
     std::cout << "Sending email with message: " << message << std::endl;
 }
 
