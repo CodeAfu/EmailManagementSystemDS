@@ -9,14 +9,22 @@ public:
 
     bool operator==(const User& other) const;
     void setStackConfig(size_t capacity, int increment_value);
+
 public:
     std::string getName() const;
+    std::string getEmailAddress() const;
     Stack<Email> getInbox() const;
-    Email getEmail() const;
-    Email deleteEmail() const;
-    void composeEmail(Email email);
-    void sendEmail(Email email, User receiver);
+    Email getComposedEmail() const;
 
+    void receiveEmail(Email& email);
+    Email deleteEmail();
+    void composeEmail(Email email);
+    void sendComposedEmail(User& receiver);
+    void sendEmail(Email email, User& receiver);
+
+    std::string toString() const;
+    void log();
+    
 private:
     int _id;
     std::string _name;

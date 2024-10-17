@@ -13,11 +13,13 @@ public:
 
 public:
     void push(T item);
-    T pop() const;
+    T pop();
     T peek() const;
     bool isEmpty() const;
+    int getIndex() const;
 
 private:
+    // TODO: Test resizing of the array (default = 10:10)
     size_t _capacity = 10;
     int _incrementValue = 10;
 

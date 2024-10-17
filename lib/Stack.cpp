@@ -28,15 +28,16 @@ void Stack<T>::setIncrementValue(int value) {
 
 template<typename T>
 void Stack<T>::push(T item) {
+    if (isIndexOutOfBounds()) {
+        updateCapacity(_capacity + _incrementValue);
+    }
     _index++;
-    updateCapacity(_capacity + _incrementValue);
-
     _arr[_index] = item;
     _top = item;
 }
 
 template<typename T>
-T Stack<T>::pop() const {
+T Stack<T>::pop() {
     if (isEmpty()) {
         throw std::out_of_range("Stack is empty.");
     }
@@ -56,11 +57,12 @@ bool Stack<T>::isEmpty() const {
 }
 
 template<typename T>
-void Stack<T>::updateCapacity(size_t newSize) {
-    if (!isIndexOutOfBounds()) {
-        return;
-    }
+int Stack<T>::getIndex() const {
+    return _index;
+}
 
+template<typename T>
+void Stack<T>::updateCapacity(size_t newSize) {
     T* newArr = new T[newSize];
     std::copy(_arr, _arr + _index + 1, newArr);
     delete[] _arr;
@@ -70,7 +72,7 @@ void Stack<T>::updateCapacity(size_t newSize) {
 
 template<typename T>
 bool Stack<T>::isIndexOutOfBounds() {
-    return _index >= _capacity - 1;
+    return _index >= _capacity;
 }
 
 template class Stack<Email>;
