@@ -2,18 +2,15 @@
 
 #include "User.hpp"
 
-User::User(int id, std::string name, std::string email_address) 
-    : _id(id), _name(name), _emailAddress(email_address), _composedEmail(nullptr) {}
+User::User(int id, std::string name, std::string email_address)
+    : _id(id), _name(name), _emailAddress(email_address), _draftEmail(nullptr), _hasDraftEmail(false) {}
 
 bool User::operator==(const User& other) const {
     return _id == other._id
         && _name == other._name
-        && _emailAddress == other._emailAddress;
-}
-
-void User::setStackConfig(size_t capacity, int increment_value) {
-    _inbox.reserve(capacity);
-    _inbox.setIncrementValue(increment_value);
+        && _emailAddress == other._emailAddress
+        && _draftEmail == other._draftEmail
+        && _hasDraftEmail == other._hasDraftEmail;
 }
 
 std::string User::getName() const {
@@ -29,7 +26,8 @@ Stack<Email> User::getInbox() const {
 }
 
 Email User::getComposedEmail() const {
-    return *_composedEmail;
+    // TODO: Handle null case
+    return *_draftEmail;
 }
 
 void User::receiveEmail(Email& email) {
@@ -41,37 +39,42 @@ Email User::deleteEmail() {
     return _inbox.pop();
 }
 
-void User::composeEmail(Email email) {
+void User::draftEmail(Email& email) {
+    // Limitation: only 1 composed email at a time.
     std::cout << "[" << this->getName() << "]: Added email to draft" << std::endl;
     email.setIsDraft(true);
-    _composedEmail = &email;
+    _draftEmail = &email;
+    _hasDraftEmail = true;
 }
 
-void User::sendComposedEmail(User& receiver) {
-    if (_composedEmail == nullptr) {
-        std::cout << "No email to send" << std::endl;
+void User::sendDraftEmail(User& receiver) {
+    // TODO: Possible better way to handle this than using flags. 
+    if (_draftEmail == nullptr) {
+        std::cout << "No draft email to send" << std::endl;
         return;        
     }
-    _composedEmail->setIsDraft(false);
-    receiver.receiveEmail(*_composedEmail);
+    sendEmail(*_draftEmail, receiver);
+    _draftEmail->setIsDraft(false);
 }
 
-void User::sendEmail(Email email, User& receiver) {
-    receiver.receiveEmail(email);
+void User::sendEmail(Email& email, User& receiver) {
+    if (isSendableEmail(email)) {
+        receiver.receiveEmail(email);
+    }
 }
 
 std::string User::toString() const {
     std::string composed_msg;
-    if (_composedEmail != nullptr) {
-        std::cout << _composedEmail->getSubject();
-        composed_msg = _composedEmail->getSubject();
+    // TODO: Possible better way to handle this than using flags. 
+    if (_draftEmail) {
+        composed_msg = _draftEmail->getSubject();
     } else {
         composed_msg = "No email composed.";
     }
 
     int num_emails = -1;
     if (!_inbox.isEmpty()) {
-        num_emails = _inbox.getIndex() + 1;
+        num_emails = static_cast<int>(_inbox.getSize());
     }
     
     std::string s = "User ID: " + std::to_string(_id) + "\n";
@@ -84,4 +87,11 @@ std::string User::toString() const {
 
 void User::log() {
     std::cout << toString() << std::endl;
+}
+
+bool User::isSendableEmail(Email& email) const {
+    return email.getBody() != "" 
+        && email.getSubject() != "" 
+        && email.getTo() != "" 
+        && email.getFrom() != "";
 }

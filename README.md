@@ -1,6 +1,7 @@
 # Email Management System
 - Visual Studio C++ CLI project (C++17) 
-- Use run.bat to run the project on terminal (vscode)
+- Compatible with VSCode Debug features
+- Call "run.bat" to run the project on terminal
 
 ## Contribution Instructions
     - Keep Code Clean and Readable

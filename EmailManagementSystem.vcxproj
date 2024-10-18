@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="lib\DynArray.cpp" />
     <ClCompile Include="lib\Email.cpp" />
     <ClCompile Include="lib\Stack.cpp" />
     <ClCompile Include="lib\Timestamp.cpp" />
@@ -138,8 +139,8 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\DynArray.hpp" />
     <ClInclude Include="include\Email.hpp" />
-    <ClInclude Include="include\Node.hpp" />
     <ClInclude Include="include\Stack.hpp" />
     <ClInclude Include="include\Timestamp.hpp" />
     <ClInclude Include="include\User.hpp" />

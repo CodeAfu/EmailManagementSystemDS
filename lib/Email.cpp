@@ -5,27 +5,83 @@
 
 Email::Email() 
     : _id(-1), _from(""), _to(""), _subject(""), _body(""),
-      _isRead(false), _isStarred(false), _isPinned(false), _isSpam(false), _isDraft(false), _isImportant(false),
+      _isSent(false), _isRead(false), _isStarred(false), _isPinned(false), 
+      _isSpam(false), _isDraft(false), _isImportant(false), _isUsed(false),
       _topEmail(nullptr), _reply(nullptr),
       _type(Regular) {}
 
 Email::Email(int id) 
     : _id(id), _from(""), _to(""), _subject(""),  _body(""),
-      _isRead(false), _isStarred(false), _isPinned(false), _isSpam(false), _isDraft(false), _isImportant(false),
+      _isSent(false), _isRead(false), _isStarred(false), _isPinned(false), 
+      _isSpam(false), _isDraft(false), _isImportant(false), _isUsed(false),
       _topEmail(nullptr), _reply(nullptr),
       _type(Regular) {}
         
 Email::Email(int id, std::string from, std::string to, std::string subject)
     : _id(id), _from(from), _to(to), _subject(subject), _body(""),
-      _isRead(false), _isStarred(false), _isPinned(false), _isSpam(false), _isDraft(false), _isImportant(false),
+      _isSent(false), _isRead(false), _isStarred(false), _isPinned(false), 
+      _isSpam(false), _isDraft(false), _isImportant(false), _isUsed(false),
       _topEmail(nullptr), _reply(nullptr),
       _type(Regular) {}
 
 Email::Email(int id, std::string from, std::string to, std::string subject, std::string body)
     : _id(id), _from(from), _to(to), _subject(subject), _body(body),
-      _isRead(false), _isStarred(false), _isPinned(false), _isSpam(false), _isDraft(false), _isImportant(false),
+      _isSent(false), _isRead(false), _isStarred(false), _isPinned(false), 
+      _isSpam(false), _isDraft(false), _isImportant(false), _isUsed(false),
       _topEmail(nullptr), _reply(nullptr),
       _type(Regular) {}
+
+Email::~Email() {
+    delete _topEmail;
+    delete _reply;
+}
+
+Email::Email(const Email& other)
+    : _id(other._id),
+    _from(other._from),
+    _to(other._to),
+    _subject(other._subject),
+    _body(other._body),
+    _topEmail(other._topEmail ? new Email(*other._topEmail) : nullptr),
+    _reply(other._reply ? new Email(*other._reply) : nullptr),
+    _childReplies(other._childReplies), // Assuming Stack has a valid copy constructor
+    _isRead(other._isRead),
+    _isStarred(other._isStarred),
+    _isPinned(other._isPinned),
+    _isSent(other._isSent),
+    _isSpam(other._isSpam),
+    _isDraft(other._isDraft),
+    _isImportant(other._isImportant),
+    _isUsed(other._isUsed),
+    _type(other._type),
+    _timestamp(other._timestamp) {}
+
+Email& Email::operator=(const Email& other) {
+    if (this != &other) {
+        delete _topEmail;
+        delete _reply;
+
+        _id = other._id;
+        _from = other._from;
+        _to = other._to;
+        _subject = other._subject;
+        _body = other._body;
+        _topEmail = other._topEmail ? new Email(*other._topEmail) : nullptr;
+        _reply = other._reply ? new Email(*other._reply) : nullptr;
+        _childReplies = other._childReplies;
+        _isRead = other._isRead;
+        _isStarred = other._isStarred;
+        _isPinned = other._isPinned;
+        _isSent = other._isSent;
+        _isSpam = other._isSpam;
+        _isDraft = other._isDraft;
+        _isImportant = other._isImportant;
+        _isUsed = other._isUsed;
+        _type = other._type;
+        _timestamp = other._timestamp;
+    }
+    return *this;
+}
 
 bool Email::operator==(const Email& other) const {
     return _id == other._id
@@ -38,6 +94,11 @@ bool Email::operator==(const Email& other) const {
         && _type == other._type
         && _timestamp == other._timestamp;
         // TODO: Add boolean fields later
+}
+
+void Email::create(std::string message) {
+    // TODO: Add to the _childReplies stack
+    std::cout << "Sending email with message: " << message << std::endl;
 }
 
 void Email::read() {
@@ -99,6 +160,28 @@ Email* Email::getReply() const {
     return _reply;
 }
 
+std::string Email::getTime() const {
+    return _timestamp.getTime();
+}
+
+std::string Email::getDate() const {
+    return _timestamp.getDate();
+}
+
+int Email::getNumReplies() const {
+    Email* reply = _reply;
+    int count = 0;
+    while (reply != nullptr) {
+        reply = reply->_reply;
+        count++;
+    }
+    return count;
+}
+
+bool Email::getIsUsed() const {
+    return _isUsed;
+}
+
 // Setters
 void Email::setTopEmail(Email& email) {
     this->_topEmail = &email;
@@ -128,28 +211,10 @@ void Email::setIsDraft(bool status) {
     _isDraft = status;    
 }
 
-void Email::create(std::string message) {
-    // TODO: Add to the _childReplies stack
-    std::cout << "Sending email with message: " << message << std::endl;
+void Email::setIsUsed(bool status) {
+    _isUsed = status;
 }
 
-std::string Email::getTime() const {
-    return _timestamp.getTime();
-}
-
-std::string Email::getDate() const {
-    return _timestamp.getDate();
-}
-
-int Email::getNumReplies() const {
-    Email* reply = _reply;
-    int count = 0;
-    while (reply != nullptr) { 
-        reply = reply->_reply;
-        count++;
-    }
-    return count;
-}
 
 std::string Email::toString() {
     std::string replyExpression;

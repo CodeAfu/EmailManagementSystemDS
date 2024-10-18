@@ -30,12 +30,12 @@
     <ClCompile Include="lib\User.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="lib\DynArray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Email.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Node.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Stack.hpp">
@@ -45,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\User.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DynArray.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

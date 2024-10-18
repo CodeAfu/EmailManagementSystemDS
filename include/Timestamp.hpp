@@ -9,7 +9,7 @@
 class Timestamp {
 public:
     Timestamp();
-
+    Timestamp(const Timestamp& other);
     bool operator==(const Timestamp& other) const;
     
 public:

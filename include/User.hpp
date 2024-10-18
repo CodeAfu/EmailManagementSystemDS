@@ -8,7 +8,6 @@ public:
     User(int id, std::string name, std::string email_address);
 
     bool operator==(const User& other) const;
-    void setStackConfig(size_t capacity, int increment_value);
 
 public:
     std::string getName() const;
@@ -18,17 +17,23 @@ public:
 
     void receiveEmail(Email& email);
     Email deleteEmail();
-    void composeEmail(Email email);
-    void sendComposedEmail(User& receiver);
-    void sendEmail(Email email, User& receiver);
+    void draftEmail(Email& email);
+    void sendDraftEmail(User& receiver);
+    void sendEmail(Email& email, User& receiver);
 
     std::string toString() const;
     void log();
+
+private:
+    bool isSendableEmail(Email& email) const;
     
 private:
     int _id;
     std::string _name;
     std::string _emailAddress;
-    Email* _composedEmail;
+    Email* _draftEmail;
     Stack<Email> _inbox;
+
+    // Flags
+    bool _hasDraftEmail;
 };

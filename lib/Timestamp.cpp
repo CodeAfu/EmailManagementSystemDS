@@ -3,6 +3,12 @@
 
 Timestamp::Timestamp() : _time(std::chrono::high_resolution_clock::now()) {}
 
+Timestamp::Timestamp(const Timestamp& other) : _time(other._time) {}
+
+bool Timestamp::operator==(const Timestamp& other) const {
+    return _time == other._time;
+}
+
 std::string Timestamp::getDate() const {
     auto now = std::chrono::system_clock::now();
     time_t now_time_t = std::chrono::system_clock::to_time_t(now);
@@ -23,7 +29,4 @@ std::string Timestamp::getTime() const {
     return std::string(buffer);
 }
 
-bool Timestamp::operator==(const Timestamp& other) const {
-    return _time == other._time;
-}
 
