@@ -2,6 +2,7 @@
 #include <string>
 
 #include "Email.hpp"
+#include "PrintColoring.hpp"
 
 Email::Email() 
     : _id(-1), _from(""), _to(""), _subject(""), _body(""),
@@ -31,12 +32,13 @@ Email::Email(int id, std::string from, std::string to, std::string subject, std:
       _topEmail(nullptr), _reply(nullptr),
       _type(Regular) {
 
-    std::cout << "Email Created: " << _id << std::endl;
+    ColorFormat::print("Email created: " + std::to_string(id), Green);
 }
 
 Email::~Email() {
     delete _topEmail;
     delete _reply;
+    ColorFormat::print("Email destroyed: " + std::to_string(_id), Red);
 }
 
 Email::Email(const Email& other)
@@ -135,41 +137,15 @@ void Email::reply(Email& parent_email, std::string message) {
 }
 
 // Getters
-int Email::getId() const {
-    return _id;
-}
-
-std::string Email::getFrom() const {
-    return _from;
-}
-
-std::string Email::getTo() const {
-    return _to;
-}
-
-std::string Email::getSubject() const {
-    return _subject;
-}
-
-std::string Email::getBody() const {
-    return _body;
-}
-
-Email* Email::getTopEmail() const {
-    return _topEmail;
-}
-
-Email* Email::getReply() const {
-    return _reply;
-}
-
-std::string Email::getTime() const {
-    return _timestamp.getTime();
-}
-
-std::string Email::getDate() const {
-    return _timestamp.getDate();
-}
+int Email::getId() const { return _id; }
+std::string Email::getFrom() const { return _from; }
+std::string Email::getTo() const { return _to; }
+std::string Email::getSubject() const { return _subject; }
+std::string Email::getBody() const { return _body; }
+Email* Email::getTopEmail() const { return _topEmail; }
+Email* Email::getReply() const { return _reply; }
+std::string Email::getTime() const { return _timestamp.getTime(); }
+std::string Email::getDate() const { return _timestamp.getDate(); }
 
 int Email::getNumReplies() const {
     Email* reply = _reply;
@@ -181,43 +157,17 @@ int Email::getNumReplies() const {
     return count;
 }
 
-bool Email::getIsUsed() const {
-    return _isUsed;
-}
+bool Email::getIsUsed() const {return _isUsed; }
 
 // Setters
-void Email::setTopEmail(Email& email) {
-    this->_topEmail = &email;
-}
-
-void Email::setReply(Email& email) {
-    this->_reply = &email;
-}
-
-void Email::setIsRead(bool status) {
-    _isRead = status;    
-}
-
-void Email::setIsStarred(bool status) {
-    _isStarred = status;    
-}
-
-void Email::setIsPinned(bool status) {
-    _isPinned = status;    
-}
-
-void Email::setIsSpam(bool status) {
-    _isSpam = status;    
-}
-
-void Email::setIsDraft(bool status) {
-    _isDraft = status;    
-}
-
-void Email::setIsUsed(bool status) {
-    _isUsed = status;
-}
-
+void Email::setTopEmail(Email& email) { this->_topEmail = &email; }
+void Email::setReply(Email& email) { this->_reply = &email; }
+void Email::setIsRead(bool status) { _isRead = status; }
+void Email::setIsStarred(bool status) { _isStarred = status; }
+void Email::setIsPinned(bool status) { _isPinned = status; }
+void Email::setIsSpam(bool status) { _isSpam = status; }
+void Email::setIsDraft(bool status) { _isDraft = status; }
+void Email::setIsUsed(bool status) { _isUsed = status; }
 
 std::string Email::toString() {
     std::string replyExpression;
@@ -240,6 +190,4 @@ std::string Email::toString() {
     return s;
 }
 
-void Email::display() {
-    std::cout << toString();
-}
+void Email::display() { std::cout << toString(); }

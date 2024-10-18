@@ -21,6 +21,6 @@ private:
 private:
     T* _arr;
     size_t _size;
-    int _capacity;
+    size_t _capacity;
     int _incrementValue;
 };

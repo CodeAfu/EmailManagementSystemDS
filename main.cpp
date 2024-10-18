@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 	user_one.sendEmail(email_five, user_two);
 // 
 	user_two.log();
-	user_two.getInbox().peek().display();
+	// user_two.getInbox().peek().display();
 
 	// TODO: Console Flow
 	while (true) {

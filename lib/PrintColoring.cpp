@@ -15,6 +15,8 @@ namespace ColorFormat {
         case White: return "\033[37m";
     }
     return "";
-}
-
+    }
+    void print(const std::string& message, Color color) {
+        std::cout << get(color) << message << "\033[0m" << std::endl;
+    }
 }
