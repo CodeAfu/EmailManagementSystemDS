@@ -29,7 +29,10 @@ Email::Email(int id, std::string from, std::string to, std::string subject, std:
       _isSent(false), _isRead(false), _isStarred(false), _isPinned(false), 
       _isSpam(false), _isDraft(false), _isImportant(false), _isUsed(false),
       _topEmail(nullptr), _reply(nullptr),
-      _type(Regular) {}
+      _type(Regular) {
+
+    std::cout << "Email Created: " << _id << std::endl;
+}
 
 Email::~Email() {
     delete _topEmail;
