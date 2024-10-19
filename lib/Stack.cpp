@@ -4,7 +4,14 @@
 #include "Email.hpp"
 
 template<typename T>
-Stack<T>::Stack() : _arr(), _topIdx(-1) {}
+Stack<T>::Stack(size_t size) : _arr(), _size(size), _topIdx(-1) {
+    _arr = new T[_size];
+}
+
+template<typename T>
+Stack<T>::~Stack() {
+    delete[] _arr;    
+}
 
 template<typename T>
 Stack<T>::Stack(const Stack<T>& other)
@@ -12,8 +19,11 @@ Stack<T>::Stack(const Stack<T>& other)
 
 template<typename T>
 void Stack<T>::push(const T& item) {
-    _arr.push_back(item);
-    _topIdx++;
+    if (_topIdx >= _size - 1) {
+        std::cout << "Stack Overflow" << std::endl;
+        return;
+    }
+    _arr[++_topIdx] = item;
 }
 
 template<typename T>

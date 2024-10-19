@@ -4,12 +4,12 @@
 #include "Email.hpp"
 
 template<typename T>
-DynArray<T>::DynArray(size_t initial_capacity, int increment_value)
-    : _arr(new T[initial_capacity]), _size(0), _capacity(initial_capacity), _incrementValue(increment_value) {}
+DynArray<T>::DynArray(size_t initial_capacity)
+    : _arr(new T[initial_capacity]), _size(0), _capacity(initial_capacity) {}
 
 template<typename T>
 DynArray<T>::DynArray(const DynArray<T>& other)
-    : _arr(new T[other._capacity]), _size(other._size), _capacity(other._capacity), _incrementValue(other._incrementValue) {
+    : _arr(new T[other._capacity]), _size(other._size), _capacity(other._capacity) {
     std::copy(other._arr, other._arr + other._size, _arr);
 }
 
@@ -22,7 +22,6 @@ DynArray<T>& DynArray<T>::operator=(const DynArray<T>& other) {
         _arr = new_arr;
         _size = other._size;
         _capacity = other._capacity;
-        _incrementValue = other._incrementValue;
     }
     return *this;
 }
@@ -33,28 +32,41 @@ DynArray<T>::~DynArray() {
 }
 
 template<typename T>
-void DynArray<T>::push_back(const T& item) {
+void DynArray<T>::pushBack(const T& item) {
     if (_size >= _capacity) {
-        resize();
+        reAlloc(_capacity + _capacity / 2);
     }
     _arr[_size++] = item;
 }
 
 template<typename T>
-void DynArray<T>::reserve(size_t new_capacity) {
-    if (new_capacity > _capacity) {
-        T* newArr = new T[new_capacity];
-        std::copy(_arr, _arr + _size, newArr);
-        delete[] _arr;
-        _arr = newArr;
-        _capacity = new_capacity;
-        //std::cout << "[RESIZE] Size: " << _size << " Cap: " << _capacity << std::endl;
-    }
-}
+void DynArray<T>::reAlloc(size_t new_capacity) {
+    // Allocate Memory
+    T* new_block = (T*)::operator new(new_capacity * sizeof(T));
 
-template<typename T>
-void DynArray<T>::resize() {
-    reserve(_capacity + _incrementValue);
+    // For Shrink
+    if (new_capacity < _size) {
+        _size = new_capacity;
+    }
+
+    // Move
+    for (size_t i = 0; i < _size; i++) {
+        // new_block[i] = std::move(_arr[i]);
+        new (new_block + i) T(std::move(_arr[i])); // <-- Use placement new to construct the object
+    }
+    
+    // Clear
+    //for (size_t i = 0; i < _size; i++) {
+    //    _arr[i].~T();
+    //}
+
+    // Delete Old Arr Memory Space
+    // ::operator delete(_arr, _capacity * sizeof(T));
+    ::operator delete(_arr);
+
+    // Reallocate Arr
+    _arr = new_block;
+    _capacity = new_capacity;
 }
 
 template<typename T>

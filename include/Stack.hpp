@@ -1,11 +1,12 @@
 #pragma once
 
-#include "DynArray.hpp"
+// #include "DynArray.hpp"
 
 template<typename T>
 class Stack {
 public:
-    Stack();
+    Stack(size_t size = 100);
+    ~Stack();
     Stack(const Stack<T>& other);
     void push(const T& item);
     T pop();
@@ -14,6 +15,7 @@ public:
     bool isEmpty() const;
 
 private:
-    DynArray<T> _arr;
+    T* _arr;
     int _topIdx;
+    int _size;
 };

@@ -16,6 +16,8 @@ public:
     ~Email();
     Email(const Email& other);
     Email& operator=(const Email& other);
+    Email(Email&& other) noexcept;
+    Email& operator=(Email&& other) noexcept;
     bool operator==(const Email& other) const;
 
     void create(std::string message);
@@ -28,16 +30,16 @@ public:
     std::string getTo() const;
     std::string getSubject() const;
     std::string getBody() const;
-    Email* getTopEmail() const;
-    Email* getReply() const;
+    // Email* getTopEmail() const;
+    // Email* getReply() const;
     std::string getTime() const;
     std::string getDate() const;
-    int getNumReplies() const;
+    // int getNumReplies() const;
     bool getIsUsed() const;
 
     // Setters
-    void setTopEmail(Email& email);
-    void setReply(Email& email);
+    // void setTopEmail(Email& email);
+    // void setReply(Email& email);
     void setIsRead(bool status);
     void setIsStarred(bool status);
     void setIsPinned(bool status);
@@ -55,9 +57,9 @@ private:
     std::string _subject;
     std::string _body;
 
-    Email* _topEmail;
-    Email* _reply;
-    Stack<std::string> _childReplies;
+    // Email _topEmail;
+    // Email _reply;
+    // Stack<std::string> _childReplies;
 
     bool _isRead;
     bool _isStarred;
