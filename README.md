@@ -1,13 +1,14 @@
 # Email Management System
 - Visual Studio C++ CLI project (C++17) 
 - Compatible with VSCode Debug features
-- Call "run.bat" to run the project on terminal
+- Use "run.bat" to run the project on terminal
 
 ## Contribution Instructions
-    - Keep Code Clean and Readable
-    - Use the predefined Email and User classes
-    - Use the predefined Stack and Queue data structures. Feel free to modify or create a new one if necessary
-    - Make sure the project runs before you contribute your code. If possible, test with the latest changes on Github.
+- Keep Code Clean and Readable
+- Use the predefined Email and User classes
+- **Do NOT add pointer fields to the Email class** (its for our sanity, trust me)
+- Use the predefined Stack and Queue data structures. Feel free to modify or create a new one if necessary
+- Make sure the project runs before you contribute your code. If possible, test with the latest changes on Github.
 
 ## Development Tasks
 - User Class [🔨] 

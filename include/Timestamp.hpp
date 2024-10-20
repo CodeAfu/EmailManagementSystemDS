@@ -1,5 +1,4 @@
-#ifndef TIMESTAMP_HPP
-#define TIMESTAMP_HPP
+#pragma once
 
 //TODO: Try to remove these includes
 #include <chrono>
@@ -19,7 +18,3 @@ public:
 private: 
     std::chrono::time_point<std::chrono::high_resolution_clock> _time;
 };
-
-#endif // TIMESTAMP_HPP
-
-

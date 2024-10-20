@@ -1,39 +1,52 @@
 #pragma once
 
-#include "Stack.hpp"
-#include "Email.hpp"
+#include "Inbox.hpp"
+#include "Outbox.hpp"
+#include "PriorityService.hpp"
+#include "SpamDetectionService.hpp"
+#include "SearchService.hpp"
 
 class User {
 public:
-    User(int id, std::string name, std::string email_address);
-
-    bool operator==(const User& other) const;
+    User();
+    User(int id, std::string name, std::string emailAddress);
+    ~User();
 
 public:
+    // Getters and Setters
+    int getId() const;
+    void setId(int id);
+
     std::string getName() const;
+    void setName(std::string name);
+
     std::string getEmailAddress() const;
-    Stack<Email> getInbox() const;
-    Email getComposedEmail() const;
+    void setEmailAddress(std::string emailAddress);
 
-    void receiveEmail(Email& email);
-    Email deleteEmail();
-    void draftEmail(Email& email);
-    void sendDraftEmail(User& receiver);
-    void sendEmail(Email& email, User& receiver);
 
-    std::string toString() const;
-    void log();
+    // Storage
+    void receiveEmail(const Email& email);
+    void sendEmail(const Email& email, User& receiver);
+
+    const Inbox& getInbox() const;
+    Inbox& getInbox();
+    Email peekInbox() const;
+    Email popInbox();
+
+    // Features
 
 private:
-    bool isSendableEmail(Email& email) const;
+    /// User Information
+    int _id = -1;
+    std::string _name = "";
+    std::string _emailAddress = "";
     
-private:
-    int _id;
-    std::string _name;
-    std::string _emailAddress;
-    Email* _draftEmail;
-    Stack<Email> _inbox;
+    /// Storage
+    Inbox _inbox;
+    Outbox _outbox;
 
-    // Flags
-    bool _hasDraftEmail;
+    /// Features
+    SearchService _searchService;
+    SpamDetectionService _spamDetectionService;
+    PriorityService _priorityService;
 };
