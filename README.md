@@ -13,21 +13,23 @@
 ## Development Tasks
 - User Class [🔨] 
 - Email Class [🔨]
-- Stack Data Structure [🔨]
-- Queue Data Structure (Expecting different types) [❓]
-- Other Data Structures (Search) [❓]
-- User Inbox System: Stack [🔨]
+- User Inbox System [🔨]
+    - Stack Data Structure [✅]
 - Email Sending System: Queue [❓]
-- Email Search and Retrieval: Refer below for DS [❓]
-- Spam Email Detection: Priority Queue [❓]
-- Prioritize Email: Priority Queue [❓]
+    - Queue Data Structure [❓]
+- Email Search and Retrieval [❓]
+    - (Refer below for DS) [❓]
+- Spam Email Detection [❓]
+    - Priority Queue [❓]
+- Prioritize Email [❓]
+    - Priority Queue [❓]
 
 ## Responsibilities (According to the Assignment Specification)
-- Inbox Management (Stack) [❓]
-- Outbox Management (Queue) [❓]
-- Search and Retrieval (Hash Map / Binary Search Tree / Trie / you can be creative) [❓]
-- Spam Detection (Priority Queue) [❓]
-- Priority Handling (Priority Queue) [❓]
+- Inbox Management (Stack) &emsp; **[Name]**
+- Outbox Management (Queue) &emsp; **[Name]**
+- Search and Retrieval (Hash Map / Binary Search Tree / Trie / you can be creative) &emsp; **[Name]**
+- Spam Detection (Priority Queue) &emsp; **[Name]**
+- Priority Handling (Priority Queue) &emsp; **[Name]**
 
 ## Object Model Mappings
 ```cpp
@@ -39,9 +41,6 @@ private: // Fields
     std::string _subject; // Subject of Email
     std::string _body; // Body of Email
 
-    Email* _reply; // Reply to this email
-    Stack<std::string> _childReplies; // List of replies this and subsequent emails 
-
     // Flags
     bool _isRead;
     bool _isStarred;
@@ -49,10 +48,8 @@ private: // Fields
     bool _isSent;
     bool _isSpam;
     bool _isDraft;
-    EmailType _type;
 
     // Date and Time
     Timestamp _timestamp;
 }
 ```
-![Email Object Mapping](https://i.imgur.com/HBBDRlU.png)

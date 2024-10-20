@@ -27,10 +27,12 @@ void User::setEmailAddress(std::string emailAddress) { _emailAddress = emailAddr
 
 // Storage
 void User::receiveEmail(const Email& email) {
-    _inbox.addEmail(email);
+    // _spamDetectionService.filter(email)
+    _inbox.push(email);
 }
 
 void User::sendEmail(const Email& email, User& receiver) {
+    // _priorityService.assert(email);
     // _outbox.addEmail(email);
     receiver.receiveEmail(email);
 }
@@ -49,6 +51,5 @@ Email User::peekInbox() const {
 Email User::popInbox() {
     return _inbox.pop();
 }
-
 
 // Features

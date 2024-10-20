@@ -4,7 +4,7 @@
 
 class Inbox {
 public:
-    void addEmail(const Email& email) {
+    void push(const Email& email) {
         _emails.emplace(email.getId(), email.getSender(), email.getReceiver(), 
                         email.getSubject(), email.getBody());
     }
