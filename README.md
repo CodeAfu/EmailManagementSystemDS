@@ -46,7 +46,9 @@ Email email_four(idxGen.nextEmail(), user_one.getEmailAddress(), user_two.getEma
 - Feel free to use the DynArray class if you want, but dont trust it to be as optimized as std::vector
 - Keep Code Clean and Readable
 - Make sure the project runs before you contribute your code. If possible, test with the latest changes on Github.
+- **You can refer below for the design pattern I have in mind. However if you have our own idea that can work with this application, feel free to go for it**
 
+## Design Pattern
 #### The project uses an Object Oriented approach so we can work on our own part without affecting others. Take a look at the User class:
 ```cpp
 class User {

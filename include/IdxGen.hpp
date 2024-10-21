@@ -3,7 +3,7 @@
 #include <fstream>
 
 /**
- * @brief Reads from "index.csv" and generates unique indices for emails and users.
+ * @brief Reads from "index.csv" and generates a unique index for emails and users.
  * @param nextEmail() Returns the next available email index.
  * @param nextUser() Returns the next available user index.
  */
