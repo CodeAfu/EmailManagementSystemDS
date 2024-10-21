@@ -22,8 +22,9 @@ Email::Email(const Email& other) :
     _subject(other._subject), _body(other._body), 
     _isImportant(other._isImportant), _isSpam(other._isSpam), 
     _isSent(other._isSent), _isStarred(other._isStarred), 
-    _isRead(other._isRead), _isPinned(other._isPinned), 
-    _isDraft(other._isDraft), _timestamp(other._timestamp) {
+    _isRead(other._isRead), _isPinned(other._isPinned)
+    // _isDraft(other._isDraft), _timestamp(other._timestamp) 
+{
     ColorFormat::print("Email Copy Constructor: " + std::to_string(other._id), Color::Cyan);
 }
 
@@ -32,8 +33,9 @@ Email::Email(Email&& other) noexcept
     _subject(std::move(other._subject)), _body(std::move(other._body)), 
     _isImportant(other._isImportant), _isSpam(other._isSpam), 
     _isSent(other._isSent), _isStarred(other._isStarred), 
-    _isRead(other._isRead), _isPinned(other._isPinned), 
-    _isDraft(other._isDraft), _timestamp(std::move(other._timestamp)) {
+    _isRead(other._isRead), _isPinned(other._isPinned)
+    // _isDraft(other._isDraft), _timestamp(std::move(other._timestamp)) 
+{
     ColorFormat::print("Email Move Constructor: " + std::to_string(other._id), Color::Blue);
     *this = std::move(other);
 }
@@ -53,7 +55,7 @@ Email& Email::operator=(const Email& other) {
         _isRead = other._isRead;
         _isPinned = other._isPinned;
         _isDraft = other._isDraft;
-        _timestamp = other._timestamp;
+        // _timestamp = other._timestamp;
     }
     return *this;
 }
@@ -73,7 +75,7 @@ Email& Email::operator=(Email&& other) noexcept {
         _isRead = other._isRead;
         _isPinned = other._isPinned;
         _isDraft = other._isDraft;
-        _timestamp = std::move(other._timestamp);
+        // _timestamp = std::move(other._timestamp);
     }
     return *this;
 }
@@ -126,8 +128,8 @@ void Email::setSubject(const std::string& subject) { _subject = subject; }
 std::string Email::getBody() const { return _body; }
 void Email::setBody(const std::string& body) { _body = body; }
 
-std::string Email::getDate() const { return _timestamp.getDate(); }
-std::string Email::getTime() const { return _timestamp.getTime(); }
+// std::string Email::getDate() const { return _timestamp.getDate(); }
+// std::string Email::getTime() const { return _timestamp.getTime(); }
 
 
 // Helper Methods
@@ -137,8 +139,8 @@ void Email::display() const {
     std::cout << "To: " << _receiver << std::endl;
     std::cout << "Subject: " << _subject << std::endl;
     std::cout << "Body: " << _body << std::endl;
-    std::cout << "Date: " << _timestamp.getDate() << std::endl;
-    std::cout << "Time: " << _timestamp.getTime() << std::endl;
+    // std::cout << "Date: " << _timestamp.getDate() << std::endl;
+    // std::cout << "Time: " << _timestamp.getTime() << std::endl;
 }
 
 
@@ -163,7 +165,7 @@ std::string Email::toString() const {
     ss << "{ID: " << _id << ", From: " << _sender 
        << ", To: " << _receiver << ", Subject: " << _subject 
        << ", Body: " << _body << ", Date: " 
-       << _timestamp.getDate() << ", Time: " << _timestamp.getTime() 
+    //    << _timestamp.getDate() << ", Time: " << _timestamp.getTime() 
        << "}";
     return ss.str();
 }
