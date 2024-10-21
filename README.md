@@ -26,6 +26,15 @@
 - Spam Detection (Priority Queue) &emsp; **[Zaman]**
 - Priority Handling (Priority Queue) &emsp; **[Osama]**
 
+## Contribution Instructions
+- Make sure your part uses the relevant data structure
+- Use the predefined Email and User classes
+- **Do NOT add pointer fields to the Email class** (its for our sanity, trust me)
+- Feel free to use the DynArray class if you want, but dont trust it to be as optimized as std::vector
+- Keep Code Clean and Readable
+- Make sure the project runs before you contribute your code. If possible, test with the latest changes on Github.
+- **You can refer below for the <ins>design pattern</ins> I have in mind. However if you have your our own idea that can work with this application, feel free to go for it.**
+
 ## Index Generation for User and Email
 ```cpp
 IdxGen idx_gen;
@@ -38,15 +47,6 @@ Email email_three(idx_gen.nextEmail(), user_one.getEmailAddress(), user_two.getE
 Email email_four(idx_gen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "Fourth", "Body Four."); // ID=3
 	
 ```
-
-## Contribution Instructions
-- Make sure your part uses the relevant data structure
-- Use the predefined Email and User classes
-- **Do NOT add pointer fields to the Email class** (its for our sanity, trust me)
-- Feel free to use the DynArray class if you want, but dont trust it to be as optimized as std::vector
-- Keep Code Clean and Readable
-- Make sure the project runs before you contribute your code. If possible, test with the latest changes on Github.
-- **You can refer below for the <ins>design pattern</ins> I have in mind. However if you have your our own idea that can work with this application, feel free to go for it.**
 
 ## Design Pattern
 #### The project uses an Object Oriented approach so we can work on our own part without affecting others. Take a look at the User class:
