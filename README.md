@@ -35,7 +35,7 @@
 
 #### The project uses an Object Oriented approach so we can work on our own part without affecting others. Take a look at the User class:
 ```cpp
-public class User {
+class User {
 private:
     /// Storage
     Inbox _inbox;
@@ -53,10 +53,6 @@ private:
 Inbox Class
 ```cpp
 // Inbox.hpp
-#pragma once
-
-#include "Stack.hpp"
-
 class Inbox {
 public:
     Inbox() = default;
@@ -76,12 +72,6 @@ private:
 Inbox uses Stack Data its own defined Data Strcuture
 ```cpp
 // Stack.hpp
-#pragma once
-
-#include "Email.hpp"
-#include "PrintColoring.hpp"
-#include "DynArray.hpp"
-
 template <typename T>
 class Stack {
 public:
@@ -112,8 +102,8 @@ The Inbox _inbox field is then used inside the User class
 class User {
 public:
 
-    // Other methods..
-    .
+    // Other methods...
+
     void receiveEmail(const Email& email) {
         _inbox.push(email);
     }
