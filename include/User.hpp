@@ -8,32 +8,56 @@
 
 class User {
 public:
-    User();
-    User(int id, std::string name, std::string emailAddress);
-    ~User();
+    User() : _id(-1), _name(""), _emailAddress("") {}
+
+    User(int id, std::string name, std::string emailAddress) 
+        : _id(id), _name(name), _emailAddress(emailAddress) {}
+
+    ~User() {
+        std::cout << "User " << _name << " deleted." << std::endl;
+    }
 
 public:
-    // Getters and Setters
-    int getId() const;
-    void setId(int id);
+    /// Getters and Setters
+    int getId() const { return _id; }
+    void setId(int id) { _id = id; }
 
-    std::string getName() const;
-    void setName(std::string name);
+    std::string getName() const { return _name; }
+    void setName(std::string name) { _name = name; }
 
-    std::string getEmailAddress() const;
-    void setEmailAddress(std::string emailAddress);
+    std::string getEmailAddress() const { return _emailAddress; }
+    void setEmailAddress(std::string emailAddress) { _emailAddress = emailAddress; }
 
 
-    // Storage
-    void receiveEmail(const Email& email);
-    void sendEmail(const Email& email, User& receiver);
+    /// Storage
+    void receiveEmail(const Email& email) {
+        // _spamDetectionService.filter(email)
+        _inbox.push(email);
+    }
 
-    const Inbox& getInbox() const;
-    Inbox& getInbox();
-    Email peekInbox() const;
-    Email popInbox();
+    void sendEmail(const Email& email, User& receiver) {
+        // _priorityService.assert(email);
+        // _outbox.addEmail(email);
+        receiver.receiveEmail(email);
+    }
 
-    // Features
+
+    const Inbox& getInbox() const {
+        return _inbox;
+    }
+
+    Inbox& getInbox() {
+        return _inbox;
+    }
+
+    Email peekInbox() const {
+        return _inbox.peek();
+    }
+    Email popInbox() {
+        return _inbox.pop();
+    }
+
+    /// Features
 
 private:
     /// User Information

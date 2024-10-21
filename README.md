@@ -1,6 +1,7 @@
 # Email Management System
-- Visual Studio C++ CLI project (C++17) 
-- Compatible with VSCode Debug features
+- Visual Studio C++ CLI project (C++17)
+- Compatible with VSCode Debug
+- gcc version: 8.x and higher (Recommended)
 - Use "run.bat" to run the project on terminal
 
 ## Development Tasks
@@ -22,8 +23,21 @@
 - Inbox Management (Stack) &emsp; **[Afzal]**
 - Outbox Management (Queue) &emsp; **[Afzal]**
 - Search and Retrieval (Hash Map / Binary Search Tree / Trie / you can be creative) &emsp; **[Kee Gene]**
-- Spam Detection (Priority Queue) &emsp; **[Name]**
-- Priority Handling (Priority Queue) &emsp; **[Name]**
+- Spam Detection (Priority Queue) &emsp; **[Zaman]**
+- Priority Handling (Priority Queue) &emsp; **[Osama]**
+
+## Index Generation for User and Email
+```cpp
+IdxGen idxGen;
+User user_one(idxGen.nextUser(), "John", "j1@example.com");
+User user_two(idxGen.nextUser(), "Jane", "j2@example.com");
+
+Email email_one(idxGen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "First", "Body One.");
+Email email_two(idxGen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "Second", "Body Two.");
+Email email_three(idxGen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "Third", "Body Three.");
+Email email_four(idxGen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "Fourth", "Body Four.");
+	
+```
 
 ## Contribution Instructions
 - Make sure your part uses the relevant data structure
@@ -69,7 +83,7 @@ private:
 };
 ```
 
-Inbox uses Stack Data its own defined Data Strcuture
+Inbox uses the Stack Data Structure, used as a field variable
 ```cpp
 // Stack.hpp
 template <typename T>
@@ -95,6 +109,7 @@ private:
     DynArray<T> _arr;
     int _topIdx = -1;
 };
+
 ```
 The Inbox _inbox field is then used inside the User class
 ```cpp

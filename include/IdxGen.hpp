@@ -2,6 +2,11 @@
 
 #include <fstream>
 
+/**
+ * @brief Reads from "index.csv" and generates unique indices for emails and users.
+ * @param nextEmail() Returns the next available email index.
+ * @param nextUser() Returns the next available user index.
+ */
 class IdxGen {
 public:
     IdxGen() : _email(0), _user(0) {
@@ -15,30 +20,30 @@ public:
         }
 
         std::string line;
-        int emailIndex = 0;
+        int email_index = 0;
 
         while (std::getline(infile, line)) {
             if (line.find("email") != std::string::npos) {
-                emailIndex = std::stoi(line.substr(line.find(",") + 1));
+                email_index = std::stoi(line.substr(line.find(",") + 1));
                 break;
             }
         }
 
         infile.close();
 
-        emailIndex++;
+        email_index++;
 
         std::ofstream outfile("index.csv");
         if (!outfile.is_open()) {
             throw std::runtime_error("Error opening output file");
         }
 
-        outfile << "email," << emailIndex << "\n";
+        outfile << "email," << email_index << "\n";
         outfile << "user," << _user << "\n";
 
         outfile.close();
 
-        return emailIndex;
+        return email_index;
     }
 
     int nextUser() {
@@ -48,30 +53,32 @@ public:
         }
 
         std::string line;
-        int emailIndex = 0;
+        int user_index = 0;
 
         while (std::getline(infile, line)) {
             if (line.find("user") != std::string::npos) {
-                emailIndex = std::stoi(line.substr(line.find(",") + 1));
+                user_index = std::stoi(line.substr(line.find(",") + 1));
                 break;
             }
         }
 
         infile.close();
 
-        emailIndex++;
+        user_index++;
 
         std::ofstream outfile("index.csv");
         if (!outfile.is_open()) {
             throw std::runtime_error("Error opening output file");
         }
 
-        outfile << "email," << emailIndex << "\n";
-        outfile << "user," << _user << "\n";
+        outfile << "email," << _email << "\n";
+        outfile << "user," << user_index << "\n";
 
         outfile.close();
 
-        return emailIndex;    
+        _user = user_index;
+
+        return user_index;    
     }
 
 private:
