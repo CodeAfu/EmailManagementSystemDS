@@ -8,7 +8,15 @@ enum Color {
     Blue,
     Magenta,
     Cyan,
-    White
+    White,
+    BrightBlack,
+    BrightRed,
+    BrightGreen,
+    BrightYellow,
+    BrightBlue,
+    BrightMagenta,
+    BrightCyan,
+    BrightWhite
 };
 
 namespace ColorFormat {

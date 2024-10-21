@@ -1,6 +1,6 @@
 #pragma once
 #include <utility>
-#include "PrintColoring.hpp"
+#include "ColorFormat.hpp"
 
 template <typename T>
 class DynArray {

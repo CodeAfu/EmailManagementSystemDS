@@ -28,14 +28,14 @@
 
 ## Index Generation for User and Email
 ```cpp
-IdxGen idxGen;
-User user_one(idxGen.nextUser(), "John", "j1@example.com");
-User user_two(idxGen.nextUser(), "Jane", "j2@example.com");
+IdxGen idx_gen;
+User user_one(idx_gen.nextUser(), "John", "j1@example.com"); // ID=0
+User user_two(idx_gen.nextUser(), "Jane", "j2@example.com"); // ID=1
 
-Email email_one(idxGen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "First", "Body One.");
-Email email_two(idxGen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "Second", "Body Two.");
-Email email_three(idxGen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "Third", "Body Three.");
-Email email_four(idxGen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "Fourth", "Body Four.");
+Email email_one(idx_gen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "First", "Body One."); // ID=0
+Email email_two(idx_gen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "Second", "Body Two."); // ID=1
+Email email_three(idx_gen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "Third", "Body Three."); // ID=2
+Email email_four(idx_gen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "Fourth", "Body Four."); // ID=3
 	
 ```
 
@@ -46,7 +46,7 @@ Email email_four(idxGen.nextEmail(), user_one.getEmailAddress(), user_two.getEma
 - Feel free to use the DynArray class if you want, but dont trust it to be as optimized as std::vector
 - Keep Code Clean and Readable
 - Make sure the project runs before you contribute your code. If possible, test with the latest changes on Github.
-- **You can refer below for the design pattern I have in mind. However if you have our own idea that can work with this application, feel free to go for it**
+- **You can refer below for the <ins>design pattern</ins> I have in mind. However if you have your our own idea that can work with this application, feel free to go for it.**
 
 ## Design Pattern
 #### The project uses an Object Oriented approach so we can work on our own part without affecting others. Take a look at the User class:

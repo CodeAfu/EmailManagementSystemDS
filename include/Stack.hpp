@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Email.hpp"
-#include "PrintColoring.hpp"
+#include "ColorFormat.hpp"
 #include "DynArray.hpp"
 
 template <typename T>

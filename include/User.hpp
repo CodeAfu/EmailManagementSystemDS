@@ -41,7 +41,6 @@ public:
         receiver.receiveEmail(email);
     }
 
-
     const Inbox& getInbox() const {
         return _inbox;
     }

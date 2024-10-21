@@ -47,7 +47,7 @@
     <ClInclude Include="include\DynArray.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\PrintColoring.hpp">
+    <ClInclude Include="include\ColorFormat.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\IdxGen.hpp">

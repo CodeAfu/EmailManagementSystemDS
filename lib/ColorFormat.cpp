@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "PrintColoring.hpp"
+#include "ColorFormat.hpp"
 
 namespace ColorFormat {
     std::string get(Color color) {
@@ -13,6 +13,14 @@ namespace ColorFormat {
         case Magenta: return "\033[35m";
         case Cyan: return "\033[36m";
         case White: return "\033[37m";
+        case BrightBlack: return "\033[90m";
+        case BrightRed: return "\033[91m";
+        case BrightGreen: return "\033[92m";
+        case BrightYellow: return "\033[93m";
+        case BrightBlue: return "\033[94m";
+        case BrightMagenta: return "\033[95m";
+        case BrightCyan: return "\033[96m";
+        case BrightWhite: return "\033[97m";
     }
     return "";
     }
