@@ -59,5 +59,5 @@ private:
     bool _isPinned = false;
     bool _isStarred = false;
 
-    Timestamp _timestamp;
+    // Timestamp _timestamp;
 };
