@@ -25,9 +25,10 @@
     - Priority Queue [❓]
 
 ## Responsibilities (According to the Assignment Specification)
-- Inbox Management (Stack) &emsp; **[Name]**
-- Outbox Management (Queue) &emsp; **[Name]**
-- Search and Retrieval (Hash Map / Binary Search Tree / Trie / you can be creative) &emsp; **[Name]**
+- Main Menu - **[Kee Gene]**
+- Inbox Management (Stack) &emsp; **[Afzal]**
+- Outbox Management (Queue) &emsp; **[Afzal]**
+- Search and Retrieval (Hash Map / Binary Search Tree / Trie / you can be creative) &emsp; **[Kee Gene]**
 - Spam Detection (Priority Queue) &emsp; **[Name]**
 - Priority Handling (Priority Queue) &emsp; **[Name]**
 

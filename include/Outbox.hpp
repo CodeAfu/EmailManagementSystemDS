@@ -4,8 +4,8 @@
 
 class Outbox {
 public:
-    Outbox() = default;
-    ~Outbox() = default;
+    Outbox();
+    ~Outbox();
 
 private:
     // TODO: Store Data Structure

@@ -4,9 +4,10 @@
 
 class PriorityService {
 public:
-    PriorityService() = default;
-    ~PriorityService() = default;
+    PriorityService();
+    ~PriorityService();
 
 private:
     // TODO: Store Data Structure
+
 };

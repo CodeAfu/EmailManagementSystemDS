@@ -1,25 +1,16 @@
 #pragma once
 
 #include "Stack.hpp"
-
 class Inbox {
 public:
-    void push(const Email& email) {
-        _emails.emplace(email.getId(), email.getSender(), email.getReceiver(), 
-                        email.getSubject(), email.getBody());
-    }
+    Inbox() = default;
+    ~Inbox() = default;
 
-    void removeEmail() {
-        _emails.pop();
-    }
-
-    Email peek() const {
-        return _emails.peek();
-    }
-
-    Email pop() {
-        return _emails.pop();
-    }
+    void push(const Email& email);
+    void removeEmail();
+    Email peek() const;
+    Email pop();
+    void displayAll() const;
 
 private:
     Stack<Email> _emails;

@@ -1,98 +1,47 @@
 #pragma once
 
-#include <utility>
-#include <memory>
-#include "PrintColoring.hpp"
 #include "Timestamp.hpp"
 
 class Email {
 public:
-    Email() {}
-
+    Email();
     Email(int id, const std::string& sender, const std::string& receiver, 
-          const std::string& subject, const std::string& body)
-        : _id(id), _sender(sender), _receiver(receiver), _subject(subject), _body(body) {}
-
-
-    ~Email() {
-        ColorFormat::print("Email Destroyed: " + std::to_string(_id), Color::Red);
-    }
+          const std::string& subject, const std::string& body);
+    ~Email();
 
     // // Copy constructor
-    // Email(const Email& other)
-    //     : _id(other._id), _sender(other._sender), _receiver(other._receiver), 
-    //       _subject(other._subject), _body(other._body) {}
-
+    Email(const Email& other);
     // // Move constructor
-    // Email(Email&& other) noexcept
-    //     : _id(other._id), _sender(std::move(other._sender)), _receiver(std::move(other._receiver)),
-    //     _subject(std::move(other._subject)), _body(std::move(other._body)) {}
-
+    Email(Email&& other) noexcept;
     // // Copy assignment operator
-    // Email& operator=(const Email& other) {
-    //     if (this != &other) {
-    //         Email tmp(other);
-    //         swap(tmp);
-    //     }
-    //     return *this;
-    // }
-
+    Email& operator=(const Email& other);
     // // Move assignment operator
-    // Email& operator=(Email&& other) noexcept {
-    //     if (this != &other) {
-    //         _id = other._id;
-    //         _sender = std::move(other._sender);
-    //         _receiver = std::move(other._receiver);
-    //         _subject = std::move(other._subject);
-    //         _body = std::move(other._body);
-    //     }
-    //     return *this;
-    // }
+    Email& operator=(Email&& other) noexcept;
 
     // Getters and Setters
-    int getId() const { return _id; }
-    void setId(int id) { _id = id; }
+    int getId() const;
+    void setId(int id);
 
-    std::string getSender() const { return _sender; }
-    void setFrom(const std::string& from) { _sender = from; }
+    std::string getSender() const;
+    void setFrom(const std::string& from);
 
-    std::string getReceiver() const { return _receiver; }
-    void setTo(const std::string& to) { _receiver = to; }
+    std::string getReceiver() const;
+    void setTo(const std::string& to);
 
-    std::string getSubject() const { return _subject; }
-    void setSubject(const std::string& subject) { _subject = subject; }
+    std::string getSubject() const;
+    void setSubject(const std::string& subject);
 
-    std::string getBody() const { return _body; }
-    void setBody(const std::string& body) { _body = body; }
+    std::string getBody() const;
+    void setBody(const std::string& body);
 
-    std::string getDate() const { return _timestamp.getDate(); }
-    std::string getTime() const { return _timestamp.getTime(); }
+    std::string getDate() const;
+    std::string getTime() const;
 
-    void display() const {
-        std::cout << "ID: " << _id << std::endl;
-        std::cout << "From: " << _sender << std::endl;
-        std::cout << "To: " << _receiver << std::endl;
-        std::cout << "Subject: " << _subject << std::endl;
-        std::cout << "Body: " << _body << std::endl;
-        std::cout << "Date: " << _timestamp.getDate() << std::endl;
-        std::cout << "Time: " << _timestamp.getTime() << std::endl;
-    }
+    void display() const;
+    std::string toString() const;
 
 private:
-    void swap(Email& other) noexcept {
-        std::swap(_id, other._id);
-        _sender.swap(other._sender);
-        _receiver.swap(other._receiver);
-        _subject.swap(other._subject);
-        _body.swap(other._body);
-        std::swap(isImportant, other.isImportant);
-        std::swap(isSpam, other.isSpam);
-        std::swap(isSent, other.isSent);
-        std::swap(isStarred, other.isStarred);
-        std::swap(isRead, other.isRead);
-        std::swap(isPinned, other.isPinned);
-        std::swap(isDraft, other.isDraft);
-    }
+    void swap(Email& other) noexcept;
 
 private:
     int _id = -1;
@@ -102,13 +51,13 @@ private:
     std::string _body = "";
 
     // Flags
-    bool isImportant = false;
-    bool isSent = false;
-    bool isSpam = false;
-    bool isDraft = false;
-    bool isRead = false;
-    bool isPinned = false;
-    bool isStarred = false;
+    bool _isImportant = false;
+    bool _isSent = false;
+    bool _isSpam = false;
+    bool _isDraft = false;
+    bool _isRead = false;
+    bool _isPinned = false;
+    bool _isStarred = false;
 
     Timestamp _timestamp;
 };
