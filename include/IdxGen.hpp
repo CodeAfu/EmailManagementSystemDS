@@ -14,7 +14,7 @@ public:
     }
 
     int nextEmail() {
-        std::ifstream infile("index.csv");
+        std::ifstream infile("data/index.csv");
         if (!infile.is_open()) {
             throw std::runtime_error("Error opening input file");
         }
