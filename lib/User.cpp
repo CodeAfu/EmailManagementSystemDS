@@ -6,7 +6,8 @@
 #include "Outbox.hpp"
 #include "OutRequest.hpp"
 
-// Constructors, Destructors, & Operators
+
+/* Constructors & Destructors */
 User::User() {}
 
 User::User(int id, std::string name, std::string emailAddress) 
@@ -18,7 +19,7 @@ User::~User() {
     std::cout << "User " << _name << " deleted." << std::endl;
 }
 
-// Getters and Setters
+/* Getters and Setters */
 int User::getId() const { return _id; }
 void User::setId(int id) { _id = id; }
 
@@ -28,8 +29,8 @@ void User::setName(std::string name) { _name = name; }
 std::string User::getEmailAddress() const { return _emailAddress; }
 void User::setEmailAddress(std::string emailAddress) { _emailAddress = emailAddress; }
 
-/// Storage
-// Deprecate
+/* Storage */
+/// @brief Use only for internal methods, avoid using in the CLI
 void User::receiveEmail(Email& email) {
     // _spamDetectionService.filter(email)
     _inbox.push(email);
@@ -60,4 +61,4 @@ Email User::popInbox() {
 }
 
 
-// Features
+/* Features */

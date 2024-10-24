@@ -25,7 +25,6 @@ public:
     std::string getEmailAddress() const;
     void setEmailAddress(std::string emailAddress);
 
-
     /// Storage
     void receiveEmail(Email& email);
     void sendEmail();

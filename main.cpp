@@ -7,7 +7,6 @@
 #include "Email.hpp"
 #include "User.hpp"
 
-#define DEBUG 2
 #define LOG(x) std::cout << x << std::endl
 
 User createUser(IdxGen& idx_gen);
@@ -49,13 +48,8 @@ void test(IdxGen& idx_gen) {
 	Email email_four(idx_gen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(),
 		"Fourth", "Hi there, I just wanted to make sure that you are aware that the meeting has been cancelled. I will let you know once it has been rescheduled.");
 
-	// user_one.receiveEmail(email_one);
-	// user_one.receiveEmail(email_two);
-	// user_one.receiveEmail(email_three);
-	// user_one.receiveEmail(email_four);
-
 	user_one.addToOutbox(email_one, user_two);
-	// user_one.addToOutbox(email_two, user_two);
+	user_one.addToOutbox(email_two, user_two);
 
 	user_one.sendEmails();
 
