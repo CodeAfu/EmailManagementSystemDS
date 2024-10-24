@@ -33,7 +33,7 @@ public:
 
         email_index++;
 
-        std::ofstream outfile("index.csv");
+        std::ofstream outfile("data/index.csv");
         if (!outfile.is_open()) {
             throw std::runtime_error("Error opening output file");
         }
@@ -47,7 +47,7 @@ public:
     }
 
     int nextUser() {
-        std::ifstream infile("index.csv");
+        std::ifstream infile("data/index.csv");
         if (!infile.is_open()) {
             throw std::runtime_error("Error opening input file");
         }
@@ -66,7 +66,7 @@ public:
 
         user_index++;
 
-        std::ofstream outfile("index.csv");
+        std::ofstream outfile("data/index.csv");
         if (!outfile.is_open()) {
             throw std::runtime_error("Error opening output file");
         }
@@ -83,7 +83,7 @@ public:
 
 private:
     void reset() {
-        std::ofstream outfile("index.csv");
+        std::ofstream outfile("data/index.csv");
         if (!outfile.is_open()) {
             // std::cout << "Error opening output file" << std::endl;
             throw std::runtime_error("Error opening output file");
