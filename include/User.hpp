@@ -27,9 +27,9 @@ public:
 
 
     /// Storage
-    void receiveEmail(const Email& email);
+    void receiveEmail(Email& email);
     void sendEmail();
-    void addToOutbox(const Email& email, User& user);
+    void addToOutbox(Email& email, User& user);
     void sendEmails();
     const Inbox& getInbox() const;
     Inbox& getInbox();

@@ -30,7 +30,7 @@ void User::setEmailAddress(std::string emailAddress) { _emailAddress = emailAddr
 
 /// Storage
 // Deprecate
-void User::receiveEmail(const Email& email) {
+void User::receiveEmail(Email& email) {
     // _spamDetectionService.filter(email)
     _inbox.push(email);
     
@@ -40,7 +40,7 @@ void User::sendEmails() {
     _outbox->sendAll();
 }
 
-void User::addToOutbox(const Email& email, User& receiver) {
+void User::addToOutbox(Email& email, User& receiver) {
     _outbox->addRequest(email, &receiver);
 }
 
