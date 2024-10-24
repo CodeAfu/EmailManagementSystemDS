@@ -18,7 +18,9 @@ public:
     };
 
     Outbox(const Outbox&) = delete;
+    Outbox(Outbox&&) = delete;
     Outbox& operator=(const Outbox&) = delete;
+    Outbox& operator=(Outbox&&) = delete;
 
     ~Outbox() = default;
 

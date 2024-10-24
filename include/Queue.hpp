@@ -7,11 +7,11 @@ template<typename T>
 class Queue {
 public:
     Queue() : _front(-1), _rear(-1), _size(0) {
-        ColorFormat::print("Queue Created", Color::BrightMagenta);
+        // ColorFormat::print("Queue Created", Color::BrightMagenta);
     }
     
     ~Queue() {
-        ColorFormat::print("Queue Destroyed", Color::BrightMagenta);
+        // ColorFormat::print("Queue Destroyed", Color::BrightMagenta);
     }
     
 public:

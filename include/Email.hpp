@@ -15,11 +15,11 @@ public:
     Email(int id, const std::string& sender, const std::string& receiver, 
           const std::string& subject, const std::string& body)
         : _id(id), _sender(sender), _receiver(receiver), _subject(subject), _body(body) {
-        ColorFormat::print("Email Created: " + std::to_string(_id), Color::Green);
+        // ColorFormat::print("Email Created: " + std::to_string(_id), Color::Green);
     }
 
     ~Email() {
-        ColorFormat::print("Email Destroyed: " + std::to_string(_id), Color::Red);
+        // ColorFormat::print("Email Destroyed: " + std::to_string(_id), Color::Red);
     }
 
     /// Copy constructor
@@ -31,7 +31,7 @@ public:
         _isRead(other._isRead), _isPinned(other._isPinned), _isDraft(other._isDraft) 
         // _timestamp(other._timestamp) 
     {
-        ColorFormat::print("Email Copy Constructor: " + std::to_string(other._id), Color::Cyan);
+        // ColorFormat::print("Email Copy Constructor: " + std::to_string(other._id), Color::Cyan);
     }
 
     /// Move constructor
@@ -43,7 +43,7 @@ public:
         _isRead(other._isRead), _isPinned(other._isPinned), _isDraft(other._isDraft)
         // _timestamp(std::move(other._timestamp)) 
     {
-        ColorFormat::print("Email Move Constructor: " + std::to_string(other._id), Color::Blue);
+        // ColorFormat::print("Email Move Constructor: " + std::to_string(other._id), Color::Blue);
         other._id = -1;
         other._isImportant = false;
         other._isSpam = false;
@@ -60,7 +60,7 @@ public:
 
     /// Copy assignment operator
     Email& operator=(const Email& other) {
-        ColorFormat::print("Email Copy Assignment: " + std::to_string(other._id), Color::Cyan);
+        // ColorFormat::print("Email Copy Assignment: " + std::to_string(other._id), Color::Cyan);
         if (this != &other) {
             _id = other._id;
             _sender = other._sender;\
@@ -81,7 +81,7 @@ public:
 
     /// Move assignment operator
     Email& operator=(Email&& other) noexcept {
-        ColorFormat::print("Email Move Assignment: " + std::to_string(other._id), Color::Magenta); 
+        // ColorFormat::print("Email Move Assignment: " + std::to_string(other._id), Color::Magenta); 
         if (this != &other) {
             _id = other._id;
             _sender = std::move(other._sender);

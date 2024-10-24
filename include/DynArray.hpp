@@ -10,12 +10,12 @@ public:
     }
 
     ~DynArray() {
-        ColorFormat::print("DynArray Destroyed", Color::Red);
+        // ColorFormat::print("DynArray Destroyed", Color::Red);
         clear();
     }
 
     DynArray(const DynArray& other) : _size(other._size), _capacity(other._capacity) {
-        ColorFormat::print("DynArray Copy Constructor Called", Color::Cyan);
+        // ColorFormat::print("DynArray Copy Constructor Called", Color::Cyan);
         reAlloc(_capacity);
         for (size_t i = 0; i < _size; i++) {
             new (&_arr[i]) T(other._arr[i]);
@@ -26,11 +26,11 @@ public:
         : _arr(std::exchange(other._arr, nullptr)),
           _size(std::exchange(other._size, 0)),
           _capacity(std::exchange(other._capacity, 0)) {
-        ColorFormat::print("DynArray Move Constructor Called", Color::Blue);
+        // ColorFormat::print("DynArray Move Constructor Called", Color::Blue);
     }
 
     DynArray& operator=(const DynArray& other) {
-        ColorFormat::print("DynArray Copy Assignment Operator Called", Color::Cyan);
+        // ColorFormat::print("DynArray Copy Assignment Operator Called", Color::Cyan);
         if (this != &other) {
             DynArray tmp(other);
             swap(tmp);
@@ -39,7 +39,7 @@ public:
     }
 
     DynArray& operator=(DynArray&& other) noexcept {
-        ColorFormat::print("DynArray Move Assignment Operator Called", Color::Blue);
+        // ColorFormat::print("DynArray Move Assignment Operator Called", Color::Blue);
         if (this != &other) {
             clear();
             _arr = std::exchange(other._arr, nullptr);
@@ -108,7 +108,7 @@ private:
         ::operator delete(_arr, _capacity * sizeof(T));
         _arr = new_arr;
         _capacity = new_capacity;
-        ColorFormat::print("DynArray Reallocated: " + std::to_string(new_capacity), Color::Green);
+        // ColorFormat::print("DynArray Reallocated: " + std::to_string(new_capacity), Color::Green);
     }
 
     void clear() {

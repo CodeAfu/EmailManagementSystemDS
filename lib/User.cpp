@@ -16,7 +16,7 @@ User::User(int id, std::string name, std::string emailAddress)
 
 User::~User() {
     _outbox = nullptr;
-    std::cout << "User " << _name << " deleted." << std::endl;
+    // std::cout << "User " << _name << " deleted." << std::endl;
 }
 
 /* Getters and Setters */

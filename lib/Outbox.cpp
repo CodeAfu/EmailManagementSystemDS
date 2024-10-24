@@ -10,14 +10,14 @@
 void Outbox::addRequestImpl(Email* email, User* user) {
     OutRequest request(email, user);
     _requests.enqueue(std::move(request));
-    ColorFormat::print("Added Request to Outbox: " + std::to_string(_requests.size()), Color::Green);
+    // ColorFormat::print("Added Request to Outbox: " + std::to_string(_requests.size()), Color::Green);
 }
 
 void Outbox::sendAllImpl() {
     while (_requests.size() > 0) {
         _requests.dequeue().send();
     }
-    ColorFormat::print("Send all Requests from Outbox: " + std::to_string(_requests.size()), Color::Green);
+    // ColorFormat::print("Send all Requests from Outbox: " + std::to_string(_requests.size()), Color::Green);
 }
 
 void Outbox::sendNextImpl() {
@@ -35,7 +35,7 @@ void Outbox::clearImpl() {
     while (!_requests.isEmpty()) {
         _requests.dequeue().~OutRequest();
     }
-    ColorFormat::print("Cleared Outbox: " + std::to_string(_requests.size()), Color::Green);
+    ColorFormat::print("Cleared Outbox: " + std::to_string(_requests.size()), Color::Yellow);
 }
 
 size_t Outbox::sizeImpl() const {
