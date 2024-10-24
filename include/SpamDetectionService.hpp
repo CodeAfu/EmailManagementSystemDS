@@ -4,8 +4,8 @@
 
 class SpamDetectionService {
 public:
-    SpamDetectionService();
-    ~SpamDetectionService();
+    SpamDetectionService() = default;
+    ~SpamDetectionService() = default;
 
 private:
     // TODO: Store Data Structure

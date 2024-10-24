@@ -9,6 +9,8 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "-Iinclude",              // Include directory for header files
+                // "-DDEBUG=1",
+                // "-DDEBUG_AGGR=1",
                 "lib/*.cpp",              // Compile all cpp files in lib
                 "main.cpp",               // Your main file
                 "-o",                     // Specify output file

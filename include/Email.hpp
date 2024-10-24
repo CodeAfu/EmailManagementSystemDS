@@ -14,7 +14,9 @@ public:
 
     Email(int id, const std::string& sender, const std::string& receiver, 
           const std::string& subject, const std::string& body)
-        : _id(id), _sender(sender), _receiver(receiver), _subject(subject), _body(body) {}
+        : _id(id), _sender(sender), _receiver(receiver), _subject(subject), _body(body) {
+        ColorFormat::print("Email Created: " + std::to_string(_id), Color::Green);
+    }
 
     ~Email() {
         ColorFormat::print("Email Destroyed: " + std::to_string(_id), Color::Red);

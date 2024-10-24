@@ -4,8 +4,8 @@
 
 class SearchService {
 public:
-    SearchService();
-    ~SearchService();
+    SearchService() = default;
+    ~SearchService() = default;
 
 private:
     // TODO: Store Data Structure

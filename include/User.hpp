@@ -6,55 +6,35 @@
 #include "SpamDetectionService.hpp"
 #include "SearchService.hpp"
 
+struct Email;
+
 class User {
 public:
-    User() : _id(-1), _name(""), _emailAddress("") {}
-
-    User(int id, std::string name, std::string emailAddress) 
-        : _id(id), _name(name), _emailAddress(emailAddress) {}
-
-    ~User() {
-        std::cout << "User " << _name << " deleted." << std::endl;
-    }
+    User();
+    User(int id, std::string name, std::string emailAddress);
+    ~User();
 
 public:
     /// Getters and Setters
-    int getId() const { return _id; }
-    void setId(int id) { _id = id; }
+    int getId() const;
+    void setId(int id);
 
-    std::string getName() const { return _name; }
-    void setName(std::string name) { _name = name; }
+    std::string getName() const;
+    void setName(std::string name);
 
-    std::string getEmailAddress() const { return _emailAddress; }
-    void setEmailAddress(std::string emailAddress) { _emailAddress = emailAddress; }
+    std::string getEmailAddress() const;
+    void setEmailAddress(std::string emailAddress);
 
 
     /// Storage
-    void receiveEmail(const Email& email) {
-        // _spamDetectionService.filter(email)
-        _inbox.push(email);
-    }
-
-    void sendEmail(const Email& email, User& receiver) {
-        // _priorityService.assert(email);
-        // _outbox.addEmail(email);
-        receiver.receiveEmail(email);
-    }
-
-    const Inbox& getInbox() const {
-        return _inbox;
-    }
-
-    Inbox& getInbox() {
-        return _inbox;
-    }
-
-    Email peekInbox() const {
-        return _inbox.peek();
-    }
-    Email popInbox() {
-        return _inbox.pop();
-    }
+    void receiveEmail(const Email& email);
+    void sendEmail();
+    void addToOutbox(const Email& email, User& user);
+    void sendEmails();
+    const Inbox& getInbox() const;
+    Inbox& getInbox();
+    Email peekInbox() const;
+    Email popInbox();
 
     /// Features
 
@@ -66,7 +46,7 @@ private:
     
     /// Storage
     Inbox _inbox;
-    Outbox _outbox;
+    Outbox* _outbox = nullptr;
 
     /// Features
     SearchService _searchService;
