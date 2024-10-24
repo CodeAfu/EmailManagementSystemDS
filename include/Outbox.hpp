@@ -23,7 +23,7 @@ public:
     ~Outbox() = default;
 
 // Static methods
-    static void addRequest(const Email& email, User* user) { GetInstance().addRequestImpl(email, user); }
+    static void addRequest(Email* email, User* user) { GetInstance().addRequestImpl(email, user); }
     static void sendAll() { GetInstance().sendAllImpl(); }
     static void sendNext() { GetInstance().sendNextImpl(); }
 
@@ -32,12 +32,12 @@ public:
     static bool isEmpty() { return GetInstance().isEmptyImpl(); }
     static OutRequest getNext() { return GetInstance().getNextImpl(); }
     static void displayAll() { GetInstance().displayAllImpl(); }
-    static void displayFirst() { GetInstance().getNextImpl().email.display(); }
+    static void displayFirst() { GetInstance().getNextImpl().email->display(); }
 // -------------------------------
 // Internal Methods
 private:
     Outbox() {};
-    void addRequestImpl(const Email& email, User* user);
+    void addRequestImpl(Email* email, User* user);
     void sendAllImpl();
     void sendNextImpl();
 
@@ -49,5 +49,4 @@ private:
 
 private:
     Queue<OutRequest> _requests; // Has pointer to Email and User
-    size_t _size = 0;
 };

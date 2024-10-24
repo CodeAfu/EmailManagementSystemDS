@@ -41,7 +41,7 @@ void User::sendEmails() {
 }
 
 void User::addToOutbox(Email& email, User& receiver) {
-    _outbox->addRequest(email, &receiver);
+    _outbox->addRequest(&email, &receiver);
 }
 
 const Inbox& User::getInbox() const {

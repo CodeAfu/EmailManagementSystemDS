@@ -6,12 +6,12 @@ struct User;
 
 struct OutRequest {
     OutRequest();
-    OutRequest(const Email& email, User* receiver);
+    OutRequest(Email* email, User* receiver);
     ~OutRequest();
 
     void setNullPtr(); 
     void send();
     
     User* receiver;
-    Email email;
+    Email* email;
 };

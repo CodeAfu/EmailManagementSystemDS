@@ -7,20 +7,21 @@
 OutRequest::OutRequest() 
     : receiver(nullptr) {}
 
-OutRequest::OutRequest(const Email& email, User* receiver)
+OutRequest::OutRequest(Email* email, User* receiver)
     : email(email), receiver(receiver){}
 
 OutRequest::~OutRequest() {
-    ColorFormat::print("OutRequest Destroyed: " + std::to_string(email.getId()), BrightYellow);
+    ColorFormat::print("OutRequest Destroyed" , BrightYellow);
     setNullPtr();
 }
 
 void OutRequest::setNullPtr() {
     receiver = nullptr;
+    email = nullptr;
 }
 
 void OutRequest::send() {
-    if (receiver && email.getId() != -1) {
-        receiver->receiveEmail(email);
+    if (receiver && email) {
+        receiver->receiveEmail(*email);
     }
 }

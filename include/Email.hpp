@@ -44,7 +44,18 @@ public:
         // _timestamp(std::move(other._timestamp)) 
     {
         ColorFormat::print("Email Move Constructor: " + std::to_string(other._id), Color::Blue);
-        *this = std::move(other);
+        other._id = -1;
+        other._isImportant = false;
+        other._isSpam = false;
+        other._isSent = false;
+        other._isStarred = false;
+        other._isRead = false;
+        other._isPinned = false;
+        other._isDraft = false;
+        other._sender.clear();
+        other._receiver.clear();
+        other._subject.clear();
+        other._body.clear();
     }
 
     /// Copy assignment operator

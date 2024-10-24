@@ -7,14 +7,14 @@
 #include "Queue.hpp"
 #include "ColorFormat.hpp"
 
-void Outbox::addRequestImpl(const Email& email, User* user) {
+void Outbox::addRequestImpl(Email* email, User* user) {
     OutRequest request(email, user);
     _requests.enqueue(std::move(request));
     ColorFormat::print("Added Request to Outbox: " + std::to_string(_requests.size()), Color::Green);
 }
 
 void Outbox::sendAllImpl() {
-    while (!_requests.size() > 0) {
+    while (_requests.size() > 0) {
         _requests.dequeue().send();
     }
     ColorFormat::print("Send all Requests from Outbox: " + std::to_string(_requests.size()), Color::Green);
@@ -53,6 +53,6 @@ OutRequest Outbox::getNextImpl() const {
 void Outbox::displayAllImpl() const {
     Queue<OutRequest> temp = _requests;
     while (!_requests.isEmpty()) {
-        temp.dequeue().email.display();
+        temp.dequeue().email->display();
     }
 }

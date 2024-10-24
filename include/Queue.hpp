@@ -16,7 +16,7 @@ public:
     
 public:
     bool isEmpty() const {
-        return _front < 0 || _front > _rear;
+        return _size <= 0;
     }
 
     bool isFull() const {

@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
 	IdxGen idx_gen; // Generates Index for User and Email objects
 	system("cls");
 	{
-		// test(idx_gen);
+		test(idx_gen);
 	}
 
 	// TODO: Console Flow
@@ -55,9 +55,12 @@ void test(IdxGen& idx_gen) {
 	// user_one.receiveEmail(email_four);
 
 	user_one.addToOutbox(email_one, user_two);
-	user_one.addToOutbox(email_two, user_two);
+	// user_one.addToOutbox(email_two, user_two);
 
 	user_one.sendEmails();
+
+	Email email = user_two.getInbox().pop();
+	email.display();
 
 }
 
