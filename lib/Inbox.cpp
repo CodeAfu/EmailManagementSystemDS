@@ -4,24 +4,24 @@
 #include "Inbox.hpp"
 
 void Inbox::push(const Email& email) {
-    _emails.emplace(email.getId(), email.getSender(), email.getReceiver(), 
+    m_emails.emplace(email.getId(), email.getSender(), email.getReceiver(), 
                     email.getSubject(), email.getBody());
 }
 
 void Inbox::removeEmail() {
-    _emails.pop();
+    m_emails.pop();
 }
 
 Email Inbox::peek() const {
-    return _emails.peek();
+    return m_emails.peek();
 }
 
 Email Inbox::pop() {
-    return _emails.pop();
+    return m_emails.pop();
 }
 
 void Inbox::displayAll() const {
-    Stack<Email> temp = _emails;
+    Stack<Email> temp = m_emails;
     std::stringstream ss;
 
     while (!temp.isEmpty()) {

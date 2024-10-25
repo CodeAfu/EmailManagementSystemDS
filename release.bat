@@ -1,0 +1,1 @@
+g++ -Iinclude main.cpp lib/*.cpp -o main -O3 -DNDEBUG

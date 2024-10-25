@@ -7,7 +7,7 @@
 template <typename T>
 class Stack {
 public:
-    Stack(size_t capacity = 2) : _arr(capacity), _topIdx(-1) {}
+    Stack(size_t capacity = 2) : m_arr(capacity), m_topIdx(-1) {}
 
     ~Stack() {
         // ColorFormat::print("Stack Destroyed", Color::Red);
@@ -20,25 +20,25 @@ public:
 
 public:
     bool isEmpty() const {
-        return _topIdx < 0;
+        return m_topIdx < 0;
     }
 
     void push(const T& data) {
-        _topIdx++;
-        _arr.pushBack(data);
+        m_topIdx++;
+        m_arr.pushBack(data);
         // ColorFormat::print("Pushed", Color::Cyan);
     }
 
     void push(T&& data) {
-        _topIdx++;
-        _arr.pushBack(std::move(data));
+        m_topIdx++;
+        m_arr.pushBack(std::move(data));
         // ColorFormat::print("Pushed", Color::Cyan);
     }
 
     template<typename... Args>
     void emplace(Args&&... args) {
-        _topIdx++;
-        _arr.emplaceBack(std::forward<Args>(args)...);
+        m_topIdx++;
+        m_arr.emplaceBack(std::forward<Args>(args)...);
         // ColorFormat::print("Emplaced", Color::Cyan);
     }
 
@@ -46,9 +46,9 @@ public:
         if (isEmpty()) {
             throw std::out_of_range("Stack is empty");
         }
-        T result = std::move(_arr[_topIdx]);
-        _arr.popBack();
-        _topIdx--;
+        T result = std::move(m_arr[m_topIdx]);
+        m_arr.popBack();
+        m_topIdx--;
         return result;
     }
 
@@ -56,10 +56,10 @@ public:
         if (isEmpty()) {
             throw std::out_of_range("Stack is empty");
         }
-        return _arr[_topIdx];
+        return m_arr[m_topIdx];
     }
 
 private:
-    DynArray<T> _arr;
-    int _topIdx = -1;
+    DynArray<T> m_arr;
+    int m_topIdx = -1;
 };

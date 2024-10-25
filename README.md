@@ -7,10 +7,14 @@
 ## Development Tasks
 - User Class [🔨] 
 - Email Class [🔨]
-- User Inbox System [🔨]
+- Load Sample Data [❓]
+    - data/emails.csv [❓] &emsp; <--- Need to check data
+    - data/user.csv [❓]
+- Console Application Flow [🔨]
+- User Inbox System [✅]
     - Stack Data Structure [✅]
-- Email Sending System: Queue [❓]
-    - Queue Data Structure [❓]
+- Email Sending System: Queue [🔨]
+    - Queue Data Structure [✅]
 - Email Search and Retrieval [❓]
     - (Refer below for DS) [❓]
 - Spam Email Detection [❓]
@@ -29,7 +33,6 @@
 ## Contribution Instructions
 - Make sure your part uses the relevant data structure
 - Use the predefined Email and User classes
-- **Do NOT add pointer fields to the Email class** (its for our sanity, trust me)
 - Feel free to use the DynArray class if you want, but dont trust it to be as optimized as std::vector
 - Keep Code Clean and Readable
 - Make sure the project runs before you contribute your code. If possible, test with the latest changes on Github.
@@ -37,15 +40,15 @@
 
 ## Index Generation for User and Email
 ```cpp
-IdxGen idx_gen;
-User user_one(idx_gen.nextUser(), "John", "j1@example.com"); // ID=0
-User user_two(idx_gen.nextUser(), "Jane", "j2@example.com"); // ID=1
+static IdxGen s_idxGen;
 
-Email email_one(idx_gen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "First", "Body One."); // ID=0
-Email email_two(idx_gen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "Second", "Body Two."); // ID=1
-Email email_three(idx_gen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "Third", "Body Three."); // ID=2
-Email email_four(idx_gen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "Fourth", "Body Four."); // ID=3
-	
+void sample() {
+    User user_one(s_idxGen.nextUser(), "John", "j1@example.com"); // ID=0
+    User user_two(s_idxGen.nextUser(), "Jane", "j2@example.com"); // ID=1
+
+    Email email_one(s_idxGen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "First", "Body One."); // ID=0
+    Email email_two(s_idxGen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "Second", "Body Two."); // ID=1
+}
 ```
 
 ## Design Pattern

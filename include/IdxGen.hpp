@@ -2,17 +2,15 @@
 
 #include <fstream>
 
-/**
- * @brief Reads from "index.csv" and generates a unique index for emails and users.
- * @param nextEmail() Returns the next available email index.
- * @param nextUser() Returns the next available user index.
- */
+
+/// @brief Reads from "index.csv" and generates a unique index for emails and users.
 class IdxGen {
 public:
-    IdxGen() : _email(0), _user(0) {
+    IdxGen() : m_email(0), m_user(0) {
         reset();
     }
 
+    /// @brief Generates the next index for Email object
     int nextEmail() {
         std::ifstream infile("data/index.csv");
         if (!infile.is_open()) {
@@ -39,13 +37,14 @@ public:
         }
 
         outfile << "email," << email_index << "\n";
-        outfile << "user," << _user << "\n";
+        outfile << "user," << m_user << "\n";
 
         outfile.close();
 
         return email_index;
     }
 
+    /// @brief Generates the next index for User object
     int nextUser() {
         std::ifstream infile("data/index.csv");
         if (!infile.is_open()) {
@@ -71,12 +70,12 @@ public:
             throw std::runtime_error("Error opening output file");
         }
 
-        outfile << "email," << _email << "\n";
+        outfile << "email," << m_email << "\n";
         outfile << "user," << user_index << "\n";
 
         outfile.close();
 
-        _user = user_index;
+        m_user = user_index;
 
         return user_index;    
     }
@@ -93,6 +92,6 @@ private:
         outfile.close();
     }
 
-    int _email;
-    int _user;
+    int m_email;
+    int m_user;
 };

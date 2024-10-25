@@ -14,5 +14,5 @@ public:
     void displayAll() const;
 
 private:
-    Stack<Email> _emails;
+    Stack<Email> m_emails;
 };

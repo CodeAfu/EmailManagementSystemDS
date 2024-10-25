@@ -6,7 +6,7 @@
 template<typename T>
 class Queue {
 public:
-    Queue() : _front(-1), _rear(-1), _size(0) {
+    Queue() : m_front(-1), m_rear(-1), m_size(0) {
         // ColorFormat::print("Queue Created", Color::BrightMagenta);
     }
     
@@ -16,25 +16,25 @@ public:
     
 public:
     bool isEmpty() const {
-        return _size <= 0;
+        return m_size <= 0;
     }
 
     bool isFull() const {
-        return _rear == MAX_SIZE - 1;
+        return m_rear == MAX_SIZE - 1;
     }
 
     T getFront() const {
         if (isEmpty()) {
             throw std::out_of_range("Queue is empty");
         }
-        return _arr[_front];
+        return m_arr[m_front];
     }
 
     T getRear() const {
         if (isEmpty()) {
             throw std::out_of_range("Queue is empty");
         }
-        return _arr[_rear];
+        return m_arr[m_rear];
     }
 
     void enqueue(const T& val) {
@@ -43,10 +43,10 @@ public:
             return;
         }
         if (isEmpty()) {
-            _front = 0;
+            m_front = 0;
         }
-        _size++;
-        _arr[++_rear] = val;
+        m_size++;
+        m_arr[++m_rear] = val;
     }
 
     void enqueue(T&& val) {
@@ -55,10 +55,10 @@ public:
             return;
         }
         if (isEmpty()) {
-            _front = 0;
+            m_front = 0;
         }
-        _size++;
-        _arr[++_rear] = std::move(val);  // Move the object to avoid copying
+        m_size++;
+        m_arr[++m_rear] = std::move(val);  // Move the object to avoid copying
     }
 
     T dequeue() {
@@ -66,12 +66,12 @@ public:
             ColorFormat::print("Queue is empty", Color::Yellow);
             return T();
         }
-        T res = _arr[_front++];
+        T res = m_arr[m_front++];
 
         if (isEmpty()) {
-            _front = _rear = -1;
+            m_front = m_rear = -1;
         }
-        _size--;
+        m_size--;
         return res;
     }
 
@@ -79,17 +79,17 @@ public:
         if (isEmpty()) {
             throw std::out_of_range("Queue is empty");
         }
-        T& res = _arr[_front++];
+        T& res = m_arr[m_front++];
 
         if (isEmpty()) {
-            _front = _rear = -1;
+            m_front = m_rear = -1;
         }
-        _size--;
+        m_size--;
         return res;
     }
 
     size_t size() const {
-        return _size;
+        return m_size;
     }
 
     void display() const {
@@ -99,16 +99,16 @@ public:
         }
 
         std::string s;
-        for (size_t i = _front; i <= _rear; i++) {
-            s += _arr[i] + " ";
+        for (size_t i = m_front; i <= m_rear; i++) {
+            s += m_arr[i] + " ";
         }
 
         std::cout << s << std::endl;
     }
 
 private:
-    T _arr[MAX_SIZE];
-    size_t _front = -1;
-    size_t _rear = -1;
-    size_t _size = 0;
+    T m_arr[MAX_SIZE];
+    size_t m_front = -1;
+    size_t m_rear = -1;
+    size_t m_size = 0;
 };

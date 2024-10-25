@@ -50,5 +50,5 @@ private:
     void displayAllImpl() const;
 
 private:
-    Queue<OutRequest> _requests; // Has pointer to Email and User
+    Queue<OutRequest> m_requests; // Has pointer to Email and User
 };

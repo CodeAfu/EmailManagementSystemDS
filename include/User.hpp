@@ -27,28 +27,29 @@ public:
 
     /// Storage
     void receiveEmail(Email& email);
-    void sendEmail();
     void addToOutbox(Email& email, User& user);
-    void sendEmails();
+    void sendEmail();
+    void sendAllEmails();
     const Inbox& getInbox() const;
     Inbox& getInbox();
     Email peekInbox() const;
     Email popInbox();
+    size_t getOutboxSize() const;
 
     /// Features
 
 private:
     /// User Information
-    int _id = -1;
-    std::string _name = "";
-    std::string _emailAddress = "";
+    int m_id = -1;
+    std::string m_name = "";
+    std::string m_emailAddress = "";
     
     /// Storage
-    Inbox _inbox;
-    Outbox* _outbox = nullptr;
+    Inbox m_inbox;
+    Outbox* s_outbox = nullptr;
 
     /// Features
-    SearchService _searchService;
-    SpamDetectionService _spamDetectionService;
-    PriorityService _priorityService;
+    SearchService m_searchService;
+    SpamDetectionService m_spamDetectionService;
+    PriorityService m_priorityService;
 };
