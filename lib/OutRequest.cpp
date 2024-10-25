@@ -21,6 +21,8 @@ void OutRequest::setNullPtr() {
 
 void OutRequest::send() {
     if (receiver && email) {
+        email->isSent(true);
+        email->isDraft(false);
         receiver->receiveEmail(*email);
     }
 }

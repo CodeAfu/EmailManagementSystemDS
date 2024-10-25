@@ -30,7 +30,6 @@ int main(int argc, char** argv) {
 		break;
 	}
 
-
 	ColorFormat::print("END", Cyan);
 	std::cin.get();
 	return 0;
@@ -49,11 +48,21 @@ void test() {
 	Email email_four(s_idxGen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(),
 		"Fourth", "Hi there, I just wanted to make sure that you are aware that the meeting has been cancelled. I will let you know once it has been rescheduled.");
 
-	user_one.addToOutbox(email_one, user_two);
-	user_one.addToOutbox(email_two, user_two);
+	user_one.composeEmail(email_one, user_two);
+	user_one.composeEmail(email_two, user_two);
+	user_one.composeEmail(email_three, user_two);
+	user_one.composeEmail(email_four, user_two);
 
-	user_one.sendAllEmails();
+	user_two.composeEmail(email_three, user_one);
+	user_two.composeEmail(email_four, user_one);
+	
+	EmailService::GetInstance().sendAll();
+	
+	std::cout << std::endl;
+	user_two.viewInbox();
+	std::cout << std::endl;
 
-	Email email = user_two.getInbox().pop();
+	Email email = user_two.getFromInbox(3);
 	email.display();
+
 }

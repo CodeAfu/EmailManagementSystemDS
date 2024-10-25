@@ -1,58 +1,33 @@
 #include <iostream>
 
-// #include "Email.hpp"
-// #include "OutRequest.hpp"
-#include "User.hpp"
 #include "Outbox.hpp"
-#include "Queue.hpp"
-#include "ColorFormat.hpp"
+#include "OutRequest.hpp"
+#include "EmailService.hpp"
 
-void Outbox::addRequestImpl(Email* email, User* user) {
-    OutRequest request(email, user);
-    m_requests.enqueue(std::move(request));
-    // ColorFormat::print("Added Request to Outbox: " + std::to_string(m_requests.size()), Color::Green);
-}
-
-void Outbox::sendAllImpl() {
-    while (m_requests.size() > 0) {
-        m_requests.dequeue().send();
-    }
-    // ColorFormat::print("Send all Requests from Outbox: " + std::to_string(_requests.size()), Color::Green);
-}
-
-void Outbox::sendNextImpl() {
-    if (m_requests.isEmpty()) {
-        ColorFormat::print("Outbox is empty", Color::Yellow);
+void Outbox::addEmail(Email& email, User& user) {
+    if (EmailService::GetInstance().isAutoSend()) {
+        EmailService::GetInstance().sendEmail(&email, &user);
         return;
     }
-    m_requests.dequeue().send();
-    ColorFormat::print("Sent First Request from Outbox: " + std::to_string(m_requests.size()), Color::Green);
-}
 
-
-// TODO: implement the rest
-void Outbox::clearImpl() {
-    while (!m_requests.isEmpty()) {
-        m_requests.dequeue().~OutRequest();
+    if (!m_sendRequests.isFull()) {
+        m_sendRequests.enqueue(OutRequest(&email, &user));
+        return;
     }
-    ColorFormat::print("Cleared Outbox: " + std::to_string(m_requests.size()), Color::Yellow);
+    std::cout << "Outbox limit has been reached. Please free up space by sending emails." << std::endl;
 }
 
-size_t Outbox::sizeImpl() const {
-    return m_requests.size();
-}
+void Outbox::removeEmail(int id) {
+    Queue<OutRequest> temp;
+    bool removed = false;
+    int size = m_sendRequests.size();
 
-bool Outbox::isEmptyImpl() const {
-    return m_requests.isEmpty();
-}
-
-OutRequest Outbox::getNextImpl() const {
-    return m_requests.getFront();
-}
-
-void Outbox::displayAllImpl() const {
-    Queue<OutRequest> temp = m_requests;
-    while (!m_requests.isEmpty()) {
-        temp.dequeue().email->display();
+    for (size_t i = 0; i < size; i++) {
+        if (m_sendRequests.peek().email->getId() == id) {
+            m_sendRequests.dequeue();
+            continue;
+        }
+        temp.enqueue(m_sendRequests.dequeue());
     }
+    m_sendRequests = temp;
 }

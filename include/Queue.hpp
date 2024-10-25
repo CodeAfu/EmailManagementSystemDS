@@ -1,7 +1,7 @@
 #pragma once
 #include "ColorFormat.hpp"
 
-#define MAX_SIZE 10
+#define MAX_SIZE 30
 
 template<typename T>
 class Queue {
@@ -35,6 +35,13 @@ public:
             throw std::out_of_range("Queue is empty");
         }
         return m_arr[m_rear];
+    }
+
+    T peek() const {
+        if (isEmpty()) {
+            throw std::out_of_range("Queue is empty");
+        }
+        return m_arr[m_front];
     }
 
     void enqueue(const T& val) {

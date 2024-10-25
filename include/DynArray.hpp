@@ -1,11 +1,12 @@
 #pragma once
 #include <utility>
+#include <type_traits> // For std::is_pointer
 #include "ColorFormat.hpp"
 
 template <typename T>
 class DynArray {
 public:
-    DynArray(size_t capacity = 2) : m_arr(nullptr), m_size(0), m_capacity(capacity) {
+    DynArray(size_t capacity = 5) : m_arr(nullptr), m_size(0), m_capacity(capacity) {
         reAlloc(capacity);
     }
 
@@ -16,7 +17,8 @@ public:
 
     DynArray(const DynArray& other) : m_size(other.m_size), m_capacity(other.m_capacity) {
         // ColorFormat::print("DynArray Copy Constructor Called", Color::Cyan);
-        reAlloc(m_capacity);
+        // reAlloc(m_capacity);
+        m_arr = static_cast<T*>(::operator new(m_capacity * sizeof(T)));
         for (size_t i = 0; i < m_size; i++) {
             new (&m_arr[i]) T(other.m_arr[i]);
         }
@@ -112,9 +114,13 @@ private:
     }
 
     void clear() {
-        for (size_t i = 0; i < m_size; i++) {
+        // TODO: Sus condition to keep close lookout for
+        if (m_arr == nullptr)
+            return;
+
+        for (size_t i = 0; i < m_size; i++)
             m_arr[i].~T();
-        }
+
         ::operator delete(m_arr, m_capacity * sizeof(T));
         m_arr = nullptr;
         m_size = 0;

@@ -19,6 +19,11 @@ public:
     Stack& operator=(Stack&& other) noexcept = default;
 
 public:
+
+    size_t size() const {
+        return m_arr.size();
+    }
+
     bool isEmpty() const {
         return m_topIdx < 0;
     }

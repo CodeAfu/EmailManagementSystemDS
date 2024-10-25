@@ -30,3 +30,11 @@ void Inbox::displayAll() const {
 
     std::cout << ss.str();
 }
+
+size_t Inbox::size() const {
+    return m_emails.size();
+}
+
+bool Inbox::isEmpty() const {
+    return m_emails.isEmpty();
+}

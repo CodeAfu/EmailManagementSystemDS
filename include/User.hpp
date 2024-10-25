@@ -2,11 +2,12 @@
 
 #include "Inbox.hpp"
 #include "Outbox.hpp"
+#include "EmailService.hpp"
 #include "PriorityService.hpp"
 #include "SpamDetectionService.hpp"
 #include "SearchService.hpp"
 
-struct Email;
+class Email;
 
 class User {
 public:
@@ -17,21 +18,16 @@ public:
 public:
     /// Getters and Setters
     int getId() const;
-    void setId(int id);
-
     std::string getName() const;
-    void setName(std::string name);
-
     std::string getEmailAddress() const;
-    void setEmailAddress(std::string emailAddress);
 
     /// Storage
     void receiveEmail(Email& email);
-    void addToOutbox(Email& email, User& user);
-    void sendEmail();
-    void sendAllEmails();
+    void composeEmail(Email& email, User& user);
     const Inbox& getInbox() const;
     Inbox& getInbox();
+    void viewInbox() const;
+    const Email getFromInbox(int index) const;
     Email peekInbox() const;
     Email popInbox();
     size_t getOutboxSize() const;
@@ -46,10 +42,11 @@ private:
     
     /// Storage
     Inbox m_inbox;
-    Outbox* s_outbox = nullptr;
+    Outbox m_outbox;
 
     /// Features
     SearchService m_searchService;
     SpamDetectionService m_spamDetectionService;
     PriorityService m_priorityService;
+    EmailService* s_emailService = nullptr; // Singleton
 };

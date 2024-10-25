@@ -1,1 +1,1 @@
-g++ -Iinclude main.cpp lib/*.cpp -o main && main 
+g++ -Iinclude main.cpp lib/*.cpp -o main && .\main

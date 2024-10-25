@@ -12,6 +12,8 @@ public:
     Email peek() const;
     Email pop();
     void displayAll() const;
+    size_t size() const;
+    bool isEmpty() const;
 
 private:
     Stack<Email> m_emails;

@@ -117,10 +117,15 @@ public:
     std::string getBody() const { return m_body; }
     void setBody(const std::string& body) { m_body = body; }
 
+    bool getIsSent() const { return m_isSent; }
+    void isSent(bool flag) { m_isSent = flag; }
+
+    bool getIsDraft() const { return m_isDraft; }
+    void isDraft(bool flag) { m_isDraft = flag; }
+
     // std::string getDate() const { return m_timestamp.getDate(); }
     // std::string getTime() const { return m_timestamp.getTime(); }
-
-
+    
     /// Helpers
     void display() const {
         std::cout << "ID: " << m_id << std::endl;
