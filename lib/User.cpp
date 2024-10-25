@@ -45,7 +45,7 @@ void User::viewDraftEmails() const {
         return;
     }
 
-    std::string header = m_name + "'s Drafts:";
+    std::string header = m_name + "'s Draft Emails:";
     int len = 69 - header.length();
 
     std::cout << header << std::right << std::setw(len) << m_emailAddress << std::endl;
@@ -138,7 +138,7 @@ void User::viewInbox() const {
     }
     Inbox temp = m_inbox;
 
-    std::string header = m_name + "'s Drafts:";
+    std::string header = m_name + "'s Inbox:";
     int len = 69 - header.length();
 
     std::cout << header << std::right << std::setw(len) << m_emailAddress << std::endl;

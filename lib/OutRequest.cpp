@@ -1,6 +1,5 @@
 #include "OutRequest.hpp"
 #include "User.hpp"
-#include "Email.hpp"
 #include "ColorFormat.hpp"
 
 OutRequest::OutRequest() 

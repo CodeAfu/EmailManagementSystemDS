@@ -2,7 +2,7 @@
 
 #include "Email.hpp"
 // struct Email;
-struct User;
+class User;
 
 struct OutRequest {
     OutRequest();

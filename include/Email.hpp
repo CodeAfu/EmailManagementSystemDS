@@ -5,7 +5,6 @@
 #include <utility>
 #include <memory>
 
-#include "Email.hpp"
 #include "ColorFormat.hpp"
 #include "Timestamp.hpp"
 
