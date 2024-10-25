@@ -98,12 +98,18 @@ public:
         return m_arr[index];
     }
 
-    void remove(int index) {
-        for (int i = index; i < m_size - 1; i++) {
-            m_arr[i] = std::move(m_arr[i + 1]);
+    void removeAtIndex(int index) {
+        if (index < 0 || index >= m_size) {
+            throw std::out_of_range("Index out of bounds.");
         }
-        m_size--;
+        
+        m_arr[index].~T();
 
+        for (int i = index; i < m_size - 1; i++) {
+            m_arr[i] = std::move(arr[i + 1]);
+        }
+
+        m_size--;
         if (++m_offset == m_incr) {
             reAlloc(m_capacity - m_capacity / 2);
         }
