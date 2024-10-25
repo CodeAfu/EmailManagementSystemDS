@@ -4,10 +4,10 @@
 #include "ColorFormat.hpp"
 
 OutRequest::OutRequest() 
-    : receiver(nullptr) {}
+    : receiver(nullptr), email(nullptr) {}
 
 OutRequest::OutRequest(Email* email, User* receiver)
-    : email(email), receiver(receiver){}
+    : email(email), receiver(receiver) {}
 
 OutRequest::~OutRequest() {
     // ColorFormat::print("OutRequest Destroyed" , BrightYellow);
@@ -21,8 +21,8 @@ void OutRequest::setNullPtr() {
 
 void OutRequest::send() {
     if (receiver && email) {
-        email->isSent(true);
-        email->isDraft(false);
+        email->setIsSent(true);
+        email->setIsDraft(false);
         receiver->receiveEmail(*email);
     }
 }

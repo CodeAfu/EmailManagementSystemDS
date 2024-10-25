@@ -28,8 +28,7 @@ public:
         : m_id(other.m_id), m_sender(other.m_sender), m_receiver(other.m_receiver),
         m_subject(other.m_subject), m_body(other.m_body), 
         m_isImportant(other.m_isImportant), m_isSpam(other.m_isSpam), 
-        m_isSent(other.m_isSent), m_isStarred(other.m_isStarred), 
-        m_isRead(other.m_isRead), m_isPinned(other.m_isPinned), m_isDraft(other.m_isDraft) 
+        m_isSent(other.m_isSent), m_isRead(other.m_isRead), m_isDraft(other.m_isDraft) 
         // m_timestamp(other.m_timestamp) 
     {
         // ColorFormat::print("Email Copy Constructor: " + std::to_string(other.m_id), Color::Cyan);
@@ -40,8 +39,7 @@ public:
         : m_id(other.m_id), m_sender(std::move(other.m_sender)), m_receiver(std::move(other.m_receiver)),
         m_subject(std::move(other.m_subject)), m_body(std::move(other.m_body)), 
         m_isImportant(other.m_isImportant), m_isSpam(other.m_isSpam), 
-        m_isSent(other.m_isSent), m_isStarred(other.m_isStarred), 
-        m_isRead(other.m_isRead), m_isPinned(other.m_isPinned), m_isDraft(other.m_isDraft)
+        m_isSent(other.m_isSent), m_isRead(other.m_isRead), m_isDraft(other.m_isDraft)
         // m_timestamp(std::move(other.m_timestamp)) 
     {
         // ColorFormat::print("Email Move Constructor: " + std::to_string(other.m_id), Color::Blue);
@@ -49,9 +47,7 @@ public:
         other.m_isImportant = false;
         other.m_isSpam = false;
         other.m_isSent = false;
-        other.m_isStarred = false;
         other.m_isRead = false;
-        other.m_isPinned = false;
         other.m_isDraft = false;
         other.m_sender.clear();
         other.m_receiver.clear();
@@ -71,9 +67,7 @@ public:
             m_isImportant = other.m_isImportant;
             m_isSpam = other.m_isSpam;
             m_isSent = other.m_isSent;
-            m_isStarred = other.m_isStarred;
             m_isRead = other.m_isRead;
-            m_isPinned = other.m_isPinned;
             m_isDraft = other.m_isDraft;
             // m_timestamp = other.m_timestamp;
         }
@@ -92,9 +86,7 @@ public:
             m_isImportant = other.m_isImportant;
             m_isSpam = other.m_isSpam;
             m_isSent = other.m_isSent;
-            m_isStarred = other.m_isStarred;
             m_isRead = other.m_isRead;
-            m_isPinned = other.m_isPinned;
             m_isDraft = other.m_isDraft;
             // m_timestamp = std::move(other.m_timestamp);
         }
@@ -117,11 +109,11 @@ public:
     std::string getBody() const { return m_body; }
     void setBody(const std::string& body) { m_body = body; }
 
-    bool getIsSent() const { return m_isSent; }
-    void isSent(bool flag) { m_isSent = flag; }
+    bool isSent() const { return m_isSent; }
+    void setIsSent(bool flag) { m_isSent = flag; }
 
-    bool getIsDraft() const { return m_isDraft; }
-    void isDraft(bool flag) { m_isDraft = flag; }
+    bool isDraft() const { return m_isDraft; }
+    void setIsDraft(bool flag) { m_isDraft = flag; }
 
     // std::string getDate() const { return m_timestamp.getDate(); }
     // std::string getTime() const { return m_timestamp.getTime(); }
@@ -157,9 +149,7 @@ private:
         std::swap(m_isImportant, other.m_isImportant);
         std::swap(m_isSpam, other.m_isSpam);
         std::swap(m_isSent, other.m_isSent);
-        std::swap(m_isStarred, other.m_isStarred);
         std::swap(m_isRead, other.m_isRead);
-        std::swap(m_isPinned, other.m_isPinned);
         std::swap(m_isDraft, other.m_isDraft);
     }
 
@@ -176,8 +166,6 @@ private:
     bool m_isSpam = false;
     bool m_isDraft = false;
     bool m_isRead = false;
-    bool m_isPinned = false;
-    bool m_isStarred = false;
 
     // Timestamp m_timestamp;
 };

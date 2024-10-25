@@ -48,6 +48,9 @@
     <ClCompile Include="lib\SpamDetectionService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="lib\EmailService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Email.hpp">
@@ -92,7 +95,13 @@
     <ClInclude Include="include\OutRequest.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Queue.hpp">
+    <ClInclude Include="include\ArrQueue.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EmailService.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\LLQueue.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

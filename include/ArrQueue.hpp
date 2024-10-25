@@ -4,14 +4,14 @@
 #define MAX_SIZE 30
 
 template<typename T>
-class Queue {
+class ArrQueue {
 public:
-    Queue() : m_front(-1), m_rear(-1), m_size(0) {
-        // ColorFormat::print("Queue Created", Color::BrightMagenta);
+    ArrQueue() : m_front(-1), m_rear(-1), m_size(0) {
+        // ColorFormat::print("ArrQueue Created", Color::BrightMagenta);
     }
     
-    ~Queue() {
-        // ColorFormat::print("Queue Destroyed", Color::BrightMagenta);
+    ~ArrQueue() {
+        // ColorFormat::print("ArrQueue Destroyed", Color::BrightMagenta);
     }
     
 public:
@@ -25,28 +25,21 @@ public:
 
     T getFront() const {
         if (isEmpty()) {
-            throw std::out_of_range("Queue is empty");
+            throw std::out_of_range("ArrQueue is empty");
         }
         return m_arr[m_front];
     }
 
     T getRear() const {
         if (isEmpty()) {
-            throw std::out_of_range("Queue is empty");
+            throw std::out_of_range("ArrQueue is empty");
         }
         return m_arr[m_rear];
     }
 
-    T peek() const {
-        if (isEmpty()) {
-            throw std::out_of_range("Queue is empty");
-        }
-        return m_arr[m_front];
-    }
-
     void enqueue(const T& val) {
         if (isFull()) {
-            ColorFormat::print("Queue is full", Color::Yellow);
+            ColorFormat::print("ArrQueue is full", Color::Yellow);
             return;
         }
         if (isEmpty()) {
@@ -58,7 +51,7 @@ public:
 
     void enqueue(T&& val) {
         if (isFull()) {
-            ColorFormat::print("Queue is full", Color::Yellow);
+            ColorFormat::print("ArrQueue is full", Color::Yellow);
             return;
         }
         if (isEmpty()) {
@@ -70,7 +63,7 @@ public:
 
     T dequeue() {
         if (isEmpty()) {
-            ColorFormat::print("Queue is empty", Color::Yellow);
+            ColorFormat::print("ArrQueue is empty", Color::Yellow);
             return T();
         }
         T res = m_arr[m_front++];
@@ -84,7 +77,7 @@ public:
 
     T& dequeueRef() {
         if (isEmpty()) {
-            throw std::out_of_range("Queue is empty");
+            throw std::out_of_range("ArrQueue is empty");
         }
         T& res = m_arr[m_front++];
 
@@ -101,7 +94,7 @@ public:
 
     void display() const {
         if (isEmpty()) {
-            ColorFormat::print("Queue is empty", Color::Yellow);
+            ColorFormat::print("ArrQueue is empty", Color::Yellow);
             return;
         }
 
@@ -115,7 +108,7 @@ public:
 
 private:
     T m_arr[MAX_SIZE];
-    size_t m_front = -1;
-    size_t m_rear = -1;
+    int m_front = -1;
+    int m_rear = -1;
     size_t m_size = 0;
 };

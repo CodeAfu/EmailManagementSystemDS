@@ -1,135 +1,104 @@
 #include <iostream>
 
-// #include "Email.hpp"
-// #include "OutRequest.hpp"
 #include "User.hpp"
 #include "EmailService.hpp"
-#include "Queue.hpp"
+#include "ArrQueue.hpp"
 #include "ColorFormat.hpp"
 #include "OutRequest.hpp"
 
-
+/// This makes more sense for a multithreaded application lol
 // Static Methods
 void EmailService::addRequest(Email* email, User* user) {
-    GetInstance().addRequestImpl(email, user); 
-    if (GetInstance().m_autoSend) {
-        GetInstance().sendAllImpl();
+    OutRequest request(email, user);
+    enqueueRequest(std::move(request));
+    // ColorFormat::print("Added Request to EmailService: " + std::to_string(m_requests.size()), Color::Green);
+}
+
+void EmailService::sendAllRequests() {
+    auto& instance = GetInstance();
+    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    while (instance.m_requests.size() > 0) {
+        OutRequest& request = instance.m_requests.dequeueRef();
+        ColorFormat::print(request.email->getSubject() + " sent to "
+                           + request.receiver->getName(), Color::Cyan);
+        request.send();
     }
+    // ColorFormat::print("Send all Requests from EmailService: " + std::to_string(_requests.size()), Color::Green);
 }
 
-void EmailService::sendAll() {
-    GetInstance().sendAllImpl(); 
-}
-
-void EmailService::sendNext() {
-    GetInstance().sendNextImpl(); 
+void EmailService::sendNextRequest() {
+    auto& instance = GetInstance();
+    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    if (instance.m_requests.isEmpty()) {
+        ColorFormat::print("EmailService is empty", Color::Yellow);
+        return;
+    }
+    instance.m_requests.dequeue().send();
+    ColorFormat::print("Sent a Request from EmailService: " + std::to_string(instance.m_requests.size()), Color::Green);
 }
 
 void EmailService::clear() {
-    GetInstance().clearImpl(); 
+    auto& instance = GetInstance();
+    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    while (!instance.m_requests.isEmpty()) {
+        instance.m_requests.dequeue().~OutRequest();
+    }
+    ColorFormat::print("Cleared EmailService: " + std::to_string(instance.m_requests.size()), Color::Yellow);
 }
 
 size_t EmailService::size() {
-    return GetInstance().sizeImpl(); 
+    auto& instance = GetInstance();
+    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    return instance.m_requests.size();
 }
 
 bool EmailService::isEmpty() {
-    return GetInstance().isEmptyImpl(); 
+    auto& instance = GetInstance();
+    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    return instance.m_requests.isEmpty();
 }
 
 OutRequest EmailService::getNext() {
-    return GetInstance().getNextImpl(); 
+    auto& instance = GetInstance();
+    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    return instance.m_requests.getFront();
 }
 
 void EmailService::displayAll() {
-    GetInstance().displayAllImpl(); 
+    auto& instance = GetInstance();
+    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    ArrQueue<OutRequest> temp = instance.m_requests;
+    while (!instance.m_requests.isEmpty()) {
+        temp.dequeue().email->display();
+    }
 }
 
-void EmailService::displayFirst() {
-    GetInstance().getNextImpl().email->display(); 
+void EmailService::displayNext() {
+    auto& instance = GetInstance();
+    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    instance.getNext().email->display(); 
 }
 
 void EmailService::subscribeUser(User* user) {
-    GetInstance().m_subscribers.emplaceBack(user); 
+    auto& instance = GetInstance();
+    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    instance.m_subscribers.emplaceBack(user); 
 }
 
 void EmailService::unsubscribeUser(User* user) {
-    auto& subscribers = GetInstance().m_subscribers;
-    for (size_t i = 0; i < subscribers.size(); i++) {
-        if (subscribers[i] == user) {
-            subscribers[i] = nullptr;
+    auto& instance = GetInstance();
+    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    for (size_t i = 0; i < instance.m_subscribers.size(); i++) {
+        if (instance.m_subscribers[i] == user) {
+            instance.m_subscribers[i] = nullptr;
             break;
         }
     }
 }
 
-void EmailService::setAutoSend(bool flag) {
-    GetInstance().m_autoSend = flag;
-}
-
-bool EmailService::isAutoSend() {
-    return GetInstance().m_autoSend;
-}
-
-bool EmailService::sendEmail(Email* email, User* user) {
-    if (!email || !user) {
-        return false;
-    }
-    addRequest(email, user);
-    return true;
-}
-
-
 // Internal Methods
-void EmailService::addRequestImpl(Email* email, User* user) {
-    OutRequest request(email, user);
-    m_requests.enqueue(std::move(request));
-
-    if (m_autoSend) {
-        sendAllImpl();
-    }
-    // ColorFormat::print("Added Request to EmailService: " + std::to_string(m_requests.size()), Color::Green);
-}
-
-void EmailService::sendAllImpl() {
-    while (m_requests.size() > 0) {
-        m_requests.dequeue().send();
-    }
-    // ColorFormat::print("Send all Requests from EmailService: " + std::to_string(_requests.size()), Color::Green);
-}
-
-void EmailService::sendNextImpl() {
-    if (m_requests.isEmpty()) {
-        ColorFormat::print("EmailService is empty", Color::Yellow);
-        return;
-    }
-    m_requests.dequeue().send();
-    ColorFormat::print("Sent First Request from EmailService: " + std::to_string(m_requests.size()), Color::Green);
-}
-
-
-void EmailService::clearImpl() {
-    while (!m_requests.isEmpty()) {
-        m_requests.dequeue().~OutRequest();
-    }
-    ColorFormat::print("Cleared EmailService: " + std::to_string(m_requests.size()), Color::Yellow);
-}
-
-size_t EmailService::sizeImpl() const {
-    return m_requests.size();
-}
-
-bool EmailService::isEmptyImpl() const {
-    return m_requests.isEmpty();
-}
-
-OutRequest EmailService::getNextImpl() const {
-    return m_requests.getFront();
-}
-
-void EmailService::displayAllImpl() const {
-    Queue<OutRequest> temp = m_requests;
-    while (!m_requests.isEmpty()) {
-        temp.dequeue().email->display();
-    }
+void EmailService::enqueueRequest(OutRequest&& request) {
+    auto& instance = GetInstance();
+    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    instance.m_requests.enqueue(std::move(request));
 }

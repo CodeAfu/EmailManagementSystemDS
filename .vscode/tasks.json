@@ -8,6 +8,7 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
+                "-std=c++17",
                 "-Iinclude",              // Include directory for header files
                 // "-DDEBUG=1",
                 // "-DDEBUG_AGGR=1",

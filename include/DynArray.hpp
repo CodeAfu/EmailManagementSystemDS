@@ -52,6 +52,7 @@ public:
     }
 
     void pushBack(const T& data) {
+        --m_offset;
         if (m_size >= m_capacity) {
             reAlloc(m_capacity + m_capacity / 2);
         }
@@ -60,6 +61,7 @@ public:
     }
 
     void pushBack(T&& data) {
+        --m_offset;
         if (m_size >= m_capacity) {
             reAlloc(m_capacity + m_capacity / 2);
         }
@@ -69,6 +71,7 @@ public:
 
     template<typename... Args>
     void emplaceBack(Args&&... args) {
+        --m_offset;
         if (m_size >= m_capacity) {
             reAlloc(m_capacity + m_capacity / 2);
         }
@@ -81,6 +84,10 @@ public:
             m_size--;
             m_arr[m_size].~T();
         }
+
+        if (++m_offset == m_incr) {
+            reAlloc(m_capacity - m_capacity / 2);
+        }
     }
 
     T& operator[](size_t index) {
@@ -91,11 +98,25 @@ public:
         return m_arr[index];
     }
 
+    void remove(int index) {
+        for (int i = index; i < m_size - 1; i++) {
+            m_arr[i] = std::move(m_arr[i + 1]);
+        }
+        m_size--;
+
+        if (++m_offset == m_incr) {
+            reAlloc(m_capacity - m_capacity / 2);
+        }
+    }
+
     size_t size() const { return m_size; }
     size_t capacity() const { return m_capacity; }
 
 private:
     void reAlloc(size_t new_capacity) {
+        m_incr = (new_capacity - m_capacity > 0) ? new_capacity - m_capacity : m_incr;
+        m_offset = 0;
+
         T* new_arr = static_cast<T*>(::operator new(new_capacity * sizeof(T)));
         size_t items_to_copy = (new_capacity < m_size) ? new_capacity : m_size;
         
@@ -136,4 +157,6 @@ private:
     T* m_arr;
     size_t m_size;
     size_t m_capacity;
+    size_t m_incr;
+    int m_offset;
 };

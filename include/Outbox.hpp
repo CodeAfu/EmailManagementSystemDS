@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Queue.hpp"
+#include "LLQueue.hpp"
 #include "OutRequest.hpp"
 
 class User;
@@ -10,9 +10,21 @@ public:
     Outbox() = default;
     ~Outbox() = default;
 
-    void addEmail(Email& email, User& user);
+public:
+    LLQueue<Email*> getDraftEmails() const;
+    LLQueue<OutRequest> getDraftRequests() const;
+    LLQueue<OutRequest>& getDraftRequests();
+    LLQueue<Email*> getSentEmails() const;
+    LLQueue<Email*>& getSentEmails();
+    void addDraft(Email* email, User* user);
+    void addSentEmail(Email* email);
+    void sendEmail(Email* email, User* user);
     void removeEmail(int id);
 
+    size_t size() const;
+    size_t sizeDrafts() const;
+
 private:
-    Queue<OutRequest> m_sendRequests;
+    LLQueue<Email*> m_sentEmails;
+    LLQueue<OutRequest> m_drafts;
 };
