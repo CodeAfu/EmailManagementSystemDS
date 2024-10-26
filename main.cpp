@@ -18,7 +18,7 @@ void test();
 int main(int argc, char** argv) {
 	system("cls");
 
-	{ test(); }
+	test();
 
 	// TODO: Console Flow
 	while (true) {
