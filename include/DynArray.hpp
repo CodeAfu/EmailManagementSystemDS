@@ -106,7 +106,7 @@ public:
         m_arr[index].~T();
 
         for (int i = index; i < m_size - 1; i++) {
-            m_arr[i] = std::move(arr[i + 1]);
+            m_arr[i] = std::move(m_arr[i + 1]);
         }
 
         m_size--;
