@@ -55,6 +55,10 @@ void test() {
 	potato.composeDraftEmail(email_three, john);
 	potato.composeDraftEmail(email_four, john);
 
+	Stack<Email> inbox = john.getInbox().getEmails();
+	LLQueue<Email*> draft_emails = john.getOutbox().getDraftEmails();
+	LLQueue<Email*> sent_emails = john.getOutbox().getSentEmails();
+
 	john.viewDraftEmails();
 
 	std::cout << std::endl;	
@@ -75,8 +79,8 @@ void test() {
 	john.viewSentEmails();
 	std::cout << std::endl;
 
-	// Email email = potato.getFromInbox(3);
-	// email.display();
+	Email email = potato.getFromInbox(3);
+	email.display();
 	std::cout << std::endl;
 
 }

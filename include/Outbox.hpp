@@ -19,6 +19,7 @@ public:
     void addDraft(Email* email, User* user);
     void addSentEmail(Email* email);
     void sendEmail(Email* email, User* user);
+    void removeByPlacement(int index); // TODO: give a better name
     void removeEmail(int id);
 
     size_t size() const;

@@ -6,18 +6,22 @@
 
 LLQueue<Email*> Outbox::getDraftEmails() const {
     LLQueue<Email*> emails;
+
     if (m_drafts.isEmpty()) 
         return emails;
+
     Node<OutRequest>* current = m_drafts.getFrontNode();
     while (current != nullptr) {
         emails.enqueue(current->data.email);
         current = current->next;
     }
+
     return emails;
 }
 
 LLQueue<OutRequest> Outbox::getDraftRequests() const {
     LLQueue<OutRequest> requests;
+
     if (m_drafts.isEmpty())
         return requests;
     
@@ -26,6 +30,7 @@ LLQueue<OutRequest> Outbox::getDraftRequests() const {
         requests.enqueue(current->data);
         current = current->next;
     }
+
     return requests;
 }
 
@@ -43,6 +48,7 @@ LLQueue<Email*> Outbox::getSentEmails() const {
         emails.enqueue(current->data);
         current = current->next;
     }
+
     return emails;
 }
 
@@ -71,7 +77,26 @@ void Outbox::sendEmail(Email* email, User* receiver) {
     m_sentEmails.enqueue(email);
 }
 
+// TODO: Test
+void Outbox::removeByPlacement(int index) {
+    int size = m_sentEmails.size();
 
+    if (index > size - 1) {
+        ColorFormat::print("[Error] Index out of range", Color::Red);
+    }
+
+    LLQueue<Email*> temp;
+    for (int i = 0; i < size; i++) {
+        if (i == index) {
+            Email& email = *m_sentEmails.dequeue();
+            ColorFormat::print("Email removed: " + email.getId(), Color::BrightBlue);
+            continue;
+        };
+        temp.enqueue(m_sentEmails.dequeue());
+    }
+}
+
+// TODO: Test
 void Outbox::removeEmail(int id) {
     LLQueue<Email*> temp;
     bool removed = false;

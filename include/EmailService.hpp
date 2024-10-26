@@ -12,7 +12,7 @@ class User;
 /// @brief Singleton Service Class to send Emails
 class EmailService {
 public:
-// Initialize
+    // Initialize
     static EmailService& GetInstance() {
         static EmailService instance;
         return instance;
@@ -50,5 +50,5 @@ private:
     ArrQueue<OutRequest> m_requests; // Has pointer to Email and User
     DynArray<User*> m_subscribers;
 
-    // mutable std::mutex m_mutex;
+    // std::mutex m_mutex;
 };

@@ -3,6 +3,10 @@
 
 #include "Inbox.hpp"
 
+Stack<Email>& Inbox::getEmails() {
+    return m_emails;
+}
+
 void Inbox::push(const Email& email) {
     m_emails.emplace(email.getId(), email.getSender(), email.getReceiver(), 
                     email.getSubject(), email.getBody());

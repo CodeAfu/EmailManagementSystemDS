@@ -85,6 +85,7 @@ public:
             m_arr[m_size].~T();
         }
 
+        // TODO: Test
         if (++m_offset == m_incr) {
             reAlloc(m_capacity - m_capacity / 2);
         }

@@ -131,8 +131,17 @@ Inbox& User::getInbox() {
     return m_inbox;
 }
 
+const Outbox& User::getOutbox() const {
+    return m_outbox;
+}
+
+Outbox& User::getOutbox() {
+    return m_outbox;
+};
+
+
 void User::viewInbox() const {
-    if (m_inbox.isEmpty()) {
+if (m_inbox.isEmpty()) {
         std::cout << "Inbox is empty." << std::endl;
         return;
     }

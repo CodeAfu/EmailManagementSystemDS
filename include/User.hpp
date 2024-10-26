@@ -22,7 +22,6 @@ public:
     std::string getEmailAddress() const;
 
     /// Storage
-
     void receiveEmail(Email& email);
     void composeDraftEmail(Email& email, User& user);
     void viewDraftEmails() const;
@@ -31,6 +30,8 @@ public:
     void sendEmail(Email& email, User& receiver);
     const Inbox& getInbox() const;
     Inbox& getInbox();
+    const Outbox& getOutbox() const;
+    Outbox& getOutbox();
     void viewInbox() const;
     const Email getFromInbox(int index) const;
     Email peekInbox() const;
