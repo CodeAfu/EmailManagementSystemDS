@@ -50,5 +50,5 @@ private:
     ArrQueue<OutRequest> m_requests; // Has pointer to Email and User
     DynArray<User*> m_subscribers;
 
-    mutable std::mutex m_mutex;
+    // mutable std::mutex m_mutex;
 };

@@ -16,7 +16,7 @@ void EmailService::addRequest(Email* email, User* user) {
 
 void EmailService::sendAllRequests() {
     auto& instance = GetInstance();
-    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    // std::lock_guard<std::mutex> lock(instance.m_mutex);
     while (instance.m_requests.size() > 0) {
         OutRequest& request = instance.m_requests.dequeueRef();
         ColorFormat::print(request.email->getSubject() + " sent to "
@@ -28,7 +28,7 @@ void EmailService::sendAllRequests() {
 
 void EmailService::sendNextRequest() {
     auto& instance = GetInstance();
-    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    // std::lock_guard<std::mutex> lock(instance.m_mutex);
     if (instance.m_requests.isEmpty()) {
         ColorFormat::print("EmailService is empty", Color::Yellow);
         return;
@@ -39,7 +39,7 @@ void EmailService::sendNextRequest() {
 
 void EmailService::clear() {
     auto& instance = GetInstance();
-    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    // std::lock_guard<std::mutex> lock(instance.m_mutex);
     while (!instance.m_requests.isEmpty()) {
         instance.m_requests.dequeue().~OutRequest();
     }
@@ -48,25 +48,25 @@ void EmailService::clear() {
 
 size_t EmailService::size() {
     auto& instance = GetInstance();
-    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    // std::lock_guard<std::mutex> lock(instance.m_mutex);
     return instance.m_requests.size();
 }
 
 bool EmailService::isEmpty() {
     auto& instance = GetInstance();
-    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    // std::lock_guard<std::mutex> lock(instance.m_mutex);
     return instance.m_requests.isEmpty();
 }
 
 OutRequest EmailService::getNext() {
     auto& instance = GetInstance();
-    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    // std::lock_guard<std::mutex> lock(instance.m_mutex);
     return instance.m_requests.getFront();
 }
 
 void EmailService::displayAll() {
     auto& instance = GetInstance();
-    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    // std::lock_guard<std::mutex> lock(instance.m_mutex);
     ArrQueue<OutRequest> temp = instance.m_requests;
     while (!instance.m_requests.isEmpty()) {
         temp.dequeue().email->display();
@@ -75,19 +75,19 @@ void EmailService::displayAll() {
 
 void EmailService::displayNext() {
     auto& instance = GetInstance();
-    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    // std::lock_guard<std::mutex> lock(instance.m_mutex);
     instance.getNext().email->display(); 
 }
 
 void EmailService::subscribeUser(User* user) {
     auto& instance = GetInstance();
-    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    // std::lock_guard<std::mutex> lock(instance.m_mutex);
     instance.m_subscribers.emplaceBack(user); 
 }
 
 void EmailService::unsubscribeUser(User* user) {
     auto& instance = GetInstance();
-    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    // std::lock_guard<std::mutex> lock(instance.m_mutex);
     for (size_t i = 0; i < instance.m_subscribers.size(); i++) {
         if (instance.m_subscribers[i] == user) {
             instance.m_subscribers[i] = nullptr;
@@ -99,6 +99,6 @@ void EmailService::unsubscribeUser(User* user) {
 // Internal Methods
 void EmailService::enqueueRequest(OutRequest&& request) {
     auto& instance = GetInstance();
-    std::lock_guard<std::mutex> lock(instance.m_mutex);
+    // std::lock_guard<std::mutex> lock(instance.m_mutex);
     instance.m_requests.enqueue(std::move(request));
 }
