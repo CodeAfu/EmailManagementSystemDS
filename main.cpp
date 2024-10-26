@@ -3,6 +3,7 @@
 #include <array>
 #include <cstdlib>
 #include <ctime>
+#include <limits> // For std::numeric_limits
 
 #include "ColorFormat.hpp"
 #include "IdxGen.hpp"
@@ -11,22 +12,94 @@
 
 #define LOG(x) std::cout << x << std::endl
 
+// Sample color formatting utility (just as a placeholder, adjust as needed)
+namespace ColorFormat {
+    void print(const std::string& text, const std::string& color) {
+        std::cout << color << text << "\033[0m" << std::endl;
+    }
+}
+
 static IdxGen s_idxGen;  // Generates Index for User and Email objects
+
+void viewInbox() {
+    std::cout << "Viewing Inbox..." << std::endl;
+    // TODO: Display all received emails
+}
+
+void viewOutbox() {
+    std::cout << "Viewing Outbox..." << std::endl;
+    // TODO: Display all sent emails
+}
+
+void searchAndRetrieval() {
+    std::cout << "Searching Emails by Keyword..." << std::endl;
+    // TODO: Implement search by keyword function
+}
+
+void spamDetection() {
+    std::cout << "Managing Spam Folder..." << std::endl;
+    // TODO: Implement spam detection options
+}
+
+void priorityHandling() {
+    std::cout << "Managing Email Priority..." << std::endl;
+    // TODO: Implement priority handling options
+}
+
+
+void displayMenu() {
+    ColorFormat::print("\nMain Menu", "\033[36m");
+    std::cout << "1. View Inbox\n"
+              << "2. View Outbox\n"
+              << "3. Search and Retrieval\n"
+              << "4. Spam Detection and Management\n"
+              << "5. Priority Handling\n"
+              << "6. Exit\n"
+              << "Enter your choice: ";
+}
+
 
 void test();
 
 int main(int argc, char** argv) {
 	system("cls");
+	int choice;
+
 
 	test();
 
 	// TODO: Console Flow
 	while (true) {
-		// TODO: Handle incoming emails
-		// TODO: Handle outgoing emails
-		// TODO: Handle spam emails
-		// TODO: Handle email prioritization
-		break;
+		 displayMenu();
+        std::cin >> choice;
+		if (std::cin.fail()) {
+            std::cout << "Invalid input. Please enter a number between 1 and 6.\n";
+            std::cin.clear(); // Clear the error state
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
+            continue; // Restart loop
+        }
+        switch (choice) {
+            case 1:
+                viewInbox();
+                break;
+            case 2:
+                viewOutbox();
+                break;
+            case 3:
+                searchAndRetrieval();
+                break;
+            case 4:
+                spamDetection();
+                break;
+            case 5:
+                priorityHandling();
+                break;
+            case 6:
+                ColorFormat::print("END", "\033[36m");
+                return 0;
+            default:
+                std::cout << "Invalid choice. Please try again.\n";
+        }
 	}
 
 	ColorFormat::print("END", Cyan);
@@ -55,10 +128,6 @@ void test() {
 	potato.composeDraftEmail(email_three, john);
 	potato.composeDraftEmail(email_four, john);
 
-	Stack<Email> inbox = john.getInbox().getEmails();
-	LLQueue<Email*> draft_emails = john.getOutbox().getDraftEmails();
-	LLQueue<Email*> sent_emails = john.getOutbox().getSentEmails();
-
 	john.viewDraftEmails();
 
 	std::cout << std::endl;	
@@ -79,8 +148,8 @@ void test() {
 	john.viewSentEmails();
 	std::cout << std::endl;
 
-	Email email = potato.getFromInbox(3);
-	email.display();
+	// Email email = potato.getFromInbox(3);
+	// email.display();
 	std::cout << std::endl;
 
 }
