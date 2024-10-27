@@ -138,7 +138,7 @@ void searchAndRetrieval(UserNode* root) {
 // Load users from CSV file and build the BST
 UserNode* loadUsersToBST(DynArray<User>& users) {
     UserNode* root = nullptr;
-    
+
     for (int i = 0; i < users.size(); i++) {
         std::string name = users[i].getName();
         std::string emailAddress = users[i].getEmailAddress();      
@@ -269,8 +269,8 @@ int main(int argc, char** argv) {
 	int choice;
 
 	// TODO: Console Flow
+    User& user = selectUserMenu(users);
 	while (true) {
-        User& user = selectUserMenu(users);
         ColorFormat::print("Welcome, " + user.getName() + "!", Color::BrightCyan);
 		displayMenu();
         std::cin >> choice;
