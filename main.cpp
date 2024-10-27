@@ -4,6 +4,11 @@
 #include <cstdlib>
 #include <ctime>
 #include <limits> // For std::numeric_limits
+#include <fstream>
+#include <sstream>
+#include <algorithm> // For std::find_if
+#include <stack>
+#include <queue>
 
 #include "ColorFormat.hpp"
 #include "IdxGen.hpp"
@@ -13,13 +18,9 @@
 #define LOG(x) std::cout << x << std::endl
 
 // Sample color formatting utility (just as a placeholder, adjust as needed)
-namespace ColorFormat {
-    void print(const std::string& text, const std::string& color) {
-        std::cout << color << text << "\033[0m" << std::endl;
-    }
-}
-
 static IdxGen s_idxGen;  // Generates Index for User and Email objects
+
+void test();
 
 void viewInbox() {
     std::cout << "Viewing Inbox..." << std::endl;
@@ -31,9 +32,133 @@ void viewOutbox() {
     // TODO: Display all sent emails
 }
 
+// Function to trim whitespace from the start and end of a string
+std::string trim(const std::string &str) {
+    auto start = str.find_first_not_of(" \t\n");
+    auto end = str.find_last_not_of(" \t\n");
+    return (start == std::string::npos || end == std::string::npos) ? "" : str.substr(start, end - start + 1);
+}
+
+// Function to convert a string to lowercase
+std::string toLower(const std::string &str) {
+    std::string lowerStr = str;
+    std::transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(), ::tolower);
+    return lowerStr;
+}
+
+// Function to display all users from the users.csv file
+void displayUsers() {
+    std::ifstream userFile("data/users.csv");
+    if (!userFile.is_open()) {
+        std::cerr << "Error opening data/users.csv. Please ensure the file exists in the correct directory." << std::endl;
+        return;
+    }
+
+    std::string line;
+    // Read and print each line, including the header
+    while (std::getline(userFile, line)) {
+        std::cout << line << std::endl; // Print every line
+    }
+
+    userFile.close();
+}
+
+// Function to display emails for a specific user
+void displayEmails(const std::string &userEmail) {
+    std::ifstream emailFile("data/emails.csv");
+    if (!emailFile.is_open()) {
+        std::cerr << "Error opening data/emails.csv. Please ensure the file exists in the correct directory." << std::endl;
+        return;
+    }
+
+    std::queue<std::string> emailQueue;
+    std::string emailLine;
+    std::cout << "Displaying emails for: " << userEmail << std::endl;
+
+    while (std::getline(emailFile, emailLine)) {
+        std::stringstream ss(emailLine);
+        std::string sender, receiver, subject, body;
+
+        std::getline(ss, sender, ',');
+        std::getline(ss, receiver, ',');
+        std::getline(ss, subject, ',');
+        std::getline(ss, body);
+
+        // If the email matches the user's email, store it in the queue
+        if (toLower(sender) == toLower(userEmail)) {
+            std::string emailContent = "From: " + sender + "\n" +
+                                        "To: " + receiver + "\n" +
+                                        "Subject: " + subject + "\n" +
+                                        "Body: " + body + "\n" +
+                                        "------------------------------------";
+            emailQueue.push(emailContent);
+        }
+    }
+
+    // Display all stored emails from the queue
+    while (!emailQueue.empty()) {
+        std::cout << emailQueue.front() << std::endl;
+        emailQueue.pop();
+    }
+
+    emailFile.close();
+}
+
+// Function to search and retrieve emails based on user input
 void searchAndRetrieval() {
     std::cout << "Searching Emails by Keyword..." << std::endl;
-    // TODO: Implement search by keyword function
+
+    std::string searchName;
+    std::cout << "Enter the name to search: ";
+
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear any leftover newline
+    if (!std::getline(std::cin, searchName)) {
+        std::cerr << "Error reading input. Please try again." << std::endl;
+        return;
+    }
+
+    searchName = trim(searchName); // Trim whitespace
+
+    std::ifstream file("data/users.csv");
+    if (!file.is_open()) {
+        std::cerr << "Error opening data/users.csv. Please ensure the file exists in the correct directory." << std::endl;
+        return;
+    }
+
+    std::string line;
+    std::stack<std::pair<std::string, std::string>> userStack; // Stack to store users
+
+    std::getline(file, line); // Skip header
+    while (std::getline(file, line)) {
+        std::stringstream ss(line);
+        std::string name, emailAddress;
+
+        std::getline(ss, name, ',');
+        std::getline(ss, emailAddress, ',');
+
+        name = trim(name);
+
+        // Store user details in the stack
+        userStack.push({name, emailAddress});
+
+        // Check for matching user
+        if (toLower(name) == toLower(searchName)) {
+            std::cout << "User found: " << name << " - " << emailAddress << std::endl;
+            displayEmails(emailAddress); // Display emails for the found user
+            file.close();
+            return; // Exit after finding the user
+        }
+    }
+
+    // If user not found, display users from the stack
+    std::cout << "User not found." << std::endl;
+    while (!userStack.empty()) {
+        auto user = userStack.top();
+        std::cout << user.first << " - " << user.second << std::endl; // Display user details
+        userStack.pop();
+    }
+
+    file.close();
 }
 
 void spamDetection() {
@@ -46,20 +171,18 @@ void priorityHandling() {
     // TODO: Implement priority handling options
 }
 
-
 void displayMenu() {
-    ColorFormat::print("\nMain Menu", "\033[36m");
+    ColorFormat::print("\nMain Menu", Color::BrightYellow);
     std::cout << "1. View Inbox\n"
               << "2. View Outbox\n"
               << "3. Search and Retrieval\n"
               << "4. Spam Detection and Management\n"
               << "5. Priority Handling\n"
-              << "6. Exit\n"
+              << "6. users.csv\n"
+              << "7. Exit\n"
               << "Enter your choice: ";
 }
 
-
-void test();
 
 int main(int argc, char** argv) {
 	system("cls");
@@ -95,14 +218,17 @@ int main(int argc, char** argv) {
                 priorityHandling();
                 break;
             case 6:
-                ColorFormat::print("END", "\033[36m");
+                displayUsers();
+                break;
+            case 7:
+                ColorFormat::print("END", Color::Cyan);
                 return 0;
             default:
                 std::cout << "Invalid choice. Please try again.\n";
         }
 	}
 
-	ColorFormat::print("END", Cyan);
+	ColorFormat::print("END", Color::Cyan);
 	std::cin.get();
 	return 0;
 }
