@@ -3,12 +3,10 @@
 #include <array>
 #include <cstdlib>
 #include <ctime>
-#include <limits> // For std::numeric_limits
+#include <limits>
 #include <fstream>
 #include <sstream>
-#include <algorithm> // For std::find_if
-#include <stack>
-#include <queue>
+#include <algorithm>
 
 #include "ColorFormat.hpp"
 #include "IdxGen.hpp"
@@ -17,20 +15,29 @@
 
 #define LOG(x) std::cout << x << std::endl
 
-// Sample color formatting utility (just as a placeholder, adjust as needed)
 static IdxGen s_idxGen;  // Generates Index for User and Email objects
 
-void test();
 
-void viewInbox() {
+void viewInbox(User& user) {
     std::cout << "Viewing Inbox..." << std::endl;
     // TODO: Display all received emails
 }
 
-void viewOutbox() {
+void viewOutbox(User& user) {
     std::cout << "Viewing Outbox..." << std::endl;
     // TODO: Display all sent emails
 }
+
+// Node structure for Binary Search Tree
+struct UserNode {
+    std::string name;
+    std::string email;
+    UserNode* left;
+    UserNode* right;
+
+    UserNode(const std::string& n, const std::string& e)
+        : name(n), email(e), left(nullptr), right(nullptr) {}
+};
 
 // Function to trim whitespace from the start and end of a string
 std::string trim(const std::string &str) {
@@ -46,21 +53,35 @@ std::string toLower(const std::string &str) {
     return lowerStr;
 }
 
-// Function to display all users from the users.csv file
-void displayUsers() {
-    std::ifstream userFile("data/users.csv");
-    if (!userFile.is_open()) {
-        std::cerr << "Error opening data/users.csv. Please ensure the file exists in the correct directory." << std::endl;
-        return;
+// Insert a new user into the BST
+UserNode* insertUser(UserNode* root, const std::string& name, const std::string& email) {
+    if (root == nullptr) {
+        return new UserNode(name, email);
     }
-
-    std::string line;
-    // Read and print each line, including the header
-    while (std::getline(userFile, line)) {
-        std::cout << line << std::endl; // Print every line
+    if (toLower(name) < toLower(root->name)) {
+        root->left = insertUser(root->left, name, email);
+    } else {
+        root->right = insertUser(root->right, name, email);
     }
+    return root;
+}
 
-    userFile.close();
+// Search for a user by name in the BST
+UserNode* searchUser(UserNode* root, const std::string& name) {
+    if (root == nullptr || toLower(root->name) == toLower(name)) {
+        return root;
+    }
+    if (toLower(name) < toLower(root->name)) {
+        return searchUser(root->left, name);
+    }
+    return searchUser(root->right, name);
+}
+
+void inOrderDisplay(UserNode* root) {
+    if (root == nullptr) return;
+    inOrderDisplay(root->left);
+    std::cout << "Name: " << root->name << ", Email: " << root->email << std::endl;
+    inOrderDisplay(root->right);
 }
 
 // Function to display emails for a specific user
@@ -71,7 +92,6 @@ void displayEmails(const std::string &userEmail) {
         return;
     }
 
-    std::queue<std::string> emailQueue;
     std::string emailLine;
     std::cout << "Displaying emails for: " << userEmail << std::endl;
 
@@ -84,95 +104,66 @@ void displayEmails(const std::string &userEmail) {
         std::getline(ss, subject, ',');
         std::getline(ss, body);
 
-        // If the email matches the user's email, store it in the queue
-        if (toLower(sender) == toLower(userEmail)) {
-            std::string emailContent = "From: " + sender + "\n" +
-                                        "To: " + receiver + "\n" +
-                                        "Subject: " + subject + "\n" +
-                                        "Body: " + body + "\n" +
-                                        "------------------------------------";
-            emailQueue.push(emailContent);
+        if (toLower(sender) == toLower(userEmail) || toLower(receiver) == toLower(userEmail)) {
+            std::cout << "From: " << sender 
+                      << "\nTo: " << receiver 
+                      << "\nSubject: " << subject 
+                      << "\nBody: " << body 
+                      << "\n------------------------------------" << std::endl;
         }
-    }
-
-    // Display all stored emails from the queue
-    while (!emailQueue.empty()) {
-        std::cout << emailQueue.front() << std::endl;
-        emailQueue.pop();
     }
 
     emailFile.close();
 }
 
 // Function to search and retrieve emails based on user input
-void searchAndRetrieval() {
-    std::cout << "Searching Emails by Keyword..." << std::endl;
-
-    std::string searchName;
+void searchAndRetrieval(UserNode* root) {
     std::cout << "Enter the name to search: ";
+    std::string searchName;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear leftover newline
+    std::getline(std::cin, searchName);
+    searchName = trim(searchName);
 
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear any leftover newline
-    if (!std::getline(std::cin, searchName)) {
-        std::cerr << "Error reading input. Please try again." << std::endl;
-        return;
+    UserNode* user = searchUser(root, searchName);
+    if (user) {
+        std::cout << "User found: " << user->name << " - " << user->email << std::endl;
+        displayEmails(user->email);
+    } else {
+        std::cout << "User not found." << std::endl;
+        inOrderDisplay(root);
+
     }
-
-    searchName = trim(searchName); // Trim whitespace
-
-    std::ifstream file("data/users.csv");
-    if (!file.is_open()) {
-        std::cerr << "Error opening data/users.csv. Please ensure the file exists in the correct directory." << std::endl;
-        return;
-    }
-
-    std::string line;
-    std::stack<std::pair<std::string, std::string>> userStack; // Stack to store users
-
-    std::getline(file, line); // Skip header
-    while (std::getline(file, line)) {
-        std::stringstream ss(line);
-        std::string name, emailAddress;
-
-        std::getline(ss, name, ',');
-        std::getline(ss, emailAddress, ',');
-
-        name = trim(name);
-
-        // Store user details in the stack
-        userStack.push({name, emailAddress});
-
-        // Check for matching user
-        if (toLower(name) == toLower(searchName)) {
-            std::cout << "User found: " << name << " - " << emailAddress << std::endl;
-            displayEmails(emailAddress); // Display emails for the found user
-            file.close();
-            return; // Exit after finding the user
-        }
-    }
-
-    // If user not found, display users from the stack
-    std::cout << "User not found." << std::endl;
-    while (!userStack.empty()) {
-        auto user = userStack.top();
-        std::cout << user.first << " - " << user.second << std::endl; // Display user details
-        userStack.pop();
-    }
-
-    file.close();
 }
 
-void spamDetection() {
+// Load users from CSV file and build the BST
+UserNode* loadUsersToBST(DynArray<User>& users) {
+    UserNode* root = nullptr;
+    
+    for (int i = 0; i < users.size(); i++) {
+        std::string name = users[i].getName();
+        std::string emailAddress = users[i].getEmailAddress();      
+        name = trim(name);
+        root = insertUser(root, name, emailAddress);
+    }
+
+    return root;
+}
+
+
+
+void spamDetection(User& user) {
     std::cout << "Managing Spam Folder..." << std::endl;
     // TODO: Implement spam detection options
 }
 
-void priorityHandling() {
+void priorityHandling(User& user) {
     std::cout << "Managing Email Priority..." << std::endl;
     // TODO: Implement priority handling options
 }
 
+
 void displayMenu() {
-    ColorFormat::print("\nMain Menu", Color::BrightYellow);
+    ColorFormat::print("Main Menu", Color::Cyan);
     std::cout << "1. View Inbox\n"
               << "2. View Outbox\n"
               << "3. Search and Retrieval\n"
@@ -183,17 +174,105 @@ void displayMenu() {
               << "Enter your choice: ";
 }
 
+User& selectUserMenu(DynArray<User>& users) {
+    while (true) {
+        ColorFormat::print("Select a user", Color::Cyan);
+        for (int i = 0; i < users.size(); i++) {
+            std::cout << i + 1 << ". " << users[i].getName() << " - " << users[i].getEmailAddress() << std::endl;
+        }
+        std::cout << "Enter your choice: ";
+
+        int choice;
+        std::cin >> choice;
+
+        if (std::cin.fail()) {
+            std::cin.clear(); // Clear the error state
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
+            continue; // Restart loop
+        }
+
+        if (choice > 0 && choice <= users.size()) {
+            system("cls");
+            return users[choice - 1];
+        }
+
+        std::cout << "Invalid choice. Please enter a number between 1 and " << users.size() << std::endl << std::endl;
+    }
+}
+
+DynArray<User> seedUsers() {
+    DynArray<User> users;
+
+    std::ifstream file("data/users.csv");
+    if (!file.is_open()) {
+        std::cerr << "Error opening data/users.csv. Please ensure the file exists in the correct directory." << std::endl;
+        return users;
+    }
+
+    std::string line;
+    std::getline(file, line); // Skip header
+    while (std::getline(file, line)) {
+        std::stringstream ss(line);
+        if (line.empty()) 
+            continue;
+
+        std::string name, email;
+        std::getline(ss, name, ',');
+        std::getline(ss, email, ',');
+        users.emplaceBack(s_idxGen.nextUser(), name, email);
+    }
+
+    return users;
+}
+
+DynArray<Email> seedEmails() {
+    DynArray<Email> emails;
+
+    std::ifstream file("data/emails.csv");
+    if (!file.is_open()) {
+        std::cerr << "Error opening data/emails.csv. Please ensure the file exists in the correct directory." << std::endl;
+        return emails;
+    }
+
+    std::string line;
+    std::getline(file, line); // Skip header
+    while (std::getline(file, line)) {
+        std::stringstream ss(line);
+        if (line.empty()) 
+            continue;
+
+        std::string sender, receiver, subject, body;
+        std::getline(ss, sender, ',');
+        std::getline(ss, receiver, ',');
+        std::getline(ss, subject, ',');
+        std::getline(ss, body);
+        emails.emplaceBack(s_idxGen.nextEmail(), sender, receiver, subject, body);
+    }
+
+    return emails;
+}
+
+void test();
 
 int main(int argc, char** argv) {
 	system("cls");
+	// test();
+
+    DynArray<User> users = seedUsers();
+    DynArray<Email> emails = seedEmails();
+
+    // Load users into the BST
+    UserNode* root = loadUsersToBST(users);
+    if (root == nullptr) {
+        return 1; // Exit if users could not be loaded
+    }
 	int choice;
-
-
-	test();
 
 	// TODO: Console Flow
 	while (true) {
-		 displayMenu();
+        User& user = selectUserMenu(users);
+        ColorFormat::print("Welcome, " + user.getName() + "!", Color::BrightCyan);
+		displayMenu();
         std::cin >> choice;
 		if (std::cin.fail()) {
             std::cout << "Invalid input. Please enter a number between 1 and 6.\n";
@@ -203,22 +282,22 @@ int main(int argc, char** argv) {
         }
         switch (choice) {
             case 1:
-                viewInbox();
+                viewInbox(user);
                 break;
             case 2:
-                viewOutbox();
+                viewOutbox(user);
                 break;
             case 3:
-                searchAndRetrieval();
+                searchAndRetrieval(root);
                 break;
             case 4:
-                spamDetection();
+                spamDetection(user);
                 break;
             case 5:
-                priorityHandling();
+                priorityHandling(user);
                 break;
             case 6:
-                displayUsers();
+                inOrderDisplay(root);
                 break;
             case 7:
                 ColorFormat::print("END", Color::Cyan);
@@ -227,7 +306,6 @@ int main(int argc, char** argv) {
                 std::cout << "Invalid choice. Please try again.\n";
         }
 	}
-
 	ColorFormat::print("END", Color::Cyan);
 	std::cin.get();
 	return 0;
@@ -276,6 +354,6 @@ void test() {
 
 	// Email email = potato.getFromInbox(3);
 	// email.display();
-	std::cout << std::endl;
+	// std::cout << std::endl;
 
 }
