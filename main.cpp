@@ -279,7 +279,7 @@ void populateData(DynArray<User>& users, DynArray<Email>& emails) {
     sophia.sendEmail(emails[8], noah);
     noah.sendEmail(emails[9], liam);
 
-    ColorFormat::print("\nEmails populated!\n", Color::BrightGreen);
+    ColorFormat::print("User Data populated!\n", Color::BrightGreen);
 }
 
 void test();
