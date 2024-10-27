@@ -80,7 +80,7 @@ void User::viewSentEmails() const {
 
     std::cout << header << std::right << std::setw(len) << m_emailAddress << std::endl;
     std::cout << "---------------------------------------------------------------------\n";
-    std::cout << "| # | From                        | Subject                         |\n";
+    std::cout << "| # | To                          | Subject                         |\n";
     std::cout << "---------------------------------------------------------------------\n";
 
     int count = 1;
@@ -120,7 +120,7 @@ void User::sendDraftEmails() {
 void User::sendEmail(Email& email, User& receiver) {
     email.setIsSent(true);
     email.setIsDraft(false);
-    // m_outbox.addEmail(&email, &receiver);
+    m_outbox.sendEmail(&email, &receiver);
 }
 
 const Inbox& User::getInbox() const {

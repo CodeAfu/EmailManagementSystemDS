@@ -7,6 +7,7 @@ public:
     Inbox() = default;
     ~Inbox() = default;
 
+    Stack<Email> getEmails() const;
     Stack<Email>& getEmails();
     void push(const Email& email);
     void removeEmail();

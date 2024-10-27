@@ -16,7 +16,7 @@ public:
     
 public:
     bool isEmpty() const {
-        return m_size <= 0;
+        return m_front < 0 || m_front > m_rear;
     }
 
     bool isFull() const {
@@ -66,12 +66,15 @@ public:
             ColorFormat::print("ArrQueue is empty", Color::Yellow);
             return T();
         }
-        T res = m_arr[m_front++];
+
+        T res = m_arr[m_front];
+        m_front++;
+        m_size--;
 
         if (isEmpty()) {
             m_front = m_rear = -1;
         }
-        m_size--;
+
         return res;
     }
 
@@ -79,12 +82,15 @@ public:
         if (isEmpty()) {
             throw std::out_of_range("ArrQueue is empty");
         }
-        T& res = m_arr[m_front++];
+
+        T& res = m_arr[m_front];
+        m_front++;
+        m_size--;
 
         if (isEmpty()) {
             m_front = m_rear = -1;
         }
-        m_size--;
+
         return res;
     }
 

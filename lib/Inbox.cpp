@@ -3,6 +3,10 @@
 
 #include "Inbox.hpp"
 
+Stack<Email> Inbox::getEmails() const {
+    return m_emails;
+}
+
 Stack<Email>& Inbox::getEmails() {
     return m_emails;
 }

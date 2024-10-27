@@ -75,6 +75,7 @@ void Outbox::sendEmail(Email* email, User* receiver) {
 
     email_service.addRequest(email, receiver);
     m_sentEmails.enqueue(email);
+    email_service.sendAllRequests(); // TODO: needs to be be revised, called inside main
 }
 
 // TODO: Test

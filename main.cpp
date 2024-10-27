@@ -19,13 +19,23 @@ static IdxGen s_idxGen;  // Generates Index for User and Email objects
 
 
 void viewInbox(User& user) {
-    std::cout << "Viewing Inbox..." << std::endl;
-    // TODO: Display all received emails
+    system("cls");
+    user.viewInbox();
+
+    std::cin.clear(); // Clear the error state
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
+    std::cin.get();
+    system("cls");
 }
 
 void viewOutbox(User& user) {
-    std::cout << "Viewing Outbox..." << std::endl;
-    // TODO: Display all sent emails
+    system("cls");
+    user.viewSentEmails();
+
+    std::cin.clear(); // Clear the error state
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
+    std::cin.get();
+    system("cls");
 }
 
 // Node structure for Binary Search Tree
@@ -150,7 +160,6 @@ UserNode* loadUsersToBST(DynArray<User>& users) {
 }
 
 
-
 void spamDetection(User& user) {
     std::cout << "Managing Spam Folder..." << std::endl;
     // TODO: Implement spam detection options
@@ -174,7 +183,7 @@ void displayMenu() {
               << "Enter your choice: ";
 }
 
-User& selectUserMenu(DynArray<User>& users) {
+User& userSelectionMenu(DynArray<User>& users) {
     while (true) {
         ColorFormat::print("Select a user", Color::Cyan);
         for (int i = 0; i < users.size(); i++) {
@@ -252,6 +261,27 @@ DynArray<Email> seedEmails() {
     return emails;
 }
 
+void populateData(DynArray<User>& users, DynArray<Email>& emails) {
+    User& emma = users[0];
+    User& liam = users[1];
+    User& sophia = users[2];
+    User& noah = users[3];
+    User& mia = users[4];
+
+    emma.sendEmail(emails[0], liam);
+    sophia.sendEmail(emails[1], noah);
+    mia.sendEmail(emails[2], emma);
+    liam.sendEmail(emails[3], sophia);
+    noah.sendEmail(emails[4], mia);
+    emma.sendEmail(emails[5], noah);
+    sophia.sendEmail(emails[6], mia);
+    noah.sendEmail(emails[7], liam);
+    sophia.sendEmail(emails[8], noah);
+    noah.sendEmail(emails[9], liam);
+
+    ColorFormat::print("\nEmails populated!\n", Color::BrightGreen);
+}
+
 void test();
 
 int main(int argc, char** argv) {
@@ -261,6 +291,8 @@ int main(int argc, char** argv) {
     DynArray<User> users = seedUsers();
     DynArray<Email> emails = seedEmails();
 
+    populateData(users, emails);
+
     // Load users into the BST
     UserNode* root = loadUsersToBST(users);
     if (root == nullptr) {
@@ -269,7 +301,7 @@ int main(int argc, char** argv) {
 	int choice;
 
 	// TODO: Console Flow
-    User& user = selectUserMenu(users);
+    User& user = userSelectionMenu(users);
 	while (true) {
         ColorFormat::print("Welcome, " + user.getName() + "!", Color::BrightCyan);
 		displayMenu();
