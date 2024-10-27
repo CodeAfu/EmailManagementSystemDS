@@ -19,7 +19,7 @@ void EmailService::sendAllRequests() {
     // std::lock_guard<std::mutex> lock(instance.m_mutex);
     while (instance.m_requests.size() > 0) {
         OutRequest& request = instance.m_requests.dequeueRef();
-        ColorFormat::print("\'" + request.email->getSubject() + "\' sent to \'"
+        ColorFormat::print("[EmailService] \'" + request.email->getSubject() + "\' sent to \'"
                            + request.receiver->getName() + "\'", Color::BrightCyan);
         request.send();
     }

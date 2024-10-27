@@ -7,9 +7,9 @@
 ## Development Tasks
 - User Class [🔨] 
 - Email Class [🔨]
-- Load Sample Data [❓]
-    - data/emails.csv [❓] &emsp; <--- Need to check data
-    - data/user.csv [❓]
+- Load Sample Data [✅]
+    - data/emails.csv [✅]
+    - data/user.csv [✅]
 - Console Application Flow [🔨]
 - User Inbox System [✅]
     - Stack Data Structure [✅]
@@ -26,7 +26,7 @@
 - Main Menu - **[Kee Gene]**
 - Inbox Management (Stack) &emsp; **[Afzal]**
 - Outbox Management (Queue) &emsp; **[Afzal]**
-- Search and Retrieval (Hash Map / Binary Search Tree / Trie / you can be creative) &emsp; **[Kee Gene]**
+- Search and Retrieval (Hash Map / **Binary Search Tree** / Trie / you can be creative) &emsp; **[Kee Gene]**
 - Spam Detection (Priority Queue) &emsp; **[Zaman]**
 - Priority Handling (Priority Queue) &emsp; **[Osama]**
 

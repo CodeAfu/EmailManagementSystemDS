@@ -22,6 +22,7 @@ void viewInbox(User& user) {
     system("cls");
     user.viewInbox();
 
+    std::cout << "\nPress any key to continue..." << std::endl;
     std::cin.clear(); // Clear the error state
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
     std::cin.get();
@@ -32,6 +33,7 @@ void viewOutbox(User& user) {
     system("cls");
     user.viewSentEmails();
 
+    std::cout << "\nPress any key to continue..." << std::endl;
     std::cin.clear(); // Clear the error state
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
     std::cin.get();
@@ -159,7 +161,6 @@ UserNode* loadUsersToBST(DynArray<User>& users) {
     return root;
 }
 
-
 void spamDetection(User& user) {
     std::cout << "Managing Spam Folder..." << std::endl;
     // TODO: Implement spam detection options
@@ -169,7 +170,6 @@ void priorityHandling(User& user) {
     std::cout << "Managing Email Priority..." << std::endl;
     // TODO: Implement priority handling options
 }
-
 
 void displayMenu() {
     ColorFormat::print("Main Menu", Color::Cyan);

@@ -114,7 +114,7 @@ void User::sendDraftEmails() {
                                   + " to " + request.receiver->getName(), Color::BrightCyan);
         email_service.addRequest(request.email, request.receiver);
     }
-    email_service.sendAllRequests();
+    email_service.sendAllRequests(); // TODO: needs to be be revised, called inside main
 }
 
 void User::sendEmail(Email& email, User& receiver) {
