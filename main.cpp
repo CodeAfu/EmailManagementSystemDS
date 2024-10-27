@@ -17,6 +17,16 @@
 
 static IdxGen s_idxGen;  // Generates Index for User and Email objects
 
+// Node structure for Binary Search Tree
+struct UserNode {
+    std::string name;
+    std::string email;
+    UserNode* left;
+    UserNode* right;
+
+    UserNode(const std::string& n, const std::string& e)
+        : name(n), email(e), left(nullptr), right(nullptr) {}
+};
 
 void viewInbox(User& user) {
     system("cls");
@@ -39,17 +49,6 @@ void viewOutbox(User& user) {
     std::cin.get();
     system("cls");
 }
-
-// Node structure for Binary Search Tree
-struct UserNode {
-    std::string name;
-    std::string email;
-    UserNode* left;
-    UserNode* right;
-
-    UserNode(const std::string& n, const std::string& e)
-        : name(n), email(e), left(nullptr), right(nullptr) {}
-};
 
 // Function to trim whitespace from the start and end of a string
 std::string trim(const std::string &str) {
@@ -124,7 +123,6 @@ void displayEmails(const std::string &userEmail) {
                       << "\n------------------------------------" << std::endl;
         }
     }
-
     emailFile.close();
 }
 
@@ -143,7 +141,6 @@ void searchAndRetrieval(UserNode* root) {
     } else {
         std::cout << "User not found." << std::endl;
         inOrderDisplay(root);
-
     }
 }
 
@@ -261,27 +258,7 @@ DynArray<Email> seedEmails() {
     return emails;
 }
 
-void populateData(DynArray<User>& users, DynArray<Email>& emails) {
-    User& emma = users[0];
-    User& liam = users[1];
-    User& sophia = users[2];
-    User& noah = users[3];
-    User& mia = users[4];
-
-    emma.sendEmail(emails[0], liam);
-    sophia.sendEmail(emails[1], noah);
-    mia.sendEmail(emails[2], emma);
-    liam.sendEmail(emails[3], sophia);
-    noah.sendEmail(emails[4], mia);
-    emma.sendEmail(emails[5], noah);
-    sophia.sendEmail(emails[6], mia);
-    noah.sendEmail(emails[7], liam);
-    sophia.sendEmail(emails[8], noah);
-    noah.sendEmail(emails[9], liam);
-
-    ColorFormat::print("User Data populated!\n", Color::BrightGreen);
-}
-
+void populateData(DynArray<User>& users, DynArray<Email>& emails);
 void test();
 
 int main(int argc, char** argv) {
@@ -290,7 +267,6 @@ int main(int argc, char** argv) {
 
     DynArray<User> users = seedUsers();
     DynArray<Email> emails = seedEmails();
-
     populateData(users, emails);
 
     // Load users into the BST
@@ -298,9 +274,9 @@ int main(int argc, char** argv) {
     if (root == nullptr) {
         return 1; // Exit if users could not be loaded
     }
-	int choice;
 
 	// TODO: Console Flow
+	int choice;
     User& user = userSelectionMenu(users);
 	while (true) {
         ColorFormat::print("Welcome, " + user.getName() + "!", Color::BrightCyan);
@@ -341,6 +317,27 @@ int main(int argc, char** argv) {
 	ColorFormat::print("END", Color::Cyan);
 	std::cin.get();
 	return 0;
+}
+
+void populateData(DynArray<User>& users, DynArray<Email>& emails) {
+    User& emma = users[0];
+    User& liam = users[1];
+    User& sophia = users[2];
+    User& noah = users[3];
+    User& mia = users[4];
+
+    emma.sendEmail(emails[0], liam);
+    sophia.sendEmail(emails[1], noah);
+    mia.sendEmail(emails[2], emma);
+    liam.sendEmail(emails[3], sophia);
+    noah.sendEmail(emails[4], mia);
+    emma.sendEmail(emails[5], noah);
+    sophia.sendEmail(emails[6], mia);
+    noah.sendEmail(emails[7], liam);
+    sophia.sendEmail(emails[8], noah);
+    noah.sendEmail(emails[9], liam);
+
+    ColorFormat::print("User Data populated!\n", Color::BrightGreen);
 }
 
 void test() {

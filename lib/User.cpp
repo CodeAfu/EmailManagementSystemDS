@@ -118,8 +118,6 @@ void User::sendDraftEmails() {
 }
 
 void User::sendEmail(Email& email, User& receiver) {
-    email.setIsSent(true);
-    email.setIsDraft(false);
     m_outbox.sendEmail(&email, &receiver);
 }
 
@@ -139,9 +137,8 @@ Outbox& User::getOutbox() {
     return m_outbox;
 };
 
-
 void User::viewInbox() const {
-if (m_inbox.isEmpty()) {
+    if (m_inbox.isEmpty()) {
         std::cout << "Inbox is empty." << std::endl;
         return;
     }

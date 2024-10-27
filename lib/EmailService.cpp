@@ -33,8 +33,9 @@ void EmailService::sendNextRequest() {
         ColorFormat::print("EmailService is empty", Color::Yellow);
         return;
     }
-    instance.m_requests.dequeue().send();
-    ColorFormat::print("Sent a Request from EmailService: " + std::to_string(instance.m_requests.size()), Color::Green);
+    instance.m_requests.dequeueRef().send();
+    ColorFormat::print("[EmailService] Sent a Request from EmailService: " 
+                       + std::to_string(instance.m_requests.size()), Color::BrightCyan);
 }
 
 void EmailService::clear() {

@@ -15,6 +15,11 @@ public:
         Node<T>* current = m_front;
         while (current != nullptr) {
             Node<T>* tmp = current->next;
+
+            // if constexpr (std::is_pointer<T>::value) {
+            //     current->data = nullptr;
+            // }
+            
             delete current;
             current = tmp;
         }
