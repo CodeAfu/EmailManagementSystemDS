@@ -78,7 +78,7 @@ void Outbox::sendEmail(Email* email, User* receiver) {
     email_service.sendAllRequests(); // TODO: needs to be be revised, called inside main
 }
 
-// TODO: Test
+// TODO: Test this
 void Outbox::removeByPlacement(int index) {
     int size = m_sentEmails.size();
 
@@ -97,7 +97,7 @@ void Outbox::removeByPlacement(int index) {
     }
 }
 
-// TODO: Test
+// TODO: Test this
 void Outbox::removeEmail(int id) {
     LLQueue<Email*> temp;
     bool removed = false;

@@ -22,18 +22,26 @@ public:
     std::string getEmailAddress() const;
 
     /// Storage
-    void receiveEmail(Email& email);
-    void composeDraftEmail(Email& email, User& user);
+    void viewInbox() const;
+    void viewLastFromInbox() const;
     void viewDraftEmails() const;
     void viewSentEmails() const;
-    void sendDraftEmails();
-    void sendEmail(Email& email, User& receiver);
+
     const Inbox& getInbox() const;
     Inbox& getInbox();
     const Outbox& getOutbox() const;
     Outbox& getOutbox();
-    void viewInbox() const;
+
     const Email getFromInbox(int index) const;
+    Email& getFromInbox(int index);
+    void deleteFromInbox(int index);
+    void replyFromInbox(int index) const;
+
+    void composeDraftEmail(Email& email, User& user);
+    void sendEmail(Email& email, User& receiver);
+    void receiveEmail(Email& email);
+    void sendDraftEmails();
+
     Email peekInbox() const;
     Email popInbox();
     size_t getOutboxSize() const;

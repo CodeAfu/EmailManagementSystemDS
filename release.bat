@@ -1,1 +1,1 @@
-g++ -Iinclude main.cpp lib/*.cpp -o main -O3 -DNDEBUG
+g++ -Iinclude main.cpp lib/*.cpp lib/helper/*.cpp -o main -O3 -DNDEBUG

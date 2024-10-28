@@ -9,5 +9,4 @@ public:
 
 private:
     // TODO: Store Data Structure
-
 };

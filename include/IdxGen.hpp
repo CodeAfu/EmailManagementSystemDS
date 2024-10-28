@@ -2,8 +2,6 @@
 
 #include <fstream>
 
-
-/// @brief Reads from "index.csv" and generates a unique index for emails and users.
 class IdxGen {
 public:
     IdxGen() : m_email(0), m_user(0) {
@@ -28,7 +26,6 @@ public:
         }
 
         infile.close();
-
         email_index++;
 
         std::ofstream outfile("data/index.csv");
@@ -62,7 +59,6 @@ public:
         }
 
         infile.close();
-
         user_index++;
 
         std::ofstream outfile("data/index.csv");
@@ -74,7 +70,6 @@ public:
         outfile << "user," << user_index << "\n";
 
         outfile.close();
-
         m_user = user_index;
 
         return user_index;    
@@ -84,7 +79,6 @@ private:
     void reset() {
         std::ofstream outfile("data/index.csv");
         if (!outfile.is_open()) {
-            // std::cout << "Error opening output file" << std::endl;
             throw std::runtime_error("Error opening output file");
         }
         outfile << "email,0\n";

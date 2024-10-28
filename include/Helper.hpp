@@ -1,19 +1,21 @@
 #pragma once
 
-#include <iostream>
-#include <string>
-#include <algorithm>
+// #include "DynArray.hpp"
+#include "User.hpp"
 
-namespace Helper {
-    std::string trim(const std::string &str) {
-        auto start = str.find_first_not_of(" \t\n");
-        auto end = str.find_last_not_of(" \t\n");
-        return (start == std::string::npos || end == std::string::npos) ? "" : str.substr(start, end - start + 1);
-    }
+namespace Formatter {
+    std::string trim(const std::string &str);
+    std::string toLower(const std::string &str);
+    std::string centerAlign(const std::string& value, int width);
+}
 
-    std::string toLower(const std::string &str) {
-        std::string lowerStr = str;
-        std::transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(), ::tolower);
-        return lowerStr;
-    }
+namespace Console {
+    void cinClear();
+    bool validateIntInput(int& choice);
+    int getUserInput(const std::string& message);
+}
+
+namespace Seed {
+    DynArray<User> users();
+    DynArray<Email> emails();
 }

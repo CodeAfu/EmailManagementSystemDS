@@ -2,8 +2,10 @@
 #include <iomanip>
 
 #include "User.hpp"
+#include "Helper.hpp"
 #include "Email.hpp"
 #include "OutRequest.hpp"
+#include "Helper.hpp"
 
 /* Constructors & Destructors */
 User::User() {}
@@ -31,7 +33,6 @@ std::string User::getEmailAddress() const { return m_emailAddress; }
 void User::receiveEmail(Email& email) {
     // m_spamDetectionService.filter(email)
     m_inbox.push(email);
-    
 }
 
 void User::composeDraftEmail(Email& email, User& receiver) {
@@ -40,62 +41,66 @@ void User::composeDraftEmail(Email& email, User& receiver) {
 
 void User::viewDraftEmails() const {
     LLQueue<Email*> temp = m_outbox.getDraftEmails();
+    size_t size = temp.size();
+
     if (temp.isEmpty()) {
         std::cout << m_name << "'s Drafts are empty." << std::endl;
         return;
     }
 
     std::string header = m_name + "'s Draft Emails:";
-    int len = 69 - header.length();
+    int len = 72 - header.length();
 
     std::cout << header << std::right << std::setw(len) << m_emailAddress << std::endl;
-    std::cout << "---------------------------------------------------------------------\n";
-    std::cout << "| # | From                        | Subject                         |\n";
-    std::cout << "---------------------------------------------------------------------\n";
+    std::cout << "------------------------------------------------------------------------\n";
+    std::cout << "|  ID  | From                        | Subject                         |\n";
+    std::cout << "------------------------------------------------------------------------\n";
 
-    int count = 1;
     while (!temp.isEmpty()) {
         const Email* email = temp.dequeue();
         const std::string sender = email->getSender();
         const std::string& subject = email->getSubject();
 
-        std::cout << "| " << count++ << " | "
+        const std::string id_str = std::to_string(email->getId());
+        std::cout << "| " << Formatter::centerAlign(id_str, 4) << " | "
                   << std::left << std::setw(28) << sender
                   << "| " << std::setw(32) << subject << "|\n";
     }
 
-    std::cout << "---------------------------------------------------------------------\n";
-    std::cout << "Total Emails: " << std::to_string(count - 1) << "\n";
+    std::cout << "------------------------------------------------------------------------\n";
+    std::cout << "Total Emails: " << std::to_string(size) << "\n";
 }
 
 void User::viewSentEmails() const {
     LLQueue<Email*> temp = m_outbox.getSentEmails();
+    size_t size = temp.size();
+
     if (temp.isEmpty()) {
         std::cout << m_name << "'s Sent Emails are empty." << std::endl;
         return;
     }
 
     std::string header = m_name + "'s Sent Emails:";
-    int len = 69 - header.length();
+    int len = 72 - header.length();
 
     std::cout << header << std::right << std::setw(len) << m_emailAddress << std::endl;
-    std::cout << "---------------------------------------------------------------------\n";
-    std::cout << "| # | To                          | Subject                         |\n";
-    std::cout << "---------------------------------------------------------------------\n";
+    std::cout << "------------------------------------------------------------------------\n";
+    std::cout << "|  ID  | From                        | Subject                         |\n";
+    std::cout << "------------------------------------------------------------------------\n";
 
-    int count = 1;
     while (!temp.isEmpty()) {
         const Email* email = temp.dequeue();
         const std::string sender = email->getSender();
         const std::string& subject = email->getSubject();
 
-        std::cout << "| " << count++ << " | "
+        const std::string id_str = std::to_string(email->getId());
+        std::cout << "| " << Formatter::centerAlign(id_str, 4) << " | "
                   << std::left << std::setw(28) << sender
                   << "| " << std::setw(32) << subject << "|\n";
     }
 
-    std::cout << "---------------------------------------------------------------------\n";
-    std::cout << "Total Emails: " << std::to_string(count - 1) << "\n";
+    std::cout << "------------------------------------------------------------------------\n";
+    std::cout << "Total Emails: " << std::to_string(size) << "\n";
 }
 
 
@@ -145,12 +150,12 @@ void User::viewInbox() const {
     Inbox temp = m_inbox;
 
     std::string header = m_name + "'s Inbox:";
-    int len = 69 - header.length();
+    int len = 72 - header.length();
 
     std::cout << header << std::right << std::setw(len) << m_emailAddress << std::endl;
-    std::cout << "---------------------------------------------------------------------\n";
-    std::cout << "| # | From                        | Subject                         |\n";
-    std::cout << "---------------------------------------------------------------------\n";
+    std::cout << "------------------------------------------------------------------------\n";
+    std::cout << "|  ID  | From                        | Subject                         |\n";
+    std::cout << "------------------------------------------------------------------------\n";
 
     int count = 1;
     while (!temp.isEmpty()) {
@@ -158,12 +163,24 @@ void User::viewInbox() const {
         const std::string& sender = email.getSender();
         const std::string& subject = email.getSubject();
 
-        std::cout << "| " << count++ << " | "
+        const std::string id_str = std::to_string(email.getId());
+        std::cout << "| " << Formatter::centerAlign(id_str, 4) << " | "
                   << std::left << std::setw(28) << sender
                   << "| " << std::setw(32) << subject << "|\n";
     }
-    std::cout << "---------------------------------------------------------------------\n";
+    std::cout << "------------------------------------------------------------------------\n";
     std::cout << "Total Emails: " << std::to_string(m_inbox.size()) << "\n";
+}
+
+void User::viewLastFromInbox() const {
+    if (m_inbox.isEmpty()) {
+        std::cout << "Inbox is empty." << std::endl;
+        return;
+    }
+    Email email = m_inbox.peek();
+    std::cout << "From: " << email.getSender() << std::endl;
+    std::cout << "Subject: " << email.getSubject() << std::endl << std::endl;
+    std::cout << "Body: " << email.getBody() << std::endl;
 }
 
 const Email User::getFromInbox(int index) const {
@@ -179,6 +196,36 @@ const Email User::getFromInbox(int index) const {
 
     return temp.peek();
 }
+
+Email& User::getFromInbox(int index) {
+    int size = m_inbox.size();
+    if (index > size - 1) {
+        throw std::out_of_range("GetFromInbox: Index out of range");
+    }
+    Stack<Email>& inbox_ref = m_inbox.getEmails();
+    Stack<Email> temp;
+
+    for (int i = 0; i < index; i++) {
+        temp.push(inbox_ref.pop());
+    }
+
+    Email& out = inbox_ref.peek();
+
+    while (!temp.isEmpty()) {
+        inbox_ref.push(temp.pop());
+    }
+
+    return out;
+}
+
+void User::deleteFromInbox(int index) {
+
+}
+
+void User::replyFromInbox(int index) const {
+
+}
+
 
 
 Email User::peekInbox() const {

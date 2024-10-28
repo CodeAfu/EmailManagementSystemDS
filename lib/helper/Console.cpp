@@ -1,0 +1,33 @@
+#include <iostream>
+#include <limits>
+
+#include "Helper.hpp"
+
+namespace Console {
+    
+    void cinClear() {
+        std::cin.clear(); // Clear the error state
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
+    }
+
+    bool validateIntInput(int& choice) {
+        std::cin >> choice;
+        if (std::cin.fail()) {
+            cinClear(); // Clear and discard invalid input
+            return false;
+        }
+        return true;
+    }
+
+    int getUserInput(const std::string& message) {
+        int choice;
+        while (true) {
+            std::cout << message;
+            if (!validateIntInput(choice)) {
+                std::cout << "Invalid input. Please enter a number." << std::endl;
+                continue;
+            }
+            return choice;
+        }
+    }
+}

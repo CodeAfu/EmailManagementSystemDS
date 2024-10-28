@@ -64,6 +64,13 @@ public:
         return m_arr[m_topIdx];
     }
 
+    T& peek() {
+        if (isEmpty()) {
+            throw std::out_of_range("Stack is empty");
+        }
+        return m_arr[m_topIdx];
+    }
+
 private:
     DynArray<T> m_arr;
     int m_topIdx = -1;

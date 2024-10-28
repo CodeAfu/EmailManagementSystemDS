@@ -38,16 +38,36 @@
 - Make sure the project runs before you contribute your code. If possible, test with the latest changes on Github.
 - **You can refer below for the <ins>design pattern</ins> I have in mind. However if you have your our own idea that can work with this application, feel free to go for it.**
 
+## Target Functionality
+1. Select User
+    1. View User's Inbox
+        - Read Email
+        - Search For Email
+            - Email Address of Sender
+            - Email Subject
+        - Delete Email
+        - Mark Email as Spam
+        - Mark Email as Important
+    2. View User's Outbox
+        - Send Email
+        - Search For Email
+            - Email Address of Receiver
+            - Email Subject
+        - Delete Email from Sent Emails list
+        - Mark Email as Important
+    3. View Spam Folder
+    4. View Important Folder
+
 ## Index Generation for User and Email
 ```cpp
-static IdxGen s_idxGen;
+#include "ResourceManager.hpp" // 1
 
 void sample() {
-    User user_one(s_idxGen.nextUser(), "John", "j1@example.com"); // ID=0
-    User user_two(s_idxGen.nextUser(), "Jane", "j2@example.com"); // ID=1
+    User user_one(ResourceManager::nextUserId(), "John", "j1@example.com"); // ID=0
+    User user_two(ResourceManager::nextUserId(), "Jane", "j2@example.com"); // ID=1
 
-    Email email_one(s_idxGen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "First", "Body One."); // ID=0
-    Email email_two(s_idxGen.nextEmail(), user_one.getEmailAddress(), user_two.getEmailAddress(), "Second", "Body Two."); // ID=1
+    Email email_one(ResourceManager::nextEmailId(), user_one.getEmailAddress(), user_two.getEmailAddress(), "First", "Body One."); // ID=0
+    Email email_two(ResourceManager::nextEmailId(), user_one.getEmailAddress(), user_two.getEmailAddress(), "Second", "Body Two."); // ID=1
 }
 ```
 
@@ -57,13 +77,13 @@ void sample() {
 class User {
 private:
     /// Storage
-    Inbox _inbox;
-    Outbox _outbox;
+    Inbox m_inbox;
+    Outbox m_outbox;
 
     /// Features
-    SearchService _searchService;
-    SpamDetectionService _spamDetectionService;
-    PriorityService _priorityService;
+    SearchService m_searchService;
+    SpamDetectionService m_spamDetectionService;
+    PriorityService m_priorityService;
 };
 ```
 #### Each member is responsible for developing their part by selecting which field to modify based on the responsibility you choose. This field can then be used inside the User class to do various operations.
@@ -84,7 +104,7 @@ public:
     void displayAll() const;
 
 private:
-    Stack<Email> _emails;
+    Stack<Email> m_emails;
 };
 ```
 
@@ -125,7 +145,7 @@ public:
     // Other methods...
 
     void receiveEmail(const Email& email) {
-        _inbox.push(email);
+        m_inbox.push(email);
     }
 
     void sendEmail(const Email& email, User& receiver) {
@@ -133,7 +153,7 @@ public:
     }
 
 private:
-    Inbox _inbox;
+    Inbox m_inbox;
     // Other fields...
 };
 ```
