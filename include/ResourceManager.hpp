@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IdxGen.hpp"
-#include "BSTUserNode.hpp"
+#include "UserTree.hpp"
 
 class ResourceManager {
 public:
@@ -18,12 +18,29 @@ public:
         return GetInstance().m_idxGen.nextEmail();
     }
 
-    static BSTUserNode* getBSTUserNode() {
-        return GetInstance().m_userNode;
+    static BSTUserNode* getBSTRoot() {
+        return GetInstance().m_userTree.getRoot();
     }
 
     static void addUser(User* user) {
+        GetInstance().m_users.emplaceBack(user);
+    }
 
+    static DynArray<User*>& getUsers() {
+        return GetInstance().m_users;
+    }
+
+    static void populateUsers(DynArray<User>& users) {
+        auto& instance = GetInstance();
+        for (int i = 0; i < users.size(); i++) {
+            instance.m_users.emplaceBack(&users[i]);
+            instance.m_userTree.insertUser(users[i]);
+        }
+    }
+
+    static User& getReceiver(const std::string email_address) {
+        auto& tree = GetInstance().m_userTree;
+        return tree.searchUser(email_address);
     }
 
 private:
@@ -33,15 +50,11 @@ private:
     ResourceManager& operator=(ResourceManager&&) = delete;
 
 private:
-    ResourceManager() : m_idxGen(), m_userNode() {};
-    ~ResourceManager() {
-        for (int i = 0; i < m_users.size(); i++) {
-            m_users[i] = nullptr; // TODO: Review memory stuff
-        }    
-    }
+    ResourceManager() : m_idxGen(), m_userTree() {};
+    ~ResourceManager() {}
 
 private:
     DynArray<User*> m_users;
+    UserTree m_userTree;
     IdxGen m_idxGen;
-    BSTUserNode* m_userNode;
 };

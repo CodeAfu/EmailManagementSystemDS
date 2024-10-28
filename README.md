@@ -60,7 +60,7 @@
 
 ## Index Generation for User and Email
 ```cpp
-#include "ResourceManager.hpp" // 1
+#include "ResourceManager.hpp"
 
 void sample() {
     User user_one(ResourceManager::nextUserId(), "John", "j1@example.com"); // ID=0

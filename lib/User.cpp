@@ -6,6 +6,7 @@
 #include "Email.hpp"
 #include "OutRequest.hpp"
 #include "Helper.hpp"
+#include "ResourceManager.hpp"
 
 /* Constructors & Destructors */
 User::User() {}
@@ -126,6 +127,11 @@ void User::sendEmail(Email& email, User& receiver) {
     m_outbox.sendEmail(&email, &receiver);
 }
 
+void User::sendEmail(Email& email) {
+    User& receiver = ResourceManager::getReceiver(email.getReceiver());
+    m_outbox.sendEmail(&email, &receiver);
+}
+
 const Inbox& User::getInbox() const {
     return m_inbox;
 }
@@ -178,55 +184,95 @@ void User::viewLastFromInbox() const {
         return;
     }
     Email email = m_inbox.peek();
-    std::cout << "From: " << email.getSender() << std::endl;
-    std::cout << "Subject: " << email.getSubject() << std::endl << std::endl;
-    std::cout << "Body: " << email.getBody() << std::endl;
+    email.display();
+    // std::cout << "From: " << email.getSender() << std::endl;
+    // std::cout << "Subject: " << email.getSubject() << std::endl << std::endl;
+    // std::cout << "Body: " << email.getBody() << std::endl;
 }
 
-const Email User::getFromInbox(int index) const {
-    int size = m_inbox.size();
-    if (index > size - 1) {
-        throw std::out_of_range("GetFromInbox: Index out of range");
-    }
+Email User::getFromInbox(int id) const {
     Inbox temp = m_inbox;
 
-    for (int i = 0; i < index; i++) {
-        temp.pop();
+    while (!temp.isEmpty()) {
+        Email email = temp.pop();
+        if (email.getId() == id) {
+            return email;
+        }
     }
-
-    return temp.peek();
+    return Email(); // return null email, id = -1
 }
 
-Email& User::getFromInbox(int index) {
-    int size = m_inbox.size();
-    if (index > size - 1) {
-        throw std::out_of_range("GetFromInbox: Index out of range");
-    }
-    Stack<Email>& inbox_ref = m_inbox.getEmails();
+// Email& User::getFromInbox(int id) {
+//     int size = m_inbox.size();
+
+//     Stack<Email>& inbox_ref = m_inbox.getEmails();
+//     Stack<Email> temp;
+//     Email* out = nullptr;
+
+//     while (!inbox_ref.isEmpty()) {
+//         Email email = inbox_ref.pop();
+//         temp.push(email);
+
+//         if (email.getId() == id) {
+//             out = &email;
+//             break;
+//         }
+//     }
+
+//     while (!temp.isEmpty()) {
+//         inbox_ref.push(temp.pop());
+//     }
+
+//     if (out) {
+//         return *out;
+//     } else {
+//         throw std::runtime_error("GetFromInbox&: Email not found");
+//     }
+// }
+
+// Email* User::getFromInboxPtr(int id) {
+//     int size = m_inbox.size();
+
+//     Stack<Email>& inbox_ref = m_inbox.getEmails();
+//     Stack<Email> temp;
+//     Email* out = nullptr;
+
+//     while (!inbox_ref.isEmpty()) {
+//         Email& email = inbox_ref.popRef();
+//         temp.push(email);
+
+//         if (email.getId() == id) {
+//             out = &email;
+//             break;
+//         }
+//     }
+
+//     while (!temp.isEmpty()) {
+//         inbox_ref.push(temp.pop());
+//     }
+
+//     return out;
+// }
+
+void User::deleteFromInbox(int id) {
     Stack<Email> temp;
 
-    for (int i = 0; i < index; i++) {
-        temp.push(inbox_ref.pop());
+    while (!m_inbox.isEmpty()) {
+        Email email = m_inbox.pop();
+        if (email.getId() == id) {
+            break;
+        }
+        temp.push(email);
     }
 
-    Email& out = inbox_ref.peek();
-
-    while (!temp.isEmpty()) {
-        inbox_ref.push(temp.pop());
+    if (!temp.isEmpty()) {
+        m_inbox.push(temp.pop());
     }
-
-    return out;
 }
 
-void User::deleteFromInbox(int index) {
+void User::replyFromInbox(int id) const {
 
 }
-
-void User::replyFromInbox(int index) const {
-
-}
-
-
 
 Email User::peekInbox() const {
     return m_inbox.peek();

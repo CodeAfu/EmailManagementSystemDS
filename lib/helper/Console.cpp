@@ -19,7 +19,7 @@ namespace Console {
         return true;
     }
 
-    int getUserInput(const std::string& message) {
+    int getIntUserInput(const std::string& message) {
         int choice;
         while (true) {
             std::cout << message;
@@ -29,5 +29,12 @@ namespace Console {
             }
             return choice;
         }
+    }
+
+    std::string getStringUserInput(const std::string& message) {
+        std::string choice;
+        std::cout << message;
+        std::getline(std::cin, choice);
+        return choice;
     }
 }

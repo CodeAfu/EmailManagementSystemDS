@@ -119,10 +119,12 @@ public:
     
     /// Helpers
     void display() const {
-        std::cout << "ID: " << m_id << std::endl;
+        if (this == nullptr || m_id == -1) {
+            return;
+        }
         std::cout << "From: " << m_sender << std::endl;
         std::cout << "To: " << m_receiver << std::endl;
-        std::cout << "Subject: " << m_subject << std::endl;
+        std::cout << "Subject: " << m_subject << std::endl << std::endl;
         std::cout << "Body: " << m_body << std::endl;
         // std::cout << "Date: " << m_timestamp.getDate() << std::endl;
         // std::cout << "Time: " << m_timestamp.getTime() << std::endl;

@@ -32,13 +32,15 @@ public:
     const Outbox& getOutbox() const;
     Outbox& getOutbox();
 
-    const Email getFromInbox(int index) const;
-    Email& getFromInbox(int index);
+    Email getFromInbox(int id) const;
+    // Email& getFromInbox(int id);
+    // Email* getFromInboxPtr(int id);
     void deleteFromInbox(int index);
     void replyFromInbox(int index) const;
 
     void composeDraftEmail(Email& email, User& user);
     void sendEmail(Email& email, User& receiver);
+    void sendEmail(Email& email);
     void receiveEmail(Email& email);
     void sendDraftEmails();
 

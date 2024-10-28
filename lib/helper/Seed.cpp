@@ -3,6 +3,7 @@
 #include <string>
 
 #include "ResourceManager.hpp"
+#include "ColorFormat.hpp"
 #include "Helper.hpp"
 #include "User.hpp"
 
@@ -13,7 +14,7 @@ namespace Seed {
 
         std::ifstream file("data/users.csv");
         if (!file.is_open()) {
-            std::cerr << "Error opening data/users.csv. Please ensure the file exists in the correct directory." << std::endl;
+            ColorFormat::print("Error opening data/users.csv. Please ensure the file exists in the correct directory.", Color::Red); 
             return users;
         }
 
@@ -29,7 +30,6 @@ namespace Seed {
             std::getline(ss, email, ',');
             users.emplaceBack(ResourceManager::nextUserId(), name, email);
         }
-
         return users;
     }
 
@@ -38,7 +38,7 @@ namespace Seed {
 
         std::ifstream file("data/emails.csv");
         if (!file.is_open()) {
-            std::cerr << "Error opening data/emails.csv. Please ensure the file exists in the correct directory." << std::endl;
+            ColorFormat::print("Error opening data/emails.csv. Please ensure the file exists in the correct directory.", Color::Red); 
             return emails;
         }
 
@@ -56,7 +56,6 @@ namespace Seed {
             std::getline(ss, body);
             emails.emplaceBack(ResourceManager::nextEmailId(), sender, receiver, subject, body);
         }
-
         return emails;
     }
 }

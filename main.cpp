@@ -1,14 +1,10 @@
 #include <iostream>
 #include <string>
-#include <array>
-#include <cstdlib>
-#include <ctime>
 #include <limits>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
 
-#include "BSTUserNode.hpp"
 #include "ColorFormat.hpp"
 #include "Helper.hpp"
 #include "ResourceManager.hpp"
@@ -16,38 +12,6 @@
 #include "User.hpp"
 
 #define LOG(x) std::cout << x << std::endl
-
-
-// Insert a new user into the BST
-BSTUserNode* insertUser(BSTUserNode* root, const std::string& name, const std::string& email) {
-    if (root == nullptr) {
-        return new BSTUserNode(User(ResourceManager::nextUserId(), name, email));
-    }
-    if (Formatter::toLower(name) < Formatter::toLower(root->user.getName())) {
-        root->left = insertUser(root->left, name, email);
-    } else {
-        root->right = insertUser(root->right, name, email);
-    }
-    return root;
-}
-
-// Search for a user by name in the BST
-BSTUserNode* searchUser(BSTUserNode* root, const std::string& name) {
-    if (root == nullptr || Formatter::toLower(root->user.getName()) == Formatter::toLower(name)) {
-        return root;
-    }
-    if (Formatter::toLower(name) < Formatter::toLower(root->user.getName())) {
-        return searchUser(root->left, name);
-    }
-    return searchUser(root->right, name);
-}
-
-void inOrderDisplay(BSTUserNode* root) {
-    if (root == nullptr) return;
-    inOrderDisplay(root->left);
-    std::cout << "Name: " << root->user.getName() << ", Email: " << root->user.getEmailAddress() << std::endl;
-    inOrderDisplay(root->right);
-}
 
 // Function to display emails for a specific user
 void displayEmails(const std::string &userEmail) {
@@ -69,7 +33,8 @@ void displayEmails(const std::string &userEmail) {
         std::getline(ss, subject, ',');
         std::getline(ss, body);
 
-        if (Formatter::toLower(sender) == Formatter::toLower(userEmail) || Formatter::toLower(receiver) == Formatter::toLower(userEmail)) {
+        if (Formatter::toLower(sender) == Formatter::toLower(userEmail) 
+            || Formatter::toLower(receiver) == Formatter::toLower(userEmail)) {
             std::cout << "From: " << sender 
                       << "\nTo: " << receiver 
                       << "\nSubject: " << subject 
@@ -81,7 +46,7 @@ void displayEmails(const std::string &userEmail) {
 }
 
 // Function to search and retrieve emails based on subject
-void searchAndRetrieval(BSTUserNode* root, const User& user) { // Ensure user is passed as a reference
+void searchAndRetrieval(const User& user) { // Ensure user is passed as a reference
     std::cout << "Enter the subject to search: ";
     std::string searchSubject;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear leftover newline
@@ -140,18 +105,137 @@ void searchAndRetrieval(BSTUserNode* root, const User& user) { // Ensure user is
     emailFile.close();
 }
 
-// Load users from CSV file and build the BST
-BSTUserNode* loadUsersToBST(DynArray<User>& users) {
-    BSTUserNode* root = nullptr;
+/// Inbox Menus
+void viewLastFromInbox(User& user) {
+    system("cls");
+    user.viewLastFromInbox();
 
-    for (int i = 0; i < users.size(); i++) {
-        std::string name = users[i].getName();
-        std::string emailAddress = users[i].getEmailAddress();      
-        name = Formatter::trim(name);
-        root = insertUser(root, name, emailAddress);
+    std::cout << "\n\nPress any key to continue...";
+    Console::cinClear();
+    std::cin.get();
+    system("cls");
+}
+
+void viewSelectedInboxEmail(User& user) {
+    system("cls");
+    user.viewInbox();
+    std::cout << std::endl;
+
+    std::cout << "------------------------" << std::endl;
+    int choice = Console::getIntUserInput("Select the ID of Email you want to view: ");
+
+    Email email = user.getFromInbox(choice);
+    system("cls");
+    if (email.getId() == -1) {
+        ColorFormat::print("Please enter ID value for an email that exists.", Color::Yellow);
+    }
+    email.display();
+
+    std::cout << "\n\nPress any key to continue...";
+    Console::cinClear();
+    std::cin.get();
+    system("cls");
+}
+
+void replyFromInbox(User& user) {    
+    system("cls");
+    user.viewInbox();
+    std::cout << std::endl;
+
+
+    std::cout << "------------------------" << std::endl;
+    int choice = Console::getIntUserInput("Select the ID of Email you want to reply: ");
+
+    // system("cls");
+    Email email = user.getFromInbox(choice);
+
+    if (email.getId() == -1) {
+        ColorFormat::print("Please enter ID value for an email that exists.", Color::Yellow);
+        std::cin.get();
+        system("cls");
+        return;
     }
 
-    return root;
+    system("cls");
+    email.display();
+    const std::string new_subject = "Re: " + email.getSubject();
+
+    std::cout << "Reply: \n";
+    std::cout << "------------------------" << std::endl;
+    std::cout << "To: " << email.getSender() << std::endl;
+    std::cout << "Subject: " << new_subject << std::endl << std::endl;
+    std::cout << "Body: " << std::endl;
+    std::cout << "------------------------" << std::endl;
+
+    Console::cinClear();
+
+    std::string body;
+    std::getline(std::cin, body);
+    Formatter::trim(body);
+
+    if (body.empty()) {
+        ColorFormat::print("Please enter a message.", Color::Yellow);
+        std::cin.get();
+        system("cls");
+        return;
+    }
+
+    DynArray<User*>& users = ResourceManager::getUsers();
+
+    // user.sendEmail(Email(ResourceManager::nextEmailId(), user.getEmailAddress(), 
+    //                 email.getSender(), new_subject, body));
+
+    ColorFormat::print("Email sent", Color::Green);
+
+    std::cout << "\n\nPress any key to continue...";
+    Console::cinClear();
+    std::cin.get();
+}
+
+void deleteFromInbox(User& user) {
+    system("cls");
+    user.viewInbox();
+    std::cout << std::endl;
+
+    std::cout << "------------------------" << std::endl;
+    int choice = Console::getIntUserInput("Select the ID of Email you want to delete: ");
+
+    system("cls");
+    Email email = user.getFromInbox(choice);
+
+    if (email.getId() == -1) {
+        ColorFormat::print("Please enter ID value for an email that exists.", Color::Yellow);
+        std::cin.get();
+        system("cls");
+        return;
+    }
+
+    email.display();
+    std::cout << "\nAre you sure you want to delete this email? (Y/N): ";
+
+    while (true) {
+        char res;
+        Console::cinClear();
+        std::cin >> res;
+
+        if (res == 'Y' || res == 'y') {
+            user.deleteFromInbox(choice);
+            ColorFormat::print("Email Deleted", Color::Red);
+            Console::cinClear();
+            std::cout << "\n\nPress any key to continue...";
+            std::cin.get();
+            break;
+
+        } else if (res == 'N' || res == 'n') {
+            break;
+
+        } else {
+            Console::cinClear();
+            ColorFormat::print("Invalid input. Please enter 'Y' or 'N'.", Color::Yellow);
+            continue;
+        }
+    }
+    system("cls");
 }
 
 void viewInbox(User& user) {
@@ -160,8 +244,8 @@ void viewInbox(User& user) {
     std::string choices[] = { 
         "1. View Last Email",
         "2. Select Email to View",
-        "3. Reply Email", 
-        "4. Delete Email", 
+        "3. Reply Email",
+        "4. Delete Email",
         "5. Go back" 
     };
 
@@ -180,7 +264,6 @@ void viewInbox(User& user) {
 
         int choice;
         int inner_choice;
-        Email email;
         std::cout << "Enter your choice: ";
 
         if (!Console::validateIntInput(choice)) {
@@ -191,44 +274,19 @@ void viewInbox(User& user) {
 
         switch (choice) {
             case 1:
-                system("cls");
-                user.viewLastFromInbox();
-                std::cout << "\n\nPress any key to continue...";
-                Console::cinClear();
-                std::cin.get();
-                system("cls");
+                viewLastFromInbox(user);
                 break;
 
-            case 2:
-                system("cls");
-                user.viewInbox();
-                std::cout << std::endl;
-
-                std::cout << "------------------------" << std::endl;
-                inner_choice = Console::getUserInput("Select the Email you want to view: ");
-                user.getFromInbox(inner_choice);
+            case 2: {}
+                viewSelectedInboxEmail(user);
                 break;
 
             case 3:
-                system("cls");
-                user.viewInbox();
-                std::cout << std::endl;
-
-                std::cout << "------------------------" << std::endl;
-                inner_choice = Console::getUserInput("Select the Email you want to reply: ");
-                email = user.getFromInbox(inner_choice);
-                user.replyFromInbox(inner_choice);
+                replyFromInbox(user);
                 break;
 
             case 4:
-                system("cls");
-                user.viewInbox();
-                std::cout << std::endl;
-
-                std::cout << "------------------------" << std::endl;
-                inner_choice = Console::getUserInput("Select the Email you want to delete: ");
-                user.getFromInbox(inner_choice);
-                user.deleteFromInbox(inner_choice);
+                deleteFromInbox(user);
                 break;
 
             case 5:
@@ -238,6 +296,7 @@ void viewInbox(User& user) {
             default:
                 system("cls");
                 std::cout << "Invalid input. Please enter a number between 1 and " << size << ".\n" << std::endl;
+                break;
         }
     }
 
@@ -317,17 +376,16 @@ void test();
 
 int main(int argc, char** argv) {
 	system("cls");
-	// test();
 
     DynArray<User> users = Seed::users();
     DynArray<Email> emails = Seed::emails();
-    populateData(users, emails);
 
-    // Load users into the BST
-    BSTUserNode* root = loadUsersToBST(users);
-    if (root == nullptr) {
-        return 1; // Exit if users could not be loaded
+    ResourceManager::populateUsers(users);
+
+    if (users.size() > 0 || emails.size() > 0) {
+        populateData(users, emails);
     }
+
 
 	// TODO: Console Flow
 	int choice;
@@ -339,8 +397,7 @@ int main(int argc, char** argv) {
         std::cin >> choice;
 		if (std::cin.fail()) {
             std::cout << "Invalid input. Please enter a number between 1 and 6.\n";
-            std::cin.clear(); // Clear the error state
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
+            Console::cinClear();
             continue; // Restart loop
         }
         switch (choice) {
@@ -351,7 +408,7 @@ int main(int argc, char** argv) {
                 viewOutbox(user);
                 break;
             case 3:
-                searchAndRetrieval(root, user); // Pass the selected user
+                searchAndRetrieval(user); // Pass the selected user
                 break;
             case 4:
                 spamDetection(user);
@@ -388,7 +445,18 @@ void populateData(DynArray<User>& users, DynArray<Email>& emails) {
     sophia.sendEmail(emails[6], mia);
     noah.sendEmail(emails[7], liam);
     sophia.sendEmail(emails[8], noah);
-    noah.sendEmail(emails[9], liam);
+    noah.sendEmail(emails[9], liam); 
+
+    // emma.sendEmail(emails[0]);
+    // sophia.sendEmail(emails[1]);
+    // mia.sendEmail(emails[2]);
+    // liam.sendEmail(emails[3]);
+    // noah.sendEmail(emails[4]);
+    // emma.sendEmail(emails[5]);
+    // sophia.sendEmail(emails[6]);
+    // noah.sendEmail(emails[7]);
+    // sophia.sendEmail(emails[8]);
+    // noah.sendEmail(emails[9]);
 
     ColorFormat::print("User Data populated!\n", Color::BrightGreen);
 }

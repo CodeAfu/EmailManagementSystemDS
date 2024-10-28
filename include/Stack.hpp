@@ -57,6 +57,17 @@ public:
         return result;
     }
 
+    
+    T& popRef() {
+        if (isEmpty()) {
+            throw std::out_of_range("Stack is empty");
+        }
+        T& result = m_arr[m_topIdx];
+        m_arr.popBack();
+        m_topIdx--;
+        return result;
+    }
+
     T peek() const {
         if (isEmpty()) {
             throw std::out_of_range("Stack is empty");

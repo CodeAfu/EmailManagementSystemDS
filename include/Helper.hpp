@@ -12,7 +12,8 @@ namespace Formatter {
 namespace Console {
     void cinClear();
     bool validateIntInput(int& choice);
-    int getUserInput(const std::string& message);
+    int getIntUserInput(const std::string& message);
+    std::string getStringUserInput(const std::string& message);
 }
 
 namespace Seed {
