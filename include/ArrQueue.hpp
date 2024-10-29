@@ -58,9 +58,11 @@ public:
             ColorFormat::println("ArrQueue is full", Color::Yellow);
             return;
         }
+
         if (isEmpty()) {
             m_front = 0;
         }
+        
         m_size++;
         m_arr[++m_rear] = std::move(val);  // Move the object to avoid copying
     }

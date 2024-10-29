@@ -92,7 +92,7 @@ void viewOutbox(User& user) {
     user.viewSentEmails();
 
     std::cout << "\nPress any key to continue..." << std::endl;
-    Console::cinClear();
+    Console::clearCin();
 
     std::cin.get();
     system("cls");

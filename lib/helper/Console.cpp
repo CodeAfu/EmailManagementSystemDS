@@ -5,7 +5,7 @@
 
 namespace Console {
     
-    void cinClear() {
+    void clearCin() {
         std::cin.clear(); // Clear the error state
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
     }
@@ -13,7 +13,7 @@ namespace Console {
     bool validateIntInput(int& choice) {
         std::cin >> choice;
         if (std::cin.fail()) {
-            cinClear(); // Clear and discard invalid input
+            clearCin(); // Clear and discard invalid input
             return false;
         }
         return true;

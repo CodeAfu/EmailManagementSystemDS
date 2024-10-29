@@ -22,6 +22,7 @@ User::~User() {
     // std::cout << "User " << m_name << " deleted." << std::endl;
     s_emailService->unsubscribeUser(this);
     s_emailService = nullptr;
+    ColorFormat::println("[BAD] User " + m_name + " deleted.", Color::BrightRed);
 }
 
 User::User(const User& other) 

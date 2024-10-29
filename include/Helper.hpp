@@ -10,7 +10,7 @@ namespace Formatter {
 }
 
 namespace Console {
-    void cinClear();
+    void clearCin();
     bool validateIntInput(int& choice);
     int getIntUserInput(const std::string& message);
     std::string getStringUserInput(const std::string& message);

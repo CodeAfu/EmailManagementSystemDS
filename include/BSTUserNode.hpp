@@ -9,9 +9,6 @@ struct BSTUserNode {
 
     BSTUserNode() : left(nullptr), right(nullptr) {}
 
-    BSTUserNode(const User& user)
-        : user(new User(user)), left(nullptr), right(nullptr) {}
-
     BSTUserNode(User& user)
         : user(&user), left(nullptr), right(nullptr) {}
 

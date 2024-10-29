@@ -9,8 +9,7 @@ OutRequest::OutRequest(Email* email, User* receiver)
     : email(email), receiver(receiver) {}
 
 OutRequest::~OutRequest() {
-    // ColorFormat::println("OutRequest Destroyed" , BrightYellow);
-    setNullPtr();
+    // setNullPtr();
 }
 
 void OutRequest::setNullPtr() {

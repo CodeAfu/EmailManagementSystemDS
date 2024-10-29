@@ -6,6 +6,7 @@
 
 UserTree::UserTree() : m_root(nullptr) {}
 UserTree::~UserTree() {
+    m_root = nullptr;
 }
 
 void UserTree::insertUser(User& user) {

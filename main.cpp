@@ -111,7 +111,7 @@ void viewLastFromInbox(User& user) {
     user.viewLastFromInbox();
 
     std::cout << "\n\nPress any key to continue...";
-    Console::cinClear();
+    Console::clearCin();
     std::cin.get();
     system("cls");
 }
@@ -132,7 +132,7 @@ void viewSelectedInboxEmail(User& user) {
     email.display();
 
     std::cout << "\n\nPress any key to continue...";
-    Console::cinClear();
+    Console::clearCin();
     std::cin.get();
     system("cls");
 }
@@ -141,7 +141,6 @@ void replyFromInbox(User& user) {
     system("cls");
     user.viewInbox();
     std::cout << std::endl;
-
 
     std::cout << "------------------------" << std::endl;
     int choice = Console::getIntUserInput("Select the ID of Email you want to reply: ");
@@ -158,18 +157,18 @@ void replyFromInbox(User& user) {
 
     system("cls");
     email.display();
-    const std::string new_subject = "Re: " + email.getSubject();
 
-    std::cout << "Reply: \n";
+    std::string receiver = email.getSender();
+    const std::string new_subject = "Re: " + email.getSubject();
+    std::string body;
+
+    std::cout << "\n\nReply: \n";
     std::cout << "------------------------" << std::endl;
     std::cout << "To: " << email.getSender() << std::endl;
     std::cout << "Subject: " << new_subject << std::endl << std::endl;
     std::cout << "Body: " << std::endl;
-    std::cout << "------------------------" << std::endl;
+    Console::clearCin();
 
-    Console::cinClear();
-
-    std::string body;
     std::getline(std::cin, body);
     Formatter::trim(body);
 
@@ -180,16 +179,16 @@ void replyFromInbox(User& user) {
         return;
     }
 
-    DynArray<User>& users = ResourceManager::getUsers();
+    auto& instance = ResourceManager::GetInstance();
 
-    // user.sendEmail(Email(ResourceManager::nextEmailId(), user.getEmailAddress(), 
-    //                 email.getSender(), new_subject, body));
+    Email out = Email(ResourceManager::nextEmailId(), user.getEmailAddress(), receiver, new_subject, body);
+    user.sendEmail(out);
 
     ColorFormat::println("Email sent", Color::Green);
 
     std::cout << "\n\nPress any key to continue...";
-    Console::cinClear();
     std::cin.get();
+    system("cls");
 }
 
 void deleteFromInbox(User& user) {
@@ -215,13 +214,13 @@ void deleteFromInbox(User& user) {
 
     while (true) {
         char res;
-        Console::cinClear();
+        Console::clearCin();
         std::cin >> res;
 
         if (res == 'Y' || res == 'y') {
             user.deleteFromInbox(choice);
             ColorFormat::println("Email Deleted", Color::Red);
-            Console::cinClear();
+            Console::clearCin();
             std::cout << "\n\nPress any key to continue...";
             std::cin.get();
             break;
@@ -230,7 +229,7 @@ void deleteFromInbox(User& user) {
             break;
 
         } else {
-            Console::cinClear();
+            Console::clearCin();
             ColorFormat::println("Invalid input. Please enter 'Y' or 'N'.", Color::Yellow);
             continue;
         }
@@ -336,13 +335,15 @@ void displayMenu() {
               << "Enter your choice: ";
 }
 
-User& userSelectionMenu(DynArray<User>& users) {
+User userSelectionMenu(DynArray<User>& users) {
     size_t size = users.size();
+
     while (true) {
         ColorFormat::println("Select a user", Color::Cyan);
         for (int i = 0; i < size; i++) {
             std::cout << i + 1 << ". " << users[i].getName() << " - " << users[i].getEmailAddress() << std::endl;
         }
+        
         std::cout << size + 1 << ". Exit Application" << std::endl;
         std::cout << "Enter your choice: ";
 
@@ -379,7 +380,7 @@ int main(int argc, char** argv) {
     ResourceManager::populateData();
 
 	int choice;
-    User& user = userSelectionMenu(users);
+    User user = userSelectionMenu(users);
     
 	while (true) {
         ColorFormat::println("Welcome, " + user.getName() + "!", Color::BrightCyan);
@@ -389,7 +390,7 @@ int main(int argc, char** argv) {
 
 		if (std::cin.fail()) {
             std::cout << "Invalid input. Please enter a number between 1 and 6.\n";
-            Console::cinClear();
+            Console::clearCin();
             continue; // Restart loop
         }
 
