@@ -134,6 +134,9 @@
     <ClCompile Include="lib\ColorFormat.cpp" />
     <ClCompile Include="lib\Email.cpp" />
     <ClCompile Include="lib\EmailService.cpp" />
+    <ClCompile Include="lib\helper\Console.cpp" />
+    <ClCompile Include="lib\helper\Formatter.cpp" />
+    <ClCompile Include="lib\helper\Seed.cpp" />
     <ClCompile Include="lib\Inbox.cpp" />
     <ClCompile Include="lib\Outbox.cpp" />
     <ClCompile Include="lib\OutRequest.cpp" />
@@ -142,13 +145,16 @@
     <ClCompile Include="lib\SpamDetectionService.cpp" />
     <ClCompile Include="lib\Timestamp.cpp" />
     <ClCompile Include="lib\User.cpp" />
+    <ClCompile Include="lib\UserTree.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ArrQueue.hpp" />
+    <ClInclude Include="include\BSTUserNode.hpp" />
     <ClInclude Include="include\DynArray.hpp" />
     <ClInclude Include="include\Email.hpp" />
     <ClInclude Include="include\EmailService.hpp" />
+    <ClInclude Include="include\Helper.hpp" />
     <ClInclude Include="include\IdxGen.hpp" />
     <ClInclude Include="include\Inbox.hpp" />
     <ClInclude Include="include\LLQueue.hpp" />
@@ -157,11 +163,13 @@
     <ClInclude Include="include\ColorFormat.hpp" />
     <ClInclude Include="include\OutRequest.hpp" />
     <ClInclude Include="include\PriorityService.hpp" />
+    <ClInclude Include="include\ResourceManager.hpp" />
     <ClInclude Include="include\SearchService.hpp" />
     <ClInclude Include="include\SpamDetectionService.hpp" />
     <ClInclude Include="include\Stack.hpp" />
     <ClInclude Include="include\Timestamp.hpp" />
     <ClInclude Include="include\User.hpp" />
+    <ClInclude Include="include\UserTree.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
