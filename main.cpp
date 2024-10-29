@@ -338,22 +338,73 @@ void viewInbox(User& user) {
     system("cls");
 }
 
+
+// Outbox Menu
+void composeEmail(User& user) {
+    system("cls");
+    DynArray<User>& users = ResourceManager::getUsers();
+
+    ColorFormat::println("----------------------------------------", Color::Cyan);
+    ColorFormat::println("Compose a new email", Color::Cyan);
+    ColorFormat::println("----------------------------------------", Color::Cyan);
+    for (size_t i = 0; i < users.size(); i++) {
+        ColorFormat::println(users[i].getName() + " - " + users[i].getEmailAddress(), Color::Cyan);
+    }
+    ColorFormat::println("----------------------------------------\n", Color::Cyan);
+
+    Console::clearCin();
+    std::string receiver_str = Console::getStringUserInput("To: ");
+    receiver_str = Formatter::trim(receiver_str);
+    User* receiver = ResourceManager::getReceiver(receiver_str);
+
+    if (receiver == nullptr) {
+        ColorFormat::println("Please enter email address of a valid user.", Color::Yellow);
+        std::cin.get();
+        system("cls");
+        return;
+    }
+
+    std::string subject = Console::getStringUserInput("Subject: ");
+    std::cout << std::endl;
+    std::string body = Console::getStringUserInput("Body: ");
+    std::cout << std::endl << std::endl; 
+
+    Email email(ResourceManager::nextEmailId(), user.getEmailAddress(), receiver_str, subject, body);
+    user.sendEmail(email);
+
+    ColorFormat::println("Email sent successfully.", Color::Green);
+    std::cin.get();
+
+    system("cls");
+}
+
+void selectFromOutbox(User& user) {
+    system("cls");
+
+    system("cls");
+}
+
+void deleteFromOutbox(User& user) {
+    system("cls");
+    system("cls");
+}
+
+
+
 void viewOutbox(User& user) {
     system("cls");
-    user.viewSentEmails();
 
     std::string choices[] = { 
         "1. Compose Email",
-        "2. View Sent Emails",
-        "3. Select Email to View",
-        "4. Delete Email",
-        "5. Go back" 
+        "2. Select Email to View",
+        "3. Delete Email",
+        "4. Go back" 
     };
 
     int size = sizeof(choices) / sizeof(choices[0]);
 
     while (true) {
-        user.viewInbox();
+        user.viewSentEmails();
         std::cout << std::endl;
 
         std::cout << "Menu" << std::endl;
@@ -374,19 +425,20 @@ void viewOutbox(User& user) {
 
         switch (choice) {
             case 1:
+                composeEmail(user);
                 break;
 
             case 2:
+                selectFromOutbox(user);
                 break;
 
             case 3:
+                deleteFromOutbox(user);
                 break;
 
             case 4:
-                break;
-
-            case 5:
-                break;
+                system("cls");
+                return;
 
             default:
                 break;

@@ -50,7 +50,7 @@ void UserTree::insertUserRecursive(BSTUserNode* node, User& user) {
 
 User* UserTree::searchUserRecursive(BSTUserNode* node, const std::string& email_address) {
     if (node == nullptr) {
-        throw std::runtime_error("User not found");  // Or handle the error as appropriate
+        return nullptr;
     }
     if (Formatter::toLower(node->user->getEmailAddress()) == Formatter::toLower(email_address)) {
         return node->user;
