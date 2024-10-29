@@ -85,14 +85,14 @@ void Outbox::removeByPlacement(int index) {
     int size = m_sentEmails.size();
 
     if (index > size - 1) {
-        ColorFormat::print("[Error] Index out of range", Color::Red);
+        ColorFormat::println("[Error] Index out of range", Color::Red);
     }
 
     LLQueue<Email> temp;
     for (int i = 0; i < size; i++) {
         if (i == index) {
             Email email = m_sentEmails.dequeue();
-            ColorFormat::print("Email removed: " + email.getId(), Color::BrightBlue);
+            ColorFormat::println("Email removed: " + email.getId(), Color::BrightBlue);
             continue;
         };
         temp.enqueue(m_sentEmails.dequeue());

@@ -12,12 +12,12 @@ public:
     }
 
     ~DynArray() {
-        // ColorFormat::print("DynArray Destroyed", Color::Red);
+        // ColorFormat::println("DynArray Destroyed", Color::Red);
         clear();
     }
 
     DynArray(const DynArray& other) : m_size(other.m_size), m_capacity(other.m_capacity) {
-        // ColorFormat::print("DynArray Copy Constructor Called", Color::Cyan);
+        // ColorFormat::println("DynArray Copy Constructor Called", Color::Cyan);
         // reAlloc(m_capacity);
         m_arr = static_cast<T*>(::operator new(m_capacity * sizeof(T)));
         for (size_t i = 0; i < m_size; i++) {
@@ -29,11 +29,11 @@ public:
         : m_arr(std::exchange(other.m_arr, nullptr)),
           m_size(std::exchange(other.m_size, 0)),
           m_capacity(std::exchange(other.m_capacity, 0)) {
-        // ColorFormat::print("DynArray Move Constructor Called", Color::Blue);
+        // ColorFormat::println("DynArray Move Constructor Called", Color::Blue);
     }
 
     DynArray& operator=(const DynArray& other) {
-        // ColorFormat::print("DynArray Copy Assignment Operator Called", Color::Cyan);
+        // ColorFormat::println("DynArray Copy Assignment Operator Called", Color::Cyan);
         if (this != &other) {
             DynArray tmp(other);
             swap(tmp);
@@ -42,7 +42,7 @@ public:
     }
 
     DynArray& operator=(DynArray&& other) noexcept {
-        // ColorFormat::print("DynArray Move Assignment Operator Called", Color::Blue);
+        // ColorFormat::println("DynArray Move Assignment Operator Called", Color::Blue);
         if (this != &other) {
             clear();
             m_arr = std::exchange(other.m_arr, nullptr);
@@ -50,6 +50,10 @@ public:
             m_capacity = std::exchange(other.m_capacity, 0);
         }
         return *this;
+    }
+
+    bool isEmpty() {
+        return m_size <= 0;
     }
 
     void pushBack(const T& data) {
@@ -139,7 +143,7 @@ private:
         ::operator delete(m_arr, m_capacity * sizeof(T));
         m_arr = new_arr;
         m_capacity = new_capacity;
-        // ColorFormat::print("DynArray Reallocated: " + std::to_string(new_capacity), Color::Green);
+        // ColorFormat::println("DynArray Reallocated: " + std::to_string(new_capacity), Color::Green);
     }
 
     void clear() {

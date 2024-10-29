@@ -21,5 +21,5 @@ enum Color {
 
 namespace ColorFormat {
     std::string get(Color color);
-    void print(const std::string& message, Color color);
+    void println(const std::string& message, Color color);
 }

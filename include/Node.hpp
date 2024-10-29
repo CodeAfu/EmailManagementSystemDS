@@ -7,5 +7,4 @@ struct Node {
     Node() : next(nullptr) {}
     Node(T&& data) : data(std::move(data)), next(nullptr) {}
     Node(const T& data) : data(data), next(nullptr) {}
-    // Node(T data) : data(data), next(nullptr) {}
 };

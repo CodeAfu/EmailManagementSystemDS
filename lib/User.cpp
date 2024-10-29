@@ -164,7 +164,7 @@ void User::sendDraftEmails() {
         request.email->setIsSent(true);
 
         m_outbox.addSentEmail(*request.email);
-        ColorFormat::print(m_name + " sent a draft email " + request.email->getSubject() 
+        ColorFormat::println(m_name + " sent a draft email " + request.email->getSubject() 
                                   + " to " + request.receiver->getName(), Color::BrightCyan);
         email_service.addRequest(request.email, request.receiver);
     }
@@ -177,6 +177,12 @@ void User::sendEmail(Email& email, User& receiver) {
 
 void User::sendEmail(Email& email) {
     User* receiver = ResourceManager::getReceiver(email.getReceiver());
+
+    if (!receiver) {
+        ColorFormat::println("[ERROR] " + email.getReceiver() + " not found.", Color::Red);
+        return;
+    }
+
     m_outbox.sendEmail(email, *receiver);
 }
 

@@ -24,7 +24,7 @@ namespace ColorFormat {
     }
     return "";
     }
-    void print(const std::string& message, Color color) {
+    void println(const std::string& message, Color color) {
         std::cout << get(color) << message << "\033[0m" << std::endl;
     }
 }

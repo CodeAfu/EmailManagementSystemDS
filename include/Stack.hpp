@@ -10,7 +10,7 @@ public:
     Stack(size_t capacity = 2) : m_arr(capacity), m_topIdx(-1) {}
 
     ~Stack() {
-        // ColorFormat::print("Stack Destroyed", Color::Red);
+        // ColorFormat::println("Stack Destroyed", Color::Red);
     }
 
     Stack(const Stack& other) = default;
@@ -31,20 +31,20 @@ public:
     void push(const T& data) {
         m_topIdx++;
         m_arr.pushBack(data);
-        // ColorFormat::print("Pushed", Color::Cyan);
+        // ColorFormat::println("Pushed", Color::Cyan);
     }
 
     void push(T&& data) {
         m_topIdx++;
         m_arr.pushBack(std::move(data));
-        // ColorFormat::print("Pushed", Color::Cyan);
+        // ColorFormat::println("Pushed", Color::Cyan);
     }
 
     template<typename... Args>
     void emplace(Args&&... args) {
         m_topIdx++;
         m_arr.emplaceBack(std::forward<Args>(args)...);
-        // ColorFormat::print("Emplaced", Color::Cyan);
+        // ColorFormat::println("Emplaced", Color::Cyan);
     }
 
     T pop() {

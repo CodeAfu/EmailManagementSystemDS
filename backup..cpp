@@ -216,7 +216,7 @@ void priorityHandling(User& user) {
 }
 
 void displayMenu() {
-    ColorFormat::print("Main Menu", Color::Cyan);
+    ColorFormat::println("Main Menu", Color::Cyan);
     std::cout << "1. View Inbox\n"
               << "2. View Outbox\n"
               << "3. Search and Retrieval\n"
@@ -229,7 +229,7 @@ void displayMenu() {
 
 User& userSelectionMenu(DynArray<User>& users) {
     while (true) {
-        ColorFormat::print("Select a user", Color::Cyan);
+        ColorFormat::println("Select a user", Color::Cyan);
         for (int i = 0; i < users.size(); i++) {
             std::cout << i + 1 << ". " << users[i].getName() << " - " << users[i].getEmailAddress() << std::endl;
         }
@@ -274,7 +274,7 @@ int main(int argc, char** argv) {
 	int choice;
     User& user = userSelectionMenu(users);
 	while (true) {
-        ColorFormat::print("Welcome, " + user.getName() + "!", Color::BrightCyan);
+        ColorFormat::println("Welcome, " + user.getName() + "!", Color::BrightCyan);
 		displayMenu();
         std::cin >> choice;
 		if (std::cin.fail()) {
@@ -303,13 +303,13 @@ int main(int argc, char** argv) {
                 inOrderDisplay(root);
                 break;
             case 7:
-                ColorFormat::print("END", Color::Cyan);
+                ColorFormat::println("END", Color::Cyan);
                 return 0;
             default:
                 std::cout << "Invalid choice. Please try again.\n";
         }
 	}
-	ColorFormat::print("END", Color::Cyan);
+	ColorFormat::println("END", Color::Cyan);
 	std::cin.get();
 	return 0;
 }
@@ -332,7 +332,7 @@ void populateData(DynArray<User>& users, DynArray<Email>& emails) {
     sophia.sendEmail(emails[8], noah);
     noah.sendEmail(emails[9], liam);
 
-    ColorFormat::print("User Data populated!\n", Color::BrightGreen);
+    ColorFormat::println("User Data populated!\n", Color::BrightGreen);
 }
 
 void test() {

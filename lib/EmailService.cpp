@@ -11,7 +11,7 @@
 void EmailService::addRequest(Email* email, User* user) {
     OutRequest request(email, user);
     enqueueRequest(std::move(request));
-    // ColorFormat::print("Added Request to EmailService: " + std::to_string(m_requests.size()), Color::Green);
+    // ColorFormat::println("Added Request to EmailService: " + std::to_string(m_requests.size()), Color::Green);
 }
 
 void EmailService::sendAllRequests() {
@@ -19,22 +19,22 @@ void EmailService::sendAllRequests() {
     // std::lock_guard<std::mutex> lock(instance.m_mutex);
     while (instance.m_requests.size() > 0) {
         OutRequest request = instance.m_requests.dequeue();
-        ColorFormat::print("[EmailService] \'" + request.email->getSubject() + "\' sent to \'"
+        ColorFormat::println("[EmailService] \'" + request.email->getSubject() + "\' sent to \'"
                            + request.receiver->getName() + "\'", Color::BrightCyan);
         request.send();
     }
-    // ColorFormat::print("Send all Requests from EmailService: " + std::to_string(_requests.size()), Color::Green);
+    // ColorFormat::println("Send all Requests from EmailService: " + std::to_string(_requests.size()), Color::Green);
 }
 
 void EmailService::sendNextRequest() {
     auto& instance = GetInstance();
     // std::lock_guard<std::mutex> lock(instance.m_mutex);
     if (instance.m_requests.isEmpty()) {
-        ColorFormat::print("EmailService is empty", Color::Yellow);
+        ColorFormat::println("EmailService is empty", Color::Yellow);
         return;
     }
     instance.m_requests.dequeue().send();
-    ColorFormat::print("[EmailService] Sent a Request from EmailService: " 
+    ColorFormat::println("[EmailService] Sent a Request from EmailService: " 
                        + std::to_string(instance.m_requests.size()), Color::BrightCyan);
 }
 
@@ -44,7 +44,7 @@ void EmailService::clear() {
     while (!instance.m_requests.isEmpty()) {
         instance.m_requests.dequeue().~OutRequest();
     }
-    ColorFormat::print("Cleared EmailService: " + std::to_string(instance.m_requests.size()), Color::Yellow);
+    ColorFormat::println("Cleared EmailService: " + std::to_string(instance.m_requests.size()), Color::Yellow);
 }
 
 size_t EmailService::size() {

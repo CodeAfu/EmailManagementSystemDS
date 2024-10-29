@@ -27,6 +27,40 @@ public:
         }
     }
 
+    static void populateData() {
+        DynArray<User>& users = GetInstance().getUsers();
+
+        if (users.isEmpty()) {
+            ColorFormat::println("[ERROR] No users found. Please seed the data first.", Color::Red);
+            return;
+        } 
+
+        User& emma = users[0];
+        User& liam = users[1];
+        User& sophia = users[2];
+        User& noah = users[3];
+        User& mia = users[4];
+
+        DynArray<Email> emails = Seed::emails();
+
+        for (int i = 0; i < users.size(); i++) {
+            ColorFormat::println(users[i].getName() + " - " + users[i].getEmailAddress(), Color::BrightGreen);
+        }
+
+        emma.sendEmail(emails[0]);
+        sophia.sendEmail(emails[1]);
+        mia.sendEmail(emails[2]);
+        liam.sendEmail(emails[3]);
+        noah.sendEmail(emails[4]);
+        emma.sendEmail(emails[5]);
+        sophia.sendEmail(emails[6]);
+        noah.sendEmail(emails[7]);
+        sophia.sendEmail(emails[8]);
+        noah.sendEmail(emails[9]);
+
+        ColorFormat::println("User Data populated!\n", Color::BrightGreen);
+    }
+
     static int nextUserId() {
         return GetInstance().m_idxGen.nextUser();
     }

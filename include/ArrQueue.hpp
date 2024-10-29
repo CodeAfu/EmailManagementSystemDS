@@ -43,7 +43,7 @@ public:
 
     void enqueue(const T& val) {
         if (isFull()) {
-            ColorFormat::print("ArrQueue is full", Color::Yellow);
+            ColorFormat::println("ArrQueue is full", Color::Yellow);
             return;
         }
         if (isEmpty()) {
@@ -55,7 +55,7 @@ public:
 
     void enqueue(T&& val) {
         if (isFull()) {
-            ColorFormat::print("ArrQueue is full", Color::Yellow);
+            ColorFormat::println("ArrQueue is full", Color::Yellow);
             return;
         }
         if (isEmpty()) {
@@ -67,7 +67,7 @@ public:
 
     T dequeue() {
         if (isEmpty()) {
-            ColorFormat::print("ArrQueue is empty", Color::Yellow);
+            ColorFormat::println("ArrQueue is empty", Color::Yellow);
             return T();
         }
 
@@ -104,7 +104,7 @@ public:
 
     void display() const {
         if (isEmpty()) {
-            ColorFormat::print("ArrQueue is empty", Color::Yellow);
+            ColorFormat::println("ArrQueue is empty", Color::Yellow);
             return;
         }
 

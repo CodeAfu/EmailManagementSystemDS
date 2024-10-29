@@ -14,7 +14,7 @@ namespace Seed {
 
         std::ifstream file("data/users.csv");
         if (!file.is_open()) {
-            ColorFormat::print("Error opening data/users.csv. Please ensure the file exists in the correct directory.", Color::Red); 
+            ColorFormat::println("Error opening data/users.csv. Please ensure the file exists in the correct directory.", Color::Red); 
             return users;
         }
 
@@ -38,7 +38,7 @@ namespace Seed {
 
         std::ifstream file("data/emails.csv");
         if (!file.is_open()) {
-            ColorFormat::print("Error opening data/emails.csv. Please ensure the file exists in the correct directory.", Color::Red); 
+            ColorFormat::println("Error opening data/emails.csv. Please ensure the file exists in the correct directory.", Color::Red); 
             return emails;
         }
 

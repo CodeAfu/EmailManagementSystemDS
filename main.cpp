@@ -127,7 +127,7 @@ void viewSelectedInboxEmail(User& user) {
     Email email = user.getFromInbox(choice);
     system("cls");
     if (email.getId() == -1) {
-        ColorFormat::print("Please enter ID value for an email that exists.", Color::Yellow);
+        ColorFormat::println("Please enter ID value for an email that exists.", Color::Yellow);
     }
     email.display();
 
@@ -150,7 +150,7 @@ void replyFromInbox(User& user) {
     Email email = user.getFromInbox(choice);
 
     if (email.getId() == -1) {
-        ColorFormat::print("Please enter ID value for an email that exists.", Color::Yellow);
+        ColorFormat::println("Please enter ID value for an email that exists.", Color::Yellow);
         std::cin.get();
         system("cls");
         return;
@@ -174,7 +174,7 @@ void replyFromInbox(User& user) {
     Formatter::trim(body);
 
     if (body.empty()) {
-        ColorFormat::print("Please enter a message.", Color::Yellow);
+        ColorFormat::println("Please enter a message.", Color::Yellow);
         std::cin.get();
         system("cls");
         return;
@@ -185,7 +185,7 @@ void replyFromInbox(User& user) {
     // user.sendEmail(Email(ResourceManager::nextEmailId(), user.getEmailAddress(), 
     //                 email.getSender(), new_subject, body));
 
-    ColorFormat::print("Email sent", Color::Green);
+    ColorFormat::println("Email sent", Color::Green);
 
     std::cout << "\n\nPress any key to continue...";
     Console::cinClear();
@@ -204,7 +204,7 @@ void deleteFromInbox(User& user) {
     Email email = user.getFromInbox(choice);
 
     if (email.getId() == -1) {
-        ColorFormat::print("Please enter ID value for an email that exists.", Color::Yellow);
+        ColorFormat::println("Please enter ID value for an email that exists.", Color::Yellow);
         std::cin.get();
         system("cls");
         return;
@@ -220,7 +220,7 @@ void deleteFromInbox(User& user) {
 
         if (res == 'Y' || res == 'y') {
             user.deleteFromInbox(choice);
-            ColorFormat::print("Email Deleted", Color::Red);
+            ColorFormat::println("Email Deleted", Color::Red);
             Console::cinClear();
             std::cout << "\n\nPress any key to continue...";
             std::cin.get();
@@ -231,7 +231,7 @@ void deleteFromInbox(User& user) {
 
         } else {
             Console::cinClear();
-            ColorFormat::print("Invalid input. Please enter 'Y' or 'N'.", Color::Yellow);
+            ColorFormat::println("Invalid input. Please enter 'Y' or 'N'.", Color::Yellow);
             continue;
         }
     }
@@ -326,7 +326,7 @@ void priorityHandling(User& user) {
 }
 
 void displayMenu() {
-    ColorFormat::print("Main Menu", Color::Cyan);
+    ColorFormat::println("Main Menu", Color::Cyan);
     std::cout << "1. View Inbox\n"
               << "2. View Outbox\n"
               << "3. Search and Retrieval\n"
@@ -339,7 +339,7 @@ void displayMenu() {
 User& userSelectionMenu(DynArray<User>& users) {
     size_t size = users.size();
     while (true) {
-        ColorFormat::print("Select a user", Color::Cyan);
+        ColorFormat::println("Select a user", Color::Cyan);
         for (int i = 0; i < size; i++) {
             std::cout << i + 1 << ". " << users[i].getName() << " - " << users[i].getEmailAddress() << std::endl;
         }
@@ -371,33 +371,28 @@ User& userSelectionMenu(DynArray<User>& users) {
     }
 }
 
-void populateData();
-void test();
-
 int main(int argc, char** argv) {
 	system("cls");
 
-    ResourceManager::seedInitialData();
-
     DynArray<User>& users = ResourceManager::getUsers();
+    ResourceManager::seedInitialData();
+    ResourceManager::populateData();
 
-    if (users.size() > 0) {
-        populateData();
-    }
-
-	// TODO: Console Flow
 	int choice;
     User& user = userSelectionMenu(users);
     
 	while (true) {
-        ColorFormat::print("Welcome, " + user.getName() + "!", Color::BrightCyan);
+        ColorFormat::println("Welcome, " + user.getName() + "!", Color::BrightCyan);
 		displayMenu();
+
         std::cin >> choice;
+
 		if (std::cin.fail()) {
             std::cout << "Invalid input. Please enter a number between 1 and 6.\n";
             Console::cinClear();
             continue; // Restart loop
         }
+
         switch (choice) {
             case 1:
                 viewInbox(user);
@@ -422,92 +417,8 @@ int main(int argc, char** argv) {
                 std::cout << "Invalid choice. Please try again.\n";
         }
 	}
-	ColorFormat::print("END", Color::Cyan);
+	ColorFormat::println("END", Color::Cyan);
 	std::cin.get();
 	return 0;
 }
 
-void populateData() {
-    auto& u = ResourceManager::getUsers();
-    User& emma = u[0];
-    User& liam = u[1];
-    User& sophia = u[2];
-    User& noah = u[3];
-    User& mia = u[4];
-
-    DynArray<Email> emails = Seed::emails();
-
-    for (int i = 0; i < u.size(); i++) {
-        ColorFormat::print(u[i].getName() + " - " + u[i].getEmailAddress(), Color::BrightGreen);
-    }
-
-    // emma.sendEmail(emails[0], liam);
-    // sophia.sendEmail(emails[1], noah);
-    // mia.sendEmail(emails[2], emma);
-    // liam.sendEmail(emails[3], sophia);
-    // noah.sendEmail(emails[4], mia);
-    // emma.sendEmail(emails[5], noah);
-    // sophia.sendEmail(emails[6], mia);
-    // noah.sendEmail(emails[7], liam);
-    // sophia.sendEmail(emails[8], noah);
-    // noah.sendEmail(emails[9], liam); 
-
-    emma.sendEmail(emails[0]);
-    sophia.sendEmail(emails[1]);
-    mia.sendEmail(emails[2]);
-    liam.sendEmail(emails[3]);
-    noah.sendEmail(emails[4]);
-    emma.sendEmail(emails[5]);
-    sophia.sendEmail(emails[6]);
-    noah.sendEmail(emails[7]);
-    sophia.sendEmail(emails[8]);
-    noah.sendEmail(emails[9]);
-
-    ColorFormat::print("User Data populated!\n", Color::BrightGreen);
-}
-
-// void test() {
-// 	User john(ResourceManager::nextUserId(), "John", "j1@example.com");
-// 	User potato(ResourceManager::nextUserId(), "Potato", "j2@example.com");
-
-// 	Email email_one(ResourceManager::nextEmailId(), john.getEmailAddress(), potato.getEmailAddress(), 
-// 		"First", "Hi there, I hope you are doing well. I wanted to invite you to a meeting on Friday at 2 PM to discuss the project. Let me know if you can make it.");
-// 	Email email_two(ResourceManager::nextEmailId(), john.getEmailAddress(), potato.getEmailAddress(), 
-// 		"Second", "Hey there, I wanted to let you know that the meeting time has changed to 3 PM on Friday. Sorry for the inconvenience.");
-// 	Email email_three(ResourceManager::nextEmailId(), john.getEmailAddress(), potato.getEmailAddress(),
-// 		"Third", "Hi there, I just wanted to let you know that the meeting on Friday has been cancelled. I apologize for any inconvenience this may have caused. We will be rescheduling the meeting at a later time.");
-// 	Email email_four(ResourceManager::nextEmailId(), john.getEmailAddress(), potato.getEmailAddress(),
-// 		"Fourth", "Hi there, I just wanted to make sure that you are aware that the meeting has been cancelled. I will let you know once it has been rescheduled.");
-
-// 	john.composeDraftEmail(email_one, potato);
-// 	john.composeDraftEmail(email_two, potato);
-// 	john.composeDraftEmail(email_three, potato);
-// 	john.composeDraftEmail(email_four, potato);
-
-// 	potato.composeDraftEmail(email_three, john);
-// 	potato.composeDraftEmail(email_four, john);
-
-// 	john.viewDraftEmails();
-
-// 	std::cout << std::endl;	
-// 	std::cout << "Outbox Size: " << john.getOutboxSize() << std::endl;
-// 	john.sendDraftEmails();
-// 	std::cout << "Outbox Size: " << john.getOutboxSize() << std::endl;
-// 	std::cout << std::endl;	
-	
-// 	std::cout << std::endl;
-// 	john.viewDraftEmails();
-// 	std::cout << std::endl;
-
-// 	std::cout << std::endl;
-// 	potato.viewInbox();
-// 	std::cout << std::endl;
-
-// 	std::cout << std::endl;
-// 	john.viewSentEmails();
-// 	std::cout << std::endl;
-
-// 	Email email = potato.getFromInbox(3);
-// 	email.display();
-// 	std::cout << std::endl;
-// }

@@ -7,11 +7,11 @@ template <typename T>
 class LLQueue {
 public:
     LLQueue() : m_front(nullptr), m_rear(nullptr), m_size(0) {
-        // ColorFormat::print("LLQueue Created", Color::BrightYellow   );
+        // ColorFormat::println("LLQueue Created", Color::BrightYellow   );
     }
 
     ~LLQueue() {
-        // ColorFormat::print("LLQueue Destroyed", Color::Red);
+        // ColorFormat::println("LLQueue Destroyed", Color::Red);
         clear();
     }
 
