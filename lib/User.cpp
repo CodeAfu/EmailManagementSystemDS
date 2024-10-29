@@ -24,6 +24,54 @@ User::~User() {
     s_emailService = nullptr;
 }
 
+User::User(const User& other) 
+    : m_id(other.m_id),
+        m_name(other.m_name),
+        m_emailAddress(other.m_emailAddress),
+        m_inbox(other.m_inbox),
+        m_outbox(other.m_outbox),
+        m_searchService(other.m_searchService),
+        m_spamDetectionService(other.m_spamDetectionService),
+        m_priorityService(other.m_priorityService) {}
+
+User& User::operator=(const User& other) {
+    if (this != &other) {
+        m_id = other.m_id;
+        m_name = other.m_name;
+        m_emailAddress = other.m_emailAddress;
+        m_inbox = other.m_inbox;
+        m_outbox = other.m_outbox;
+        m_searchService = other.m_searchService;
+        m_spamDetectionService = other.m_spamDetectionService;
+        m_priorityService = other.m_priorityService;
+    }
+    return *this;
+}
+
+User::User(User&& other) noexcept
+    : m_id(other.m_id),
+        m_name(std::move(other.m_name)),
+        m_emailAddress(std::move(other.m_emailAddress)),
+        m_inbox(std::move(other.m_inbox)),
+        m_outbox(std::move(other.m_outbox)),
+        m_searchService(std::move(other.m_searchService)),
+        m_spamDetectionService(std::move(other.m_spamDetectionService)),
+        m_priorityService(std::move(other.m_priorityService)) {}
+
+User& User::operator=(User&& other) noexcept {
+    if (this != &other) {
+        m_id = other.m_id;
+        m_name = std::move(other.m_name);
+        m_emailAddress = std::move(other.m_emailAddress);
+        m_inbox = std::move(other.m_inbox);
+        m_outbox = std::move(other.m_outbox);
+        m_searchService = std::move(other.m_searchService);
+        m_spamDetectionService = std::move(other.m_spamDetectionService);
+        m_priorityService = std::move(other.m_priorityService);
+    }
+    return *this;
+}
+
 /* Getters and Setters */
 int User::getId() const { return m_id; }
 std::string User::getName() const { return m_name; }
@@ -37,11 +85,11 @@ void User::receiveEmail(Email& email) {
 }
 
 void User::composeDraftEmail(Email& email, User& receiver) {
-    m_outbox.addDraft(&email, &receiver);
+    m_outbox.addDraft(email, receiver);
 }
 
 void User::viewDraftEmails() const {
-    LLQueue<Email*> temp = m_outbox.getDraftEmails();
+    LLQueue<Email> temp = m_outbox.getDraftEmails();
     size_t size = temp.size();
 
     if (temp.isEmpty()) {
@@ -54,17 +102,17 @@ void User::viewDraftEmails() const {
 
     std::cout << header << std::right << std::setw(len) << m_emailAddress << std::endl;
     std::cout << "------------------------------------------------------------------------\n";
-    std::cout << "|  ID  | From                        | Subject                         |\n";
+    std::cout << "|  ID  | To                          | Subject                         |\n";
     std::cout << "------------------------------------------------------------------------\n";
 
     while (!temp.isEmpty()) {
-        const Email* email = temp.dequeue();
-        const std::string sender = email->getSender();
-        const std::string& subject = email->getSubject();
+        const Email email = temp.dequeue();
+        const std::string receiver = email.getReceiver();
+        const std::string& subject = email.getSubject();
 
-        const std::string id_str = std::to_string(email->getId());
+        const std::string id_str = std::to_string(email.getId());
         std::cout << "| " << Formatter::centerAlign(id_str, 4) << " | "
-                  << std::left << std::setw(28) << sender
+                  << std::left << std::setw(28) << receiver
                   << "| " << std::setw(32) << subject << "|\n";
     }
 
@@ -73,7 +121,7 @@ void User::viewDraftEmails() const {
 }
 
 void User::viewSentEmails() const {
-    LLQueue<Email*> temp = m_outbox.getSentEmails();
+    LLQueue<Email> temp = m_outbox.getSentEmails();
     size_t size = temp.size();
 
     if (temp.isEmpty()) {
@@ -86,17 +134,17 @@ void User::viewSentEmails() const {
 
     std::cout << header << std::right << std::setw(len) << m_emailAddress << std::endl;
     std::cout << "------------------------------------------------------------------------\n";
-    std::cout << "|  ID  | From                        | Subject                         |\n";
+    std::cout << "|  ID  | To                          | Subject                         |\n";
     std::cout << "------------------------------------------------------------------------\n";
 
     while (!temp.isEmpty()) {
-        const Email* email = temp.dequeue();
-        const std::string sender = email->getSender();
-        const std::string& subject = email->getSubject();
+        const Email email = temp.dequeue();
+        const std::string receiver = email.getReceiver();
+        const std::string& subject = email.getSubject();
 
-        const std::string id_str = std::to_string(email->getId());
+        const std::string id_str = std::to_string(email.getId());
         std::cout << "| " << Formatter::centerAlign(id_str, 4) << " | "
-                  << std::left << std::setw(28) << sender
+                  << std::left << std::setw(28) << receiver
                   << "| " << std::setw(32) << subject << "|\n";
     }
 
@@ -107,7 +155,7 @@ void User::viewSentEmails() const {
 
 void User::sendDraftEmails() {
     auto& email_service = EmailService::GetInstance();
-    LLQueue<OutRequest>& drafts = m_outbox.getDraftRequests();
+    LLQueue<OutRequest> drafts = m_outbox.getDraftRequests();
 
     while (!drafts.isEmpty()) {
         OutRequest request = drafts.dequeue();
@@ -115,7 +163,7 @@ void User::sendDraftEmails() {
         request.email->setIsDraft(false);
         request.email->setIsSent(true);
 
-        m_outbox.addSentEmail(request.email);
+        m_outbox.addSentEmail(*request.email);
         ColorFormat::print(m_name + " sent a draft email " + request.email->getSubject() 
                                   + " to " + request.receiver->getName(), Color::BrightCyan);
         email_service.addRequest(request.email, request.receiver);
@@ -124,12 +172,12 @@ void User::sendDraftEmails() {
 }
 
 void User::sendEmail(Email& email, User& receiver) {
-    m_outbox.sendEmail(&email, &receiver);
+    m_outbox.sendEmail(email, receiver);
 }
 
 void User::sendEmail(Email& email) {
-    User& receiver = ResourceManager::getReceiver(email.getReceiver());
-    m_outbox.sendEmail(&email, &receiver);
+    User* receiver = ResourceManager::getReceiver(email.getReceiver());
+    m_outbox.sendEmail(email, *receiver);
 }
 
 const Inbox& User::getInbox() const {

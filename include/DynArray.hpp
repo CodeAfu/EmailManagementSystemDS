@@ -1,6 +1,7 @@
 #pragma once
 #include <utility>
-#include <type_traits> // For std::is_pointer
+#include <type_traits>
+
 #include "ColorFormat.hpp"
 
 template <typename T>
@@ -86,9 +87,9 @@ public:
         }
 
         // TODO: Test
-        if (++m_offset == m_incr) {
-            reAlloc(m_capacity - m_capacity / 2);
-        }
+        // if (++m_offset == m_incr) {
+            // reAlloc(m_capacity - m_capacity / 2);
+        // }
     }
 
     T& operator[](size_t index) {
@@ -142,12 +143,12 @@ private:
     }
 
     void clear() {
-        // TODO: Sus condition to keep close lookout for
         if (m_arr == nullptr)
             return;
 
-        for (size_t i = 0; i < m_size; i++)
+        for (size_t i = 0; i < m_size; i++) {
             m_arr[i].~T();
+        }
 
         ::operator delete(m_arr, m_capacity * sizeof(T));
         m_arr = nullptr;

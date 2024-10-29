@@ -13,7 +13,13 @@ class User {
 public:
     User();
     User(int id, std::string name, std::string emailAddress);
+    
     ~User();
+    
+    User(const User& other);
+    User& operator=(const User& other);
+    User(User&& other) noexcept;
+    User& operator=(User&& other) noexcept;
 
 public:
     /// Getters and Setters

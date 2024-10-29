@@ -4,15 +4,15 @@
 #include "OutRequest.hpp"
 #include "EmailService.hpp"
 
-LLQueue<Email*> Outbox::getDraftEmails() const {
-    LLQueue<Email*> emails;
+LLQueue<Email> Outbox::getDraftEmails() const {
+    LLQueue<Email> emails;
 
     if (m_drafts.isEmpty()) 
         return emails;
 
     Node<OutRequest>* current = m_drafts.getFrontNode();
     while (current != nullptr) {
-        emails.enqueue(current->data.email);
+        emails.enqueue(*current->data.email);
         current = current->next;
     }
 
@@ -32,48 +32,50 @@ LLQueue<OutRequest> Outbox::getDraftRequests() const {
     }
 
     return requests;
+    // return m_drafts;
 }
 
-LLQueue<OutRequest>& Outbox::getDraftRequests() {
-    return m_drafts;
-}
+// LLQueue<OutRequest>& Outbox::getDraftRequests() {
+//     return m_drafts;
+// }
 
-LLQueue<Email*> Outbox::getSentEmails() const {
-    LLQueue<Email*> emails;
+LLQueue<Email> Outbox::getSentEmails() const {
+    LLQueue<Email> emails;
     if (m_sentEmails.isEmpty())
         return emails;
     
-    Node<Email*>* current = m_sentEmails.getFrontNode();
+    Node<Email>* current = m_sentEmails.getFrontNode();
     while (current != nullptr) {
         emails.enqueue(current->data);
         current = current->next;
     }
 
     return emails;
+    // return m_sentEmails;
 }
 
-LLQueue<Email*>& Outbox::getSentEmails() {
-    return m_sentEmails;
+// LLQueue<Email>& Outbox::getSentEmails() {
+//     return m_sentEmails;
+// }
+
+void Outbox::addDraft(Email& email, User& user) {
+    email.setIsDraft(true);
+    email.setIsSent(false);
+
+    m_drafts.enqueue(OutRequest(&email, &user));
 }
 
-void Outbox::addDraft(Email* email, User* user) {
-    email->setIsDraft(true);
-    email->setIsSent(false);
-
-    m_drafts.enqueue(OutRequest(email, user));
-}
-
-void Outbox::addSentEmail(Email* email) {
+void Outbox::addSentEmail(const Email& email) {
     m_sentEmails.enqueue(email);
 }
 
-void Outbox::sendEmail(Email* email, User* receiver) {
+void Outbox::sendEmail(Email& email, User& receiver) {
     auto& email_service = EmailService::GetInstance();
 
-    email->setIsDraft(false);
-    email->setIsSent(true);
+    email.setIsDraft(false);
+    email.setIsSent(true);
 
-    email_service.addRequest(email, receiver);
+    email_service.addRequest(&email, &receiver);
     m_sentEmails.enqueue(email);
     email_service.sendAllRequests(); // TODO: needs to be be revised, called inside main
 }
@@ -86,10 +88,10 @@ void Outbox::removeByPlacement(int index) {
         ColorFormat::print("[Error] Index out of range", Color::Red);
     }
 
-    LLQueue<Email*> temp;
+    LLQueue<Email> temp;
     for (int i = 0; i < size; i++) {
         if (i == index) {
-            Email& email = *m_sentEmails.dequeue();
+            Email email = m_sentEmails.dequeue();
             ColorFormat::print("Email removed: " + email.getId(), Color::BrightBlue);
             continue;
         };
@@ -99,12 +101,12 @@ void Outbox::removeByPlacement(int index) {
 
 // TODO: Test this
 void Outbox::removeEmail(int id) {
-    LLQueue<Email*> temp;
+    LLQueue<Email> temp;
     bool removed = false;
     int size = m_sentEmails.size();
 
     for (size_t i = 0; i < size; i++) {
-        if (m_sentEmails.getFront()->getId() == id) {
+        if (m_sentEmails.getFront().getId() == id) {
             m_sentEmails.dequeue();
             continue;
         }

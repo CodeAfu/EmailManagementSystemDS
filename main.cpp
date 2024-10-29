@@ -5,9 +5,9 @@
 #include <sstream>
 #include <algorithm>
 
+#include "ResourceManager.hpp"
 #include "ColorFormat.hpp"
 #include "Helper.hpp"
-#include "ResourceManager.hpp"
 #include "Email.hpp"
 #include "User.hpp"
 
@@ -180,7 +180,7 @@ void replyFromInbox(User& user) {
         return;
     }
 
-    DynArray<User*>& users = ResourceManager::getUsers();
+    DynArray<User>& users = ResourceManager::getUsers();
 
     // user.sendEmail(Email(ResourceManager::nextEmailId(), user.getEmailAddress(), 
     //                 email.getSender(), new_subject, body));
@@ -371,21 +371,19 @@ User& userSelectionMenu(DynArray<User>& users) {
     }
 }
 
-void populateData(DynArray<User>& users, DynArray<Email>& emails);
+void populateData();
 void test();
 
 int main(int argc, char** argv) {
 	system("cls");
 
-    DynArray<User> users = Seed::users();
-    DynArray<Email> emails = Seed::emails();
+    ResourceManager::seedInitialData();
 
-    ResourceManager::populateUsers(users);
+    DynArray<User>& users = ResourceManager::getUsers();
 
-    if (users.size() > 0 || emails.size() > 0) {
-        populateData(users, emails);
+    if (users.size() > 0) {
+        populateData();
     }
-
 
 	// TODO: Console Flow
 	int choice;
@@ -429,81 +427,87 @@ int main(int argc, char** argv) {
 	return 0;
 }
 
-void populateData(DynArray<User>& users, DynArray<Email>& emails) {
-    User& emma = users[0];
-    User& liam = users[1];
-    User& sophia = users[2];
-    User& noah = users[3];
-    User& mia = users[4];
+void populateData() {
+    auto& u = ResourceManager::getUsers();
+    User& emma = u[0];
+    User& liam = u[1];
+    User& sophia = u[2];
+    User& noah = u[3];
+    User& mia = u[4];
 
-    emma.sendEmail(emails[0], liam);
-    sophia.sendEmail(emails[1], noah);
-    mia.sendEmail(emails[2], emma);
-    liam.sendEmail(emails[3], sophia);
-    noah.sendEmail(emails[4], mia);
-    emma.sendEmail(emails[5], noah);
-    sophia.sendEmail(emails[6], mia);
-    noah.sendEmail(emails[7], liam);
-    sophia.sendEmail(emails[8], noah);
-    noah.sendEmail(emails[9], liam); 
+    DynArray<Email> emails = Seed::emails();
 
-    // emma.sendEmail(emails[0]);
-    // sophia.sendEmail(emails[1]);
-    // mia.sendEmail(emails[2]);
-    // liam.sendEmail(emails[3]);
-    // noah.sendEmail(emails[4]);
-    // emma.sendEmail(emails[5]);
-    // sophia.sendEmail(emails[6]);
-    // noah.sendEmail(emails[7]);
-    // sophia.sendEmail(emails[8]);
-    // noah.sendEmail(emails[9]);
+    for (int i = 0; i < u.size(); i++) {
+        ColorFormat::print(u[i].getName() + " - " + u[i].getEmailAddress(), Color::BrightGreen);
+    }
+
+    // emma.sendEmail(emails[0], liam);
+    // sophia.sendEmail(emails[1], noah);
+    // mia.sendEmail(emails[2], emma);
+    // liam.sendEmail(emails[3], sophia);
+    // noah.sendEmail(emails[4], mia);
+    // emma.sendEmail(emails[5], noah);
+    // sophia.sendEmail(emails[6], mia);
+    // noah.sendEmail(emails[7], liam);
+    // sophia.sendEmail(emails[8], noah);
+    // noah.sendEmail(emails[9], liam); 
+
+    emma.sendEmail(emails[0]);
+    sophia.sendEmail(emails[1]);
+    mia.sendEmail(emails[2]);
+    liam.sendEmail(emails[3]);
+    noah.sendEmail(emails[4]);
+    emma.sendEmail(emails[5]);
+    sophia.sendEmail(emails[6]);
+    noah.sendEmail(emails[7]);
+    sophia.sendEmail(emails[8]);
+    noah.sendEmail(emails[9]);
 
     ColorFormat::print("User Data populated!\n", Color::BrightGreen);
 }
 
-void test() {
-	User john(ResourceManager::nextUserId(), "John", "j1@example.com");
-	User potato(ResourceManager::nextUserId(), "Potato", "j2@example.com");
+// void test() {
+// 	User john(ResourceManager::nextUserId(), "John", "j1@example.com");
+// 	User potato(ResourceManager::nextUserId(), "Potato", "j2@example.com");
 
-	Email email_one(ResourceManager::nextEmailId(), john.getEmailAddress(), potato.getEmailAddress(), 
-		"First", "Hi there, I hope you are doing well. I wanted to invite you to a meeting on Friday at 2 PM to discuss the project. Let me know if you can make it.");
-	Email email_two(ResourceManager::nextEmailId(), john.getEmailAddress(), potato.getEmailAddress(), 
-		"Second", "Hey there, I wanted to let you know that the meeting time has changed to 3 PM on Friday. Sorry for the inconvenience.");
-	Email email_three(ResourceManager::nextEmailId(), john.getEmailAddress(), potato.getEmailAddress(),
-		"Third", "Hi there, I just wanted to let you know that the meeting on Friday has been cancelled. I apologize for any inconvenience this may have caused. We will be rescheduling the meeting at a later time.");
-	Email email_four(ResourceManager::nextEmailId(), john.getEmailAddress(), potato.getEmailAddress(),
-		"Fourth", "Hi there, I just wanted to make sure that you are aware that the meeting has been cancelled. I will let you know once it has been rescheduled.");
+// 	Email email_one(ResourceManager::nextEmailId(), john.getEmailAddress(), potato.getEmailAddress(), 
+// 		"First", "Hi there, I hope you are doing well. I wanted to invite you to a meeting on Friday at 2 PM to discuss the project. Let me know if you can make it.");
+// 	Email email_two(ResourceManager::nextEmailId(), john.getEmailAddress(), potato.getEmailAddress(), 
+// 		"Second", "Hey there, I wanted to let you know that the meeting time has changed to 3 PM on Friday. Sorry for the inconvenience.");
+// 	Email email_three(ResourceManager::nextEmailId(), john.getEmailAddress(), potato.getEmailAddress(),
+// 		"Third", "Hi there, I just wanted to let you know that the meeting on Friday has been cancelled. I apologize for any inconvenience this may have caused. We will be rescheduling the meeting at a later time.");
+// 	Email email_four(ResourceManager::nextEmailId(), john.getEmailAddress(), potato.getEmailAddress(),
+// 		"Fourth", "Hi there, I just wanted to make sure that you are aware that the meeting has been cancelled. I will let you know once it has been rescheduled.");
 
-	john.composeDraftEmail(email_one, potato);
-	john.composeDraftEmail(email_two, potato);
-	john.composeDraftEmail(email_three, potato);
-	john.composeDraftEmail(email_four, potato);
+// 	john.composeDraftEmail(email_one, potato);
+// 	john.composeDraftEmail(email_two, potato);
+// 	john.composeDraftEmail(email_three, potato);
+// 	john.composeDraftEmail(email_four, potato);
 
-	potato.composeDraftEmail(email_three, john);
-	potato.composeDraftEmail(email_four, john);
+// 	potato.composeDraftEmail(email_three, john);
+// 	potato.composeDraftEmail(email_four, john);
 
-	john.viewDraftEmails();
+// 	john.viewDraftEmails();
 
-	std::cout << std::endl;	
-	std::cout << "Outbox Size: " << john.getOutboxSize() << std::endl;
-	john.sendDraftEmails();
-	std::cout << "Outbox Size: " << john.getOutboxSize() << std::endl;
-	std::cout << std::endl;	
+// 	std::cout << std::endl;	
+// 	std::cout << "Outbox Size: " << john.getOutboxSize() << std::endl;
+// 	john.sendDraftEmails();
+// 	std::cout << "Outbox Size: " << john.getOutboxSize() << std::endl;
+// 	std::cout << std::endl;	
 	
-	std::cout << std::endl;
-	john.viewDraftEmails();
-	std::cout << std::endl;
+// 	std::cout << std::endl;
+// 	john.viewDraftEmails();
+// 	std::cout << std::endl;
 
-	std::cout << std::endl;
-	potato.viewInbox();
-	std::cout << std::endl;
+// 	std::cout << std::endl;
+// 	potato.viewInbox();
+// 	std::cout << std::endl;
 
-	std::cout << std::endl;
-	john.viewSentEmails();
-	std::cout << std::endl;
+// 	std::cout << std::endl;
+// 	john.viewSentEmails();
+// 	std::cout << std::endl;
 
-	// Email email = potato.getFromInbox(3);
-	// email.display();
-	// std::cout << std::endl;
-
-}
+// 	Email email = potato.getFromInbox(3);
+// 	email.display();
+// 	std::cout << std::endl;
+// }

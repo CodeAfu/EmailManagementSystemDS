@@ -12,17 +12,63 @@ public:
 
     ~LLQueue() {
         // ColorFormat::print("LLQueue Destroyed", Color::Red);
-        Node<T>* current = m_front;
-        while (current != nullptr) {
-            Node<T>* tmp = current->next;
+        clear();
+    }
 
-            // if constexpr (std::is_pointer<T>::value) {
-            //     current->data = nullptr;
-            // }
-            
-            delete current;
-            current = tmp;
+        // Copy constructor
+    LLQueue(const LLQueue& other) : m_front(nullptr), m_rear(nullptr), m_size(0) {
+        // Deep copy by enqueueing each element
+        Node<T>* current = other.m_front;
+        while (current != nullptr) {
+            enqueue(current->data);  // This will copy the data
+            current = current->next;
         }
+    }
+
+    // Copy assignment
+    LLQueue& operator=(const LLQueue& other) {
+        if (this != &other) {
+            // Clear existing nodes
+            clear();
+            
+            // Deep copy from other
+            Node<T>* current = other.m_front;
+            while (current != nullptr) {
+                enqueue(current->data);
+                current = current->next;
+            }
+        }
+        return *this;
+    }
+
+    // Move constructor
+    LLQueue(LLQueue&& other) noexcept 
+        : m_front(other.m_front)
+        , m_rear(other.m_rear)
+        , m_size(other.m_size) {
+        // Nullify other
+        other.m_front = nullptr;
+        other.m_rear = nullptr;
+        other.m_size = 0;
+    }
+
+    // Move assignment
+    LLQueue& operator=(LLQueue&& other) noexcept {
+        if (this != &other) {
+            // Clear existing nodes
+            clear();
+            
+            // Take ownership
+            m_front = other.m_front;
+            m_rear = other.m_rear;
+            m_size = other.m_size;
+            
+            // Nullify other
+            other.m_front = nullptr;
+            other.m_rear = nullptr;
+            other.m_size = 0;
+        }
+        return *this;
     }
 
     bool isEmpty() const {
@@ -67,8 +113,9 @@ public:
         Node<T>* n = new Node<T>(std::move(val));
         if (isEmpty()) {
             m_front = m_rear = n;
+            m_size++;
+            return;
         }
-
         m_rear->next = n;
         m_rear = n;
         m_size++;
@@ -95,7 +142,21 @@ public:
         return m_size;
     }
 
-    private:
+
+private:
+    void clear() {
+        Node<T>* current = m_front;
+        while (current != nullptr) {
+            Node<T>* tmp = current->next;
+            delete current;
+            current = tmp;
+        }
+        m_front = nullptr;
+        m_rear = nullptr;
+        m_size = 0;
+    }
+
+private:
     Node<T>* m_front;
     Node<T>* m_rear;
     size_t m_size;

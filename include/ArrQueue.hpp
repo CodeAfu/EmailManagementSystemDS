@@ -12,6 +12,10 @@ public:
     
     ~ArrQueue() {
         // ColorFormat::print("ArrQueue Destroyed", Color::BrightMagenta);
+        size_t size = sizeof(m_arr) / sizeof(m_arr[0]);
+        for (int i = 0; i < size; i++) {
+            m_arr[i].~T();
+        }
     }
     
 public:
@@ -78,21 +82,21 @@ public:
         return res;
     }
 
-    T& dequeueRef() {
-        if (isEmpty()) {
-            throw std::out_of_range("ArrQueue is empty");
-        }
+    // T& dequeueRef() {
+    //     if (isEmpty()) {
+    //         throw std::out_of_range("ArrQueue is empty");
+    //     }
 
-        T& res = m_arr[m_front];
-        m_front++;
-        m_size--;
+    //     T& res = m_arr[m_front];
+    //     m_front++;
+    //     m_size--;
 
-        if (isEmpty()) {
-            m_front = m_rear = -1;
-        }
+    //     if (isEmpty()) {
+    //         m_front = m_rear = -1;
+    //     }
 
-        return res;
-    }
+    //     return res;
+    // }
 
     size_t size() const {
         return m_size;

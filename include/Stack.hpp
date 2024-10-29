@@ -57,7 +57,6 @@ public:
         return result;
     }
 
-    
     T& popRef() {
         if (isEmpty()) {
             throw std::out_of_range("Stack is empty");

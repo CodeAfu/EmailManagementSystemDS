@@ -18,7 +18,7 @@ void EmailService::sendAllRequests() {
     auto& instance = GetInstance();
     // std::lock_guard<std::mutex> lock(instance.m_mutex);
     while (instance.m_requests.size() > 0) {
-        OutRequest& request = instance.m_requests.dequeueRef();
+        OutRequest request = instance.m_requests.dequeue();
         ColorFormat::print("[EmailService] \'" + request.email->getSubject() + "\' sent to \'"
                            + request.receiver->getName() + "\'", Color::BrightCyan);
         request.send();
@@ -33,7 +33,7 @@ void EmailService::sendNextRequest() {
         ColorFormat::print("EmailService is empty", Color::Yellow);
         return;
     }
-    instance.m_requests.dequeueRef().send();
+    instance.m_requests.dequeue().send();
     ColorFormat::print("[EmailService] Sent a Request from EmailService: " 
                        + std::to_string(instance.m_requests.size()), Color::BrightCyan);
 }
