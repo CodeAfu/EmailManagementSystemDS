@@ -18,10 +18,11 @@ public:
         // DynArray<Email> emails = Seed::emails();
 
         for (int i = 0; i < users.size(); i++) {
+            int id = users[i].getId();
             std::string name = users[i].getName();
             std::string email = users[i].getEmailAddress();
 
-            instance.m_users.emplaceBack(nextUserId(), name, email);
+            instance.m_users.emplaceBack(id, name, email);
             User& user = instance.m_users[i];
             instance.m_userTree.insertUser(user);
         }

@@ -41,6 +41,7 @@ public:
     Email getFromInbox(int id) const;
     // Email& getFromInbox(int id);
     // Email* getFromInboxPtr(int id);
+    void popFromInbox();
     void deleteFromInbox(int index);
     void replyFromInbox(int index) const;
 

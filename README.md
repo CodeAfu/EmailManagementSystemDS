@@ -58,6 +58,10 @@
     3. View Spam Folder
     4. View Important Folder
 
+## Object Ownership
+- Email - DynArray, LLQueue, ArrQueue
+- User - ResourceManager
+
 ## Index Generation for User and Email
 ```cpp
 #include "ResourceManager.hpp"
@@ -157,3 +161,7 @@ private:
     // Other fields...
 };
 ```
+
+
+
+

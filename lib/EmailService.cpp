@@ -80,22 +80,22 @@ void EmailService::displayNext() {
     instance.getNext().email->display(); 
 }
 
-void EmailService::subscribeUser(User* user) {
-    auto& instance = GetInstance();
-    // std::lock_guard<std::mutex> lock(instance.m_mutex);
-    instance.m_subscribers.emplaceBack(user); 
-}
+// void EmailService::subscribeUser(User* user) {
+//     auto& instance = GetInstance();
+//     // std::lock_guard<std::mutex> lock(instance.m_mutex);
+//     instance.m_subscribers.emplaceBack(user); 
+// }
 
-void EmailService::unsubscribeUser(User* user) {
-    auto& instance = GetInstance();
-    // std::lock_guard<std::mutex> lock(instance.m_mutex);
-    for (size_t i = 0; i < instance.m_subscribers.size(); i++) {
-        if (instance.m_subscribers[i] == user) {
-            instance.m_subscribers[i] = nullptr;
-            break;
-        }
-    }
-}
+// void EmailService::unsubscribeUser(User* user) {
+//     auto& instance = GetInstance();
+//     // std::lock_guard<std::mutex> lock(instance.m_mutex);
+//     for (size_t i = 0; i < instance.m_subscribers.size(); i++) {
+//         if (instance.m_subscribers[i] == user) {
+//             instance.m_subscribers[i] = nullptr;
+//             break;
+//         }
+//     }
+// }
 
 // Internal Methods
 void EmailService::enqueueRequest(OutRequest&& request) {

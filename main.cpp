@@ -191,6 +191,37 @@ void replyFromInbox(User& user) {
     system("cls");
 }
 
+void deleteTopFromInbox(User& user) {
+    system("cls");
+
+    user.viewLastFromInbox();
+    std::cout << "\n\nDeleting email... Are you sure? (Y/N): ";
+
+    while (true) {
+        char res;
+        Console::clearCin();
+        std::cin >> res;
+
+        if (res == 'Y' || res == 'y') {
+            user.popFromInbox();
+            ColorFormat::println("Email Deleted", Color::Red);
+            Console::clearCin();
+            std::cout << "\n\nPress any key to continue...";
+            std::cin.get();
+            break;
+
+        } else if (res == 'N' || res == 'n') {
+            break;
+
+        } else {
+            Console::clearCin();
+            ColorFormat::println("Invalid input. Please enter 'Y' or 'N'.", Color::Yellow);
+            continue;
+        }
+    }
+    system("cls");
+}
+
 void deleteFromInbox(User& user) {
     system("cls");
     user.viewInbox();
@@ -244,8 +275,9 @@ void viewInbox(User& user) {
         "1. View Last Email",
         "2. Select Email to View",
         "3. Reply Email",
-        "4. Delete Email",
-        "5. Go back" 
+        "4. Delete Top Email",
+        "5. Delete Email",
+        "6. Go back" 
     };
 
     int size = sizeof(choices) / sizeof(choices[0]);
@@ -262,7 +294,6 @@ void viewInbox(User& user) {
         std::cout << "------------------------" << std::endl;
 
         int choice;
-        int inner_choice;
         std::cout << "Enter your choice: ";
 
         if (!Console::validateIntInput(choice)) {
@@ -285,10 +316,14 @@ void viewInbox(User& user) {
                 break;
 
             case 4:
-                deleteFromInbox(user);
+                deleteTopFromInbox(user);
                 break;
 
             case 5:
+                deleteFromInbox(user);
+                break;
+
+            case 6:
                 system("cls");
                 return;
 
@@ -307,10 +342,57 @@ void viewOutbox(User& user) {
     system("cls");
     user.viewSentEmails();
 
-    std::cout << "\nPress any key to continue..." << std::endl;
-    std::cin.clear(); // Clear the error state
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
-    std::cin.get();
+    std::string choices[] = { 
+        "1. Compose Email",
+        "2. View Sent Emails",
+        "3. Select Email to View",
+        "4. Delete Email",
+        "5. Go back" 
+    };
+
+    int size = sizeof(choices) / sizeof(choices[0]);
+
+    while (true) {
+        user.viewInbox();
+        std::cout << std::endl;
+
+        std::cout << "Menu" << std::endl;
+        std::cout << "------------------------" << std::endl;
+        for (size_t i = 0; i < size; i++) {
+            std::cout << choices[i] << std::endl;
+        }
+        std::cout << "------------------------" << std::endl;
+
+        int choice;
+        std::cout << "Enter your choice: ";
+
+        if (!Console::validateIntInput(choice)) {
+            system("cls");
+            std::cout << "Invalid input. Please enter a number between 1 and " << size << ".\n" << std::endl;
+            continue;
+        }
+
+        switch (choice) {
+            case 1:
+                break;
+
+            case 2:
+                break;
+
+            case 3:
+                break;
+
+            case 4:
+                break;
+
+            case 5:
+                break;
+
+            default:
+                break;
+
+        }
+    }
     system("cls");
 }
 
@@ -375,9 +457,9 @@ User userSelectionMenu(DynArray<User>& users) {
 int main(int argc, char** argv) {
 	system("cls");
 
-    DynArray<User>& users = ResourceManager::getUsers();
     ResourceManager::seedInitialData();
     ResourceManager::populateData();
+    DynArray<User>& users = ResourceManager::getUsers();
 
 	int choice;
     User user = userSelectionMenu(users);
@@ -391,7 +473,7 @@ int main(int argc, char** argv) {
 		if (std::cin.fail()) {
             std::cout << "Invalid input. Please enter a number between 1 and 6.\n";
             Console::clearCin();
-            continue; // Restart loop
+            continue;
         }
 
         switch (choice) {
@@ -418,8 +500,9 @@ int main(int argc, char** argv) {
                 std::cout << "Invalid choice. Please try again.\n";
         }
 	}
+
 	ColorFormat::println("END", Color::Cyan);
 	std::cin.get();
+
 	return 0;
 }
-

@@ -15,14 +15,14 @@ User::User(int id, std::string name, std::string emailAddress)
     : m_id(id), m_name(name), m_emailAddress(emailAddress), 
       s_emailService(&EmailService::GetInstance()) {
     
-    s_emailService->subscribeUser(this);
+    // s_emailService->subscribeUser(this);
 }
 
 User::~User() {
     // std::cout << "User " << m_name << " deleted." << std::endl;
-    s_emailService->unsubscribeUser(this);
+    // s_emailService->unsubscribeUser(this);
     s_emailService = nullptr;
-    ColorFormat::println("[BAD] User " + m_name + " deleted.", Color::BrightRed);
+    // ColorFormat::println("[BAD] User " + m_name + " deleted.", Color::BrightRed);
 }
 
 User::User(const User& other) 
@@ -240,9 +240,6 @@ void User::viewLastFromInbox() const {
     }
     Email email = m_inbox.peek();
     email.display();
-    // std::cout << "From: " << email.getSender() << std::endl;
-    // std::cout << "Subject: " << email.getSubject() << std::endl << std::endl;
-    // std::cout << "Body: " << email.getBody() << std::endl;
 }
 
 Email User::getFromInbox(int id) const {
@@ -308,6 +305,10 @@ Email User::getFromInbox(int id) const {
 
 //     return out;
 // }
+
+void User::popFromInbox() {
+    m_inbox.pop();
+}
 
 void User::deleteFromInbox(int id) {
     Stack<Email> temp;
