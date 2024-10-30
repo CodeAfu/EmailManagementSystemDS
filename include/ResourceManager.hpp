@@ -80,7 +80,16 @@ public:
 
     static DynArray<User>& getUsers() {
         return GetInstance().m_users;
-    }    
+    }
+    
+    static void printUserList() {
+        DynArray<User>& users = ResourceManager::getUsers();
+        ColorFormat::println("----------------------------------------", Color::Cyan);
+        for (size_t i = 0; i < users.size(); i++) {
+            ColorFormat::println(users[i].getName() + " - " + users[i].getEmailAddress(), Color::Cyan);
+        }
+        ColorFormat::println("----------------------------------------\n", Color::Cyan);
+    }
 
     // static void populateUserBST() {
     //     auto& instance = GetInstance();

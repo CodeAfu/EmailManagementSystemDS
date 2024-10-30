@@ -20,7 +20,11 @@ public:
 
     void addDraft(Email& email);
     void addSentEmail(const Email& email);
+
+    int editDraftEmail(int id);
     void sendEmail(Email& email, User& user);
+
+    void updateDraftEmail(const Email& replace_email);
 
     bool removeDraftById(int id);
     bool removeSentById(int id);

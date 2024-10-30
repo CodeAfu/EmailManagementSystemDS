@@ -42,6 +42,7 @@ public:
     // Email* getFromInboxPtr(int id);
     Email getFromSent(int id);
     Email getFromDraft(int id);
+    void updateFromDraft(const Email& email);
     const Outbox& getOutbox() const;
     Outbox& getOutbox();
     void popFromInbox();
@@ -53,7 +54,7 @@ public:
     void sendEmail(Email& email, User& receiver);
     void sendEmail(Email& email);
     void receiveEmail(Email& email);
-    void sendDraftEmails();
+    void sendAllDraftEmails();
 
     Email peekInbox() const;
     Email popInbox();

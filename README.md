@@ -59,7 +59,7 @@
     4. View Important Folder
 
 ## Object Ownership
-- Email - DynArray, LLQueue, ArrQueue
+- Email - Inbox, Outbox
 - User - ResourceManager
 
 ## Index Generation for User and Email

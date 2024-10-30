@@ -94,12 +94,26 @@ void Outbox::sendEmail(Email& email, User& receiver) {
     auto& email_service = EmailService::GetInstance();
 
     email.setIsDraft(false);
-    email.setIsSent(true);
 
     email_service.addRequest(&email, &receiver);
     m_sentEmails.enqueue(email);
     email_service.sendAllRequests(); // TODO: needs to be be revised, called inside main
 }
+
+void Outbox::updateDraftEmail(const Email& replace_email) {
+    LLQueue<Email> temp;
+    
+    while (!m_draftEmails.isEmpty()) {
+        Email email = m_draftEmails.dequeue();
+        if (email.getId() == replace_email.getId()) {
+            temp.enqueue(replace_email);
+            continue;
+        }
+        temp.enqueue(email);
+    }
+    m_draftEmails = temp;
+}
+
 
 bool Outbox::removeDraftById(int id) {
     LLQueue<Email> temp;
@@ -114,6 +128,7 @@ bool Outbox::removeDraftById(int id) {
         }
         temp.enqueue(m_draftEmails.dequeue());
     }
+
     m_draftEmails = temp;
     return removed;
 }
@@ -131,6 +146,7 @@ bool Outbox::removeSentById(int id) {
         }
         temp.enqueue(m_sentEmails.dequeue());
     }
+
     m_sentEmails = temp;
     return removed;
 }

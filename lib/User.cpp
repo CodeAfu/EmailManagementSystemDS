@@ -154,9 +154,9 @@ void User::viewSentEmails() const {
 }
 
 
-void User::sendDraftEmails() {
+void User::sendAllDraftEmails() {
     auto& email_service = EmailService::GetInstance();
-    LLQueue<Email> drafts = m_outbox.getDraftEmails();
+    LLQueue<Email>& drafts = m_outbox.getDraftEmails();
 
     while (!drafts.isEmpty()) {
         Email email = drafts.dequeue();
@@ -338,6 +338,10 @@ Email User::getFromDraft(int id) {
     return m_outbox.getDraftById(id);
 }
 
+void User::updateFromDraft(const Email& email) {
+    m_outbox.updateDraftEmail(email);
+}
+
 void User::popFromInbox() {
     m_inbox.pop();
     ColorFormat::println(std::to_string(m_inbox.size()) + " emails left in inbox", Color::BrightCyan);
@@ -360,13 +364,12 @@ void User::deleteFromInbox(int id) {
 }
 
 bool User::deleteFromSent(int id) {
-
+    return m_outbox.removeSentById(id);
 }
 
 bool User::deleteFromDraft(int id) {
-
+    return m_outbox.removeDraftById(id);
 }
-
 
 Email User::peekInbox() const {
     return m_inbox.peek();
