@@ -769,7 +769,7 @@ void viewDraftEmails(User& user) {
     }
 
     std::string choices[] = { 
-        "1. Edit Email",
+        "1. View Email",
         "2. Edit Email",
         "3. Delete Email",
         "4. Send Email",

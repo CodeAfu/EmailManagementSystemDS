@@ -31,8 +31,9 @@
 - Priority Handling (Priority Queue) &emsp; **[Osama]**
 
 ## Contribution Instructions
-- Make sure your part uses the relevant data structure
-- Use the predefined Email and User classes
+- **Use the predefined Email and User classes**
+- **Do NOT use the csv files to load and save your data. The csv files are only there for seeding of initial data into the application**
+- Make sure your part uses a relevant data structure built by yourself
 - Feel free to use the DynArray class if you want, but dont trust it to be as optimized as std::vector
 - Keep Code Clean and Readable
 - Make sure the project runs before you contribute your code. If possible, test with the latest changes on Github.
