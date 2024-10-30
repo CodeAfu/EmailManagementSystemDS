@@ -21,6 +21,7 @@ void OutRequest::send() {
     if (receiver && email) {
         email->setIsSent(true);
         email->setIsDraft(false);
+        email->setIsRead(false);
         receiver->receiveEmail(*email);
     }
 }

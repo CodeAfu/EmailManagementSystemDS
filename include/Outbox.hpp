@@ -15,11 +15,15 @@ public:
     LLQueue<Email>& getDraftEmails();
     LLQueue<Email> getSentEmails() const;
     LLQueue<Email>& getSentEmails();
+    Email getSentById(int id);
+    Email getDraftById(int id);
+
     void addDraft(Email& email);
     void addSentEmail(const Email& email);
     void sendEmail(Email& email, User& user);
-    void removeByPlacement(int index); // TODO: give a better name
-    void removeEmail(int id);
+
+    bool removeDraftById(int id);
+    bool removeSentById(int id);
 
     size_t size() const;
     size_t sizeDrafts() const;

@@ -108,7 +108,7 @@ void searchAndRetrieval(const User& user) { // Ensure user is passed as a refere
 /// Inbox Menus
 void viewLastFromInbox(User& user) {
     system("cls");
-    user.viewLastFromInbox();
+    user.readLastFromInbox();
 
     std::cout << "\n\nPress any key to continue...";
     Console::clearCin();
@@ -118,13 +118,14 @@ void viewLastFromInbox(User& user) {
 
 void viewSelectedInboxEmail(User& user) {
     system("cls");
+
     user.viewInbox();
     std::cout << std::endl;
 
     std::cout << "------------------------" << std::endl;
     int choice = Console::getIntUserInput("Select the ID of Email you want to view: ");
 
-    Email email = user.getFromInbox(choice);
+    Email email = user.readFromInbox(choice);
     system("cls");
     if (email.getId() == -1) {
         ColorFormat::println("Please enter ID value for an email that exists.", Color::Yellow);
@@ -137,6 +138,32 @@ void viewSelectedInboxEmail(User& user) {
     system("cls");
 }
 
+void viewUnreadEmails(User& user) {
+    system("cls");
+
+    Inbox& inbox = user.getInbox();
+    Inbox temp;
+    std::string choice = "";
+
+    Console::clearCin();
+    while (!inbox.isEmpty() && Formatter::toLower(choice) != "q") {
+        Email email = inbox.pop();
+        if (!email.isRead()) {
+            email.display();
+            email.setIsRead(true);
+            choice = Console::getStringUserInput("\n\nPress any key to continue, Q to exit: ");
+        }
+        temp.push(email);
+        system("cls");
+    }
+
+    while (!temp.isEmpty()) {
+        inbox.push(temp.pop());
+    }
+
+    system("cls");
+}
+
 void replyFromInbox(User& user) {    
     system("cls");
     user.viewInbox();
@@ -145,7 +172,7 @@ void replyFromInbox(User& user) {
     std::cout << "------------------------" << std::endl;
     int choice = Console::getIntUserInput("Select the ID of Email you want to reply: ");
 
-    Email email = user.getFromInbox(choice);
+    Email email = user.readFromInbox(choice);
 
     if (email.getId() == -1) {
         ColorFormat::println("Please enter ID value for an email that exists.", Color::Yellow);
@@ -178,6 +205,18 @@ void replyFromInbox(User& user) {
         return;
     }
 
+    std::string is_important;
+    while (is_important != "Y" && is_important != "y" && is_important != "N" && is_important != "n") {
+        is_important = Console::getStringUserInput("\nMark as Important? (Y/N): ");
+        if (is_important == "Y" || is_important == "y") {
+            email.setIsImportant(true);
+        } else if (is_important == "N" || is_important == "n") {
+            email.setIsImportant(false);
+        } else {
+            ColorFormat::println("Invalid input. Please enter Y or N.", Color::Yellow);
+        }
+    }
+
     auto& instance = ResourceManager::GetInstance();
 
     Email out = Email(ResourceManager::nextEmailId(), user.getEmailAddress(), receiver, new_subject, body);
@@ -193,7 +232,7 @@ void replyFromInbox(User& user) {
 void deleteTopFromInbox(User& user) {
     system("cls");
 
-    user.viewLastFromInbox();
+    user.readLastFromInbox();
     std::cout << "\n\nDeleting email... Are you sure? (Y/N): ";
 
     while (true) {
@@ -266,12 +305,22 @@ void deleteFromInbox(User& user) {
 void viewInbox(User& user) {
     system("cls");
 
+    if (user.getInbox().isEmpty()) {
+        Console::clearCin();
+        ColorFormat::print("No Emails in Inbox.", Color::Yellow);
+        std::cout << "\n\nPress any key to continue..." << std::endl;
+        std::cin.get();
+        system("cls");
+        return;
+    }
+
     std::string choices[] = { 
         "1. View Last Email",
         "2. Select Email to View",
-        "3. Reply Email",
-        "4. Delete Top Email",
-        "5. Delete Email",
+        "3. Read Unread Emails",
+        "4. Reply Email",
+        "5. Delete Top Email",
+        "6. Delete Email",
         "0. Go back" 
     };
 
@@ -301,16 +350,19 @@ void viewInbox(User& user) {
             case 1:
                 viewLastFromInbox(user);
                 break;
-            case 2: {}
+            case 2:
                 viewSelectedInboxEmail(user);
                 break;
             case 3:
-                replyFromInbox(user);
+                viewUnreadEmails(user);
                 break;
             case 4:
-                deleteTopFromInbox(user);
+                replyFromInbox(user);
                 break;
             case 5:
+                deleteTopFromInbox(user);
+                break;
+            case 6:
                 deleteFromInbox(user);
                 break;
             case 0:
@@ -332,6 +384,7 @@ void composeEmail(User& user) {
     system("cls");
     DynArray<User>& users = ResourceManager::getUsers();
 
+    // Get receivers list
     ColorFormat::println("----------------------------------------", Color::Cyan);
     ColorFormat::println("Compose a new email", Color::Cyan);
     ColorFormat::println("----------------------------------------", Color::Cyan);
@@ -340,11 +393,11 @@ void composeEmail(User& user) {
     }
     ColorFormat::println("----------------------------------------\n", Color::Cyan);
 
+    // Search receiver
     Console::clearCin();
     std::string receiver_str = Console::getStringUserInput("To: ");
     receiver_str = Formatter::trim(receiver_str);
     User* receiver = ResourceManager::getReceiver(receiver_str);
-
     if (receiver == nullptr) {
         ColorFormat::println("Please enter email address of a valid user.", Color::Yellow);
         std::cin.get();
@@ -352,15 +405,31 @@ void composeEmail(User& user) {
         return;
     }
 
+    // Get subject and body
     std::string subject = Console::getStringUserInput("Subject: ");
     std::cout << std::endl;
     std::string body = Console::getStringUserInput("Body: ");
     std::cout << std::endl << std::endl; 
 
+    // Build Email
     Email email(ResourceManager::nextEmailId(), user.getEmailAddress(), receiver_str, subject, body);
     std::cout << "\n\n";
-    bool valid = false;
 
+    // Mark email as important?
+    std::string is_important;
+    while (is_important != "Y" && is_important != "y" && is_important != "N" && is_important != "n") {
+        is_important = Console::getStringUserInput("\nMark as Important? (Y/N): ");
+        if (is_important == "Y" || is_important == "y") {
+            email.setIsImportant(true);
+        } else if (is_important == "N" || is_important == "n") {
+            email.setIsImportant(false);
+        } else {
+            ColorFormat::println("Invalid input. Please enter Y or N.", Color::Yellow);
+        }
+    }
+
+    // Save as draft or send email
+    bool valid = false;
     while (!valid) {
         system("cls");
         std::cout << "Email:" << std::endl;
@@ -392,13 +461,26 @@ void composeEmail(User& user) {
 
 void selectFromSent(User& user) {
     system("cls");
-    
+
     user.viewSentEmails();
 
-    int choice = Console::getIntUserInput("\n\n Select the ID of Email you want to view: ");
+    int choice = Console::getIntUserInput("\n\nSelect the ID of Email you want to view: ");
 
-    // Email email = user.getFromSent(choice);
+    Email email = user.getFromSent(choice);
+    
+    if (email.getId() == -1) {
+        ColorFormat::println("\nPlease enter ID value for an email that exists.", Color::Yellow);
+        std::cin.get();
+        system("cls");
+        return;
+    }
 
+    system("cls");
+    email.display();
+
+    std::cout << "\n\nPress any key to continue..." << std::endl;
+    Console::clearCin();
+    std::cin.get();
 
     system("cls");
 }
@@ -406,12 +488,57 @@ void selectFromSent(User& user) {
 void deleteFromSent(User& user) {
     system("cls");
 
+    user.viewSentEmails();
+
+    int choice = Console::getIntUserInput("\n\nSelect the ID of Email you want to view: ");
+
+    Email email = user.getFromSent(choice);
+
+    if (email.getId() == -1) {
+        ColorFormat::println("Please enter ID value for an email that exists.", Color::Yellow);
+        std::cin.get();
+        system("cls");
+        return;
+    }
+
+    email.display();
+    std::cout << "\nAre you sure you want to delete this email? (Y/N): ";
+
+    while (true) {
+        char res;
+        Console::clearCin();
+        std::cin >> res;
+
+        if (res == 'Y' || res == 'y') {
+            user.deleteFromInbox(choice);
+            ColorFormat::println("Email Deleted", Color::Red);
+            Console::clearCin();
+            std::cout << "\n\nPress any key to continue...";
+            std::cin.get();
+            break;
+        } else if (res == 'N' || res == 'n') {
+            break;
+        } else {
+            Console::clearCin();
+            ColorFormat::println("Invalid input. Please enter 'Y' or 'N'.", Color::Yellow);
+            continue;
+        }
+    }
     system("cls");
 }
 
 
 void viewSentEmails(User& user) {
     system("cls");
+    
+    if (user.getOutbox().getSentEmails().isEmpty()) {
+        Console::clearCin();
+        ColorFormat::print("No Sent Emails", Color::Yellow);
+        std::cout << "\n\nPress any key to continue..." << std::endl;
+        std::cin.get();
+        system("cls");
+        return;
+    }
 
     std::string choices[] = { 
         "1. Compose Email",
@@ -457,7 +584,6 @@ void viewSentEmails(User& user) {
                 return;
             default:
                 break;
-
         }
     }
     system("cls");
@@ -467,12 +593,14 @@ void viewSentEmails(User& user) {
 void viewDraftEmails(User& user) {
     system("cls");
 
-    // if (user.getOutbox().getDraftEmails().isEmpty()) {
-    //     std::cout << "No drafts found." << std::endl;
-    //     std::cin.get();
-    //     system("cls");
-    //     return;
-    // }
+    if (user.getOutbox().getDraftEmails().isEmpty()) {
+        Console::clearCin();
+        ColorFormat::print("No Draft Emails", Color::Yellow);
+        std::cout << "\n\nPress any key to continue..." << std::endl;
+        std::cin.get();
+        system("cls");
+        return;
+    }
 
     std::string choices[] = { 
         "1. Edit Email",
@@ -515,7 +643,6 @@ void viewDraftEmails(User& user) {
                 return;
             default:
                 break;
-
         }
     }
 
@@ -545,7 +672,7 @@ void displayMenu() {
               << "Enter your choice: ";
 }
 
-User userSelectionMenu(DynArray<User>& users) {
+User& userSelectionMenu(DynArray<User>& users) {
     size_t size = users.size();
 
     while (true) {
@@ -590,10 +717,10 @@ int main(int argc, char** argv) {
     DynArray<User>& users = ResourceManager::getUsers();
 
 	int choice;
-    User user = userSelectionMenu(users);
+    User* current_user = &userSelectionMenu(users);
     
 	while (true) {
-        ColorFormat::println("Welcome, " + user.getName() + "!", Color::BrightCyan);
+        ColorFormat::println("Welcome, " + current_user->getName() + "!", Color::BrightCyan);
 		displayMenu();
 
         std::cin >> choice;
@@ -607,28 +734,28 @@ int main(int argc, char** argv) {
 
         switch (choice) {
             case 1:
-                viewInbox(user);
+                viewInbox(*current_user);
                 break;
             case 2:
-                viewSentEmails(user);
+                viewSentEmails(*current_user);
                 break;            
             case 3:
-                viewDraftEmails(user);
+                viewDraftEmails(*current_user);
                 break;
             case 4:
-                searchAndRetrieval(user); // Pass the selected user
+                searchAndRetrieval(*current_user); // Pass the selected user
                 break;
             case 5:
-                spamDetection(user);
+                spamDetection(*current_user);
                 break;
             case 6:
-                priorityHandling(user);
+                priorityHandling(*current_user);
                 break;
             case 0:
                 system("cls");
-                user = userSelectionMenu(users); // Update user reference
+                current_user = &userSelectionMenu(users); // Update user pointer
                 break;            
-            default:
+            default:    
                 system("cls");
                 std::cout << "Invalid choice. Please try again.\n";
         }

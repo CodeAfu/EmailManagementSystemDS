@@ -205,35 +205,42 @@ void User::viewInbox() const {
     Inbox temp = m_inbox;
 
     std::string header = m_name + "'s Inbox:";
-    int len = 72 - header.length();
+    int len = 79 - header.length();
 
     std::cout << header << std::right << std::setw(len) << m_emailAddress << std::endl;
-    std::cout << "------------------------------------------------------------------------\n";
-    std::cout << "|  ID  | From                        | Subject                         |\n";
-    std::cout << "------------------------------------------------------------------------\n";
+    std::cout << "-------------------------------------------------------------------------------\n";
+    std::cout << "|  ID  | From                        | Subject                         | Read |\n";
+    std::cout << "-------------------------------------------------------------------------------\n";
 
     int count = 1;
     while (!temp.isEmpty()) {
         Email email = temp.pop();
+        bool is_read = email.isRead();
         const std::string& sender = email.getSender();
         const std::string& subject = email.getSubject();
 
         const std::string id_str = std::to_string(email.getId());
+        const std::string& is_read_char = is_read ? "Y" : "N";
         std::cout << "| " << Formatter::centerAlign(id_str, 4) << " | "
                   << std::left << std::setw(28) << sender
-                  << "| " << std::setw(32) << subject << "|\n";
+                  << "| " << std::setw(32) << subject
+                  << "|  " << is_read_char << "   |\n";
     }
-    std::cout << "------------------------------------------------------------------------\n";
+    std::cout << "-------------------------------------------------------------------------------\n";
     std::cout << "Total Emails: " << std::to_string(m_inbox.size()) << "\n";
 }
 
-void User::viewLastFromInbox() const {
+void User::readLastFromInbox() {
     if (m_inbox.isEmpty()) {
         std::cout << "Inbox is empty." << std::endl;
         return;
     }
     Email email = m_inbox.peek();
     email.display();
+
+    email.setIsRead(true);
+    m_inbox.pop();
+    m_inbox.push(email);
 }
 
 Email User::getFromInbox(int id) const {
@@ -247,6 +254,28 @@ Email User::getFromInbox(int id) const {
     }
     return Email(); // return null email, id = -1
 }
+
+Email User::readFromInbox(int id) {
+    Inbox temp;
+    Email res;
+    
+    while (!m_inbox.isEmpty()) {
+        Email email = m_inbox.pop();
+        if (email.getId() == id) {
+            email.setIsRead(true);
+            res = email;
+        }
+        temp.push(email);
+    }
+
+    while (!temp.isEmpty()) {
+        m_inbox.push(temp.pop());
+    }
+
+    return res;
+}
+
+
 
 // Email& User::getFromInbox(int id) {
 //     int size = m_inbox.size();
@@ -300,8 +329,18 @@ Email User::getFromInbox(int id) const {
 //     return out;
 // }
 
+
+Email User::getFromSent(int id) {
+    return m_outbox.getSentById(id);
+}
+
+Email User::getFromDraft(int id) {
+    return m_outbox.getDraftById(id);
+}
+
 void User::popFromInbox() {
     m_inbox.pop();
+    ColorFormat::println(std::to_string(m_inbox.size()) + " emails left in inbox", Color::BrightCyan);
 }
 
 void User::deleteFromInbox(int id) {
@@ -320,9 +359,14 @@ void User::deleteFromInbox(int id) {
     }
 }
 
-void User::replyFromInbox(int id) const {
+bool User::deleteFromSent(int id) {
 
 }
+
+bool User::deleteFromDraft(int id) {
+
+}
+
 
 Email User::peekInbox() const {
     return m_inbox.peek();
@@ -336,4 +380,7 @@ size_t User::getOutboxSize() const {
     return m_outbox.size();
 }
 
+size_t User::getInboxSize() const {
+    return m_inbox.size();
+}
 /* Features */

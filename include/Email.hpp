@@ -18,6 +18,15 @@ public:
         // ColorFormat::println("Email Created: " + std::to_string(m_id), Color::Green);
     }
 
+    Email(int id, const std::string& sender, const std::string& receiver, 
+          const std::string& subject, const std::string& body, 
+          bool is_important, bool is_sent, bool is_spam, bool is_draft, bool is_read)
+        : m_id(id), m_sender(sender), m_receiver(receiver), m_subject(subject), m_body(body),
+          m_isImportant(is_important), m_isSent(is_sent), m_isSpam(is_spam), 
+          m_isDraft(is_draft), m_isRead(is_read) {
+        // ColorFormat::println("Email Created: " + std::to_string(m_id), Color::Green);
+    }
+
     ~Email() {
         // ColorFormat::println("Email Destroyed: " + std::to_string(m_id), Color::Red);
     }

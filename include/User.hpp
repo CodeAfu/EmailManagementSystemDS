@@ -29,21 +29,25 @@ public:
 
     /// Storage
     void viewInbox() const;
-    void viewLastFromInbox() const;
+    void readLastFromInbox();
     void viewDraftEmails() const;
     void viewSentEmails() const;
 
     const Inbox& getInbox() const;
     Inbox& getInbox();
-    const Outbox& getOutbox() const;
-    Outbox& getOutbox();
 
     Email getFromInbox(int id) const;
+    Email readFromInbox(int id);
     // Email& getFromInbox(int id);
     // Email* getFromInboxPtr(int id);
+    Email getFromSent(int id);
+    Email getFromDraft(int id);
+    const Outbox& getOutbox() const;
+    Outbox& getOutbox();
     void popFromInbox();
-    void deleteFromInbox(int index);
-    void replyFromInbox(int index) const;
+    void deleteFromInbox(int id);
+    bool deleteFromSent(int id);
+    bool deleteFromDraft(int id);
 
     void composeDraftEmail(Email& email);
     void sendEmail(Email& email, User& receiver);
@@ -54,6 +58,9 @@ public:
     Email peekInbox() const;
     Email popInbox();
     size_t getOutboxSize() const;
+    size_t getInboxSize() const;
+
+
 
     /// Features
 

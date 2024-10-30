@@ -1,6 +1,7 @@
 #pragma once
 
 enum Color {
+    Reset,
     Black,
     Red,
     Green,

@@ -5,6 +5,7 @@
 namespace ColorFormat {
     std::string get(Color color) {
     switch (color) {
+        case Reset: return "\033[0m";
         case Black: return "\033[30m";
         case Red: return "\033[31m";
         case Green: return "\033[32m";

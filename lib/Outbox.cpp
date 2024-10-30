@@ -44,6 +44,41 @@ LLQueue<Email>& Outbox::getSentEmails() {
     return m_sentEmails;
 }
 
+Email Outbox::getSentById(int id) {
+    Email email;
+    Email temp;
+    LLQueue<Email> temp_list;
+
+    while (!m_sentEmails.isEmpty()) {
+        temp = m_sentEmails.dequeue();
+        temp_list.enqueue(temp);
+
+        if (temp.getId() == id) {
+            email = temp;
+        }
+    }
+    m_sentEmails = temp_list;
+    return email;
+}
+
+Email Outbox::getDraftById(int id) {
+    Email email;
+    Email temp;
+    LLQueue<Email> temp_list;
+
+    while (!m_draftEmails.isEmpty()) {
+        temp = m_draftEmails.dequeue();
+        temp_list.enqueue(temp);
+
+        if (temp.getId() == id) {
+            email = temp;
+        }
+    }
+    m_draftEmails = temp_list;
+    return email;
+}
+
+
 void Outbox::addDraft(Email& email) {
     email.setIsDraft(true);
     email.setIsSent(false);
@@ -66,39 +101,38 @@ void Outbox::sendEmail(Email& email, User& receiver) {
     email_service.sendAllRequests(); // TODO: needs to be be revised, called inside main
 }
 
-// TODO: Test this
-void Outbox::removeByPlacement(int index) {
-    int size = m_sentEmails.size();
-
-    if (index > size - 1) {
-        ColorFormat::println("[Error] Index out of range", Color::Red);
-    }
-
+bool Outbox::removeDraftById(int id) {
     LLQueue<Email> temp;
-    for (int i = 0; i < size; i++) {
-        if (i == index) {
-            Email email = m_sentEmails.dequeue();
-            ColorFormat::println("Email removed: " + email.getId(), Color::BrightBlue);
+    int size = m_draftEmails.size();
+    bool removed = false;
+
+    for (size_t i = 0; i < size; i++) {
+        if (m_draftEmails.getFront().getId() == id) {
+            m_draftEmails.dequeue();
+            removed = true;
             continue;
-        };
-        temp.enqueue(m_sentEmails.dequeue());
+        }
+        temp.enqueue(m_draftEmails.dequeue());
     }
+    m_draftEmails = temp;
+    return removed;
 }
 
-// TODO: Test this
-void Outbox::removeEmail(int id) {
+bool Outbox::removeSentById(int id) {
     LLQueue<Email> temp;
-    bool removed = false;
     int size = m_sentEmails.size();
+    bool removed = false;
 
     for (size_t i = 0; i < size; i++) {
         if (m_sentEmails.getFront().getId() == id) {
             m_sentEmails.dequeue();
+            removed = true;
             continue;
         }
         temp.enqueue(m_sentEmails.dequeue());
     }
     m_sentEmails = temp;
+    return removed;
 }
 
 size_t Outbox::size() const {
