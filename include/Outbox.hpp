@@ -12,11 +12,10 @@ public:
 
 public:
     LLQueue<Email> getDraftEmails() const;
-    LLQueue<OutRequest> getDraftRequests() const;
-    // LLQueue<OutRequest>& getDraftRequests();
+    LLQueue<Email>& getDraftEmails();
     LLQueue<Email> getSentEmails() const;
-    // LLQueue<Email>& getSentEmails();
-    void addDraft(Email& email, User& user);
+    LLQueue<Email>& getSentEmails();
+    void addDraft(Email& email);
     void addSentEmail(const Email& email);
     void sendEmail(Email& email, User& user);
     void removeByPlacement(int index); // TODO: give a better name
@@ -27,5 +26,5 @@ public:
 
 private:
     LLQueue<Email> m_sentEmails;
-    LLQueue<OutRequest> m_drafts;
+    LLQueue<Email> m_draftEmails;
 };

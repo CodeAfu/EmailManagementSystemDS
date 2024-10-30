@@ -75,7 +75,7 @@ public:
     }
 
     static void addUser(const User& user) {
-        GetInstance().m_users.emplaceBack(user);
+        GetInstance().m_users.emplaceBack(user.getId(), user.getName(), user.getEmailAddress());
     }
 
     static DynArray<User>& getUsers() {
@@ -84,6 +84,10 @@ public:
 
     // static void populateUserBST() {
     //     auto& instance = GetInstance();
+
+    //     instance.m_userTree.~UserTree();
+    //     instance.m_userTree = UserTree();
+
     //     for (int i = 0; i < instance.m_users.size(); i++) {
     //         instance.m_userTree.insertUser(instance.m_users[i]);
     //     }

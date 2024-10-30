@@ -22,75 +22,75 @@ public:
         // ColorFormat::println("Email Destroyed: " + std::to_string(m_id), Color::Red);
     }
 
-    /// Copy constructor
-    Email(const Email& other)
-        : m_id(other.m_id), m_sender(other.m_sender), m_receiver(other.m_receiver),
-        m_subject(other.m_subject), m_body(other.m_body), 
-        m_isImportant(other.m_isImportant), m_isSpam(other.m_isSpam), 
-        m_isSent(other.m_isSent), m_isRead(other.m_isRead), m_isDraft(other.m_isDraft) 
-        // m_timestamp(other.m_timestamp) 
-    {
-        // ColorFormat::println("Email Copy Constructor: " + std::to_string(other.m_id), Color::Cyan);
-    }
+    // /// Copy constructor
+    // Email(const Email& other)
+    //     : m_id(other.m_id), m_sender(other.m_sender), m_receiver(other.m_receiver),
+    //     m_subject(other.m_subject), m_body(other.m_body), 
+    //     m_isImportant(other.m_isImportant), m_isSpam(other.m_isSpam), 
+    //     m_isSent(other.m_isSent), m_isRead(other.m_isRead), m_isDraft(other.m_isDraft) 
+    //     // m_timestamp(other.m_timestamp) 
+    // {
+    //     // ColorFormat::println("Email Copy Constructor: " + std::to_string(other.m_id), Color::Cyan);
+    // }
 
-    /// Move constructor
-    Email(Email&& other) noexcept
-        : m_id(other.m_id), m_sender(std::move(other.m_sender)), m_receiver(std::move(other.m_receiver)),
-        m_subject(std::move(other.m_subject)), m_body(std::move(other.m_body)), 
-        m_isImportant(other.m_isImportant), m_isSpam(other.m_isSpam), 
-        m_isSent(other.m_isSent), m_isRead(other.m_isRead), m_isDraft(other.m_isDraft)
-        // m_timestamp(std::move(other.m_timestamp)) 
-    {
-        // ColorFormat::println("Email Move Constructor: " + std::to_string(other.m_id), Color::Blue);
-        other.m_id = -1;
-        other.m_isImportant = false;
-        other.m_isSpam = false;
-        other.m_isSent = false;
-        other.m_isRead = false;
-        other.m_isDraft = false;
-        other.m_sender.clear();
-        other.m_receiver.clear();
-        other.m_subject.clear();
-        other.m_body.clear();
-    }
+    // /// Move constructor
+    // Email(Email&& other) noexcept
+    //     : m_id(other.m_id), m_sender(std::move(other.m_sender)), m_receiver(std::move(other.m_receiver)),
+    //     m_subject(std::move(other.m_subject)), m_body(std::move(other.m_body)), 
+    //     m_isImportant(other.m_isImportant), m_isSpam(other.m_isSpam), 
+    //     m_isSent(other.m_isSent), m_isRead(other.m_isRead), m_isDraft(other.m_isDraft)
+    //     // m_timestamp(std::move(other.m_timestamp)) 
+    // {
+    //     // ColorFormat::println("Email Move Constructor: " + std::to_string(other.m_id), Color::Blue);
+    //     other.m_id = -1;
+    //     other.m_isImportant = false;
+    //     other.m_isSpam = false;
+    //     other.m_isSent = false;
+    //     other.m_isRead = false;
+    //     other.m_isDraft = false;
+    //     other.m_sender.clear();
+    //     other.m_receiver.clear();
+    //     other.m_subject.clear();
+    //     other.m_body.clear();
+    // }
 
-    /// Copy assignment operator
-    Email& operator=(const Email& other) {
-        // ColorFormat::println("Email Copy Assignment: " + std::to_string(other.m_id), Color::Cyan);
-        if (this != &other) {
-            m_id = other.m_id;
-            m_sender = other.m_sender;\
-            m_receiver = other.m_receiver;
-            m_subject = other.m_subject;
-            m_body = other.m_body;
-            m_isImportant = other.m_isImportant;
-            m_isSpam = other.m_isSpam;
-            m_isSent = other.m_isSent;
-            m_isRead = other.m_isRead;
-            m_isDraft = other.m_isDraft;
-            // m_timestamp = other.m_timestamp;
-        }
-        return *this;
-    }
+    // /// Copy assignment operator
+    // Email& operator=(const Email& other) {
+    //     // ColorFormat::println("Email Copy Assignment: " + std::to_string(other.m_id), Color::Cyan);
+    //     if (this != &other) {
+    //         m_id = other.m_id;
+    //         m_sender = other.m_sender;\
+    //         m_receiver = other.m_receiver;
+    //         m_subject = other.m_subject;
+    //         m_body = other.m_body;
+    //         m_isImportant = other.m_isImportant;
+    //         m_isSpam = other.m_isSpam;
+    //         m_isSent = other.m_isSent;
+    //         m_isRead = other.m_isRead;
+    //         m_isDraft = other.m_isDraft;
+    //         // m_timestamp = other.m_timestamp;
+    //     }
+    //     return *this;
+    // }
 
-    /// Move assignment operator
-    Email& operator=(Email&& other) noexcept {
-        // ColorFormat::println("Email Move Assignment: " + std::to_string(other.m_id), Color::Magenta); 
-        if (this != &other) {
-            m_id = other.m_id;
-            m_sender = std::move(other.m_sender);
-            m_receiver = std::move(other.m_receiver);
-            m_subject = std::move(other.m_subject);
-            m_body = std::move(other.m_body);
-            m_isImportant = other.m_isImportant;
-            m_isSpam = other.m_isSpam;
-            m_isSent = other.m_isSent;
-            m_isRead = other.m_isRead;
-            m_isDraft = other.m_isDraft;
-            // m_timestamp = std::move(other.m_timestamp);
-        }
-        return *this;
-    }
+    // /// Move assignment operator
+    // Email& operator=(Email&& other) noexcept {
+    //     // ColorFormat::println("Email Move Assignment: " + std::to_string(other.m_id), Color::Magenta); 
+    //     if (this != &other) {
+    //         m_id = other.m_id;
+    //         m_sender = std::move(other.m_sender);
+    //         m_receiver = std::move(other.m_receiver);
+    //         m_subject = std::move(other.m_subject);
+    //         m_body = std::move(other.m_body);
+    //         m_isImportant = other.m_isImportant;
+    //         m_isSpam = other.m_isSpam;
+    //         m_isSent = other.m_isSent;
+    //         m_isRead = other.m_isRead;
+    //         m_isDraft = other.m_isDraft;
+    //         // m_timestamp = std::move(other.m_timestamp);
+    //     }
+    //     return *this;
+    // }
 
     /// Getters and Setters
     int getId() const { return m_id; }
@@ -108,15 +108,26 @@ public:
     std::string getBody() const { return m_body; }
     void setBody(const std::string& body) { m_body = body; }
 
+    // std::string getDate() const { return m_timestamp.getDate(); }
+    // std::string getTime() const { return m_timestamp.getTime(); }
+    
+    // Boolean Flags
+    bool isImportant() const { return m_isImportant; }
+    void setIsImportant(bool flag) { m_isImportant = flag; }
+
+    bool isRead() const { return m_isRead; }
+    void setIsRead(bool flag) { m_isRead = flag; }
+
     bool isSent() const { return m_isSent; }
     void setIsSent(bool flag) { m_isSent = flag; }
 
     bool isDraft() const { return m_isDraft; }
     void setIsDraft(bool flag) { m_isDraft = flag; }
 
-    // std::string getDate() const { return m_timestamp.getDate(); }
-    // std::string getTime() const { return m_timestamp.getTime(); }
-    
+    bool isSpam() const { return m_isSpam; }
+    void setIsSpam(bool flag) { m_isSpam = flag; }
+
+
     /// Helpers
     void display() const {
         if (this == nullptr || m_id == -1) {

@@ -4,65 +4,51 @@
 #include "OutRequest.hpp"
 #include "EmailService.hpp"
 
-LLQueue<Email> Outbox::getDraftEmails() const {
-    LLQueue<Email> emails;
+// LLQueue<Email> Outbox::getDraftEmails() const {
+//     LLQueue<Email> emails;
 
-    if (m_drafts.isEmpty()) 
-        return emails;
 
-    Node<OutRequest>* current = m_drafts.getFrontNode();
-    while (current != nullptr) {
-        emails.enqueue(*current->data.email);
-        current = current->next;
-    }
+//     Node<OutRequest>* current = m_drafts.getFrontNode();
+//     while (current != nullptr) {
+//         emails.enqueue(*current->data.email);
+//         current = current->next;
+//     }
 
-    return emails;
-}
-
-LLQueue<OutRequest> Outbox::getDraftRequests() const {
-    LLQueue<OutRequest> requests;
-
-    if (m_drafts.isEmpty())
-        return requests;
-    
-    Node<OutRequest>* current = m_drafts.getFrontNode();
-    while (current != nullptr) {
-        requests.enqueue(current->data);
-        current = current->next;
-    }
-
-    return requests;
-    // return m_drafts;
-}
-
-// LLQueue<OutRequest>& Outbox::getDraftRequests() {
-//     return m_drafts;
+//     return emails;
 // }
+
+LLQueue<Email> Outbox::getDraftEmails() const {
+    return m_draftEmails;
+}
+
+LLQueue<Email>& Outbox::getDraftEmails() {
+    return m_draftEmails;
+}
 
 LLQueue<Email> Outbox::getSentEmails() const {
-    LLQueue<Email> emails;
-    if (m_sentEmails.isEmpty())
-        return emails;
+    // LLQueue<Email> emails;
+    // if (m_sentEmails.isEmpty())
+    //     return emails;
     
-    Node<Email>* current = m_sentEmails.getFrontNode();
-    while (current != nullptr) {
-        emails.enqueue(current->data);
-        current = current->next;
-    }
+    // Node<Email>* current = m_sentEmails.getFrontNode();
+    // while (current != nullptr) {
+    //     emails.enqueue(current->data);
+    //     current = current->next;
+    // }
 
-    return emails;
-    // return m_sentEmails;
+    // return emails;
+    return m_sentEmails;
 }
 
-// LLQueue<Email>& Outbox::getSentEmails() {
-//     return m_sentEmails;
-// }
+LLQueue<Email>& Outbox::getSentEmails() {
+    return m_sentEmails;
+}
 
-void Outbox::addDraft(Email& email, User& user) {
+void Outbox::addDraft(Email& email) {
     email.setIsDraft(true);
     email.setIsSent(false);
 
-    m_drafts.enqueue(OutRequest(&email, &user));
+    m_draftEmails.enqueue(email);
 }
 
 void Outbox::addSentEmail(const Email& email) {
@@ -120,5 +106,5 @@ size_t Outbox::size() const {
 }
 
 size_t Outbox::sizeDrafts() const {
-    return m_drafts.size();
+    return m_draftEmails.size();
 }

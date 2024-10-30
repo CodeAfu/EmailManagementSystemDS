@@ -145,7 +145,6 @@ void replyFromInbox(User& user) {
     std::cout << "------------------------" << std::endl;
     int choice = Console::getIntUserInput("Select the ID of Email you want to reply: ");
 
-    // system("cls");
     Email email = user.getFromInbox(choice);
 
     if (email.getId() == -1) {
@@ -209,10 +208,8 @@ void deleteTopFromInbox(User& user) {
             std::cout << "\n\nPress any key to continue...";
             std::cin.get();
             break;
-
         } else if (res == 'N' || res == 'n') {
             break;
-
         } else {
             Console::clearCin();
             ColorFormat::println("Invalid input. Please enter 'Y' or 'N'.", Color::Yellow);
@@ -255,10 +252,8 @@ void deleteFromInbox(User& user) {
             std::cout << "\n\nPress any key to continue...";
             std::cin.get();
             break;
-
         } else if (res == 'N' || res == 'n') {
             break;
-
         } else {
             Console::clearCin();
             ColorFormat::println("Invalid input. Please enter 'Y' or 'N'.", Color::Yellow);
@@ -277,7 +272,7 @@ void viewInbox(User& user) {
         "3. Reply Email",
         "4. Delete Top Email",
         "5. Delete Email",
-        "6. Go back" 
+        "0. Go back" 
     };
 
     int size = sizeof(choices) / sizeof(choices[0]);
@@ -298,7 +293,7 @@ void viewInbox(User& user) {
 
         if (!Console::validateIntInput(choice)) {
             system("cls");
-            std::cout << "Invalid input. Please enter a number between 1 and " << size << ".\n" << std::endl;
+            std::cout << "Invalid input. Please enter a number between 1 and " << size - 1 << ".\n" << std::endl;
             continue;
         }
 
@@ -306,30 +301,24 @@ void viewInbox(User& user) {
             case 1:
                 viewLastFromInbox(user);
                 break;
-
             case 2: {}
                 viewSelectedInboxEmail(user);
                 break;
-
             case 3:
                 replyFromInbox(user);
                 break;
-
             case 4:
                 deleteTopFromInbox(user);
                 break;
-
             case 5:
                 deleteFromInbox(user);
                 break;
-
-            case 6:
+            case 0:
                 system("cls");
                 return;
-
             default:
                 system("cls");
-                std::cout << "Invalid input. Please enter a number between 1 and " << size << ".\n" << std::endl;
+                std::cout << "Invalid input. Please enter a number between 1 and " << size - 1 << ".\n" << std::endl;
                 break;
         }
     }
@@ -338,8 +327,7 @@ void viewInbox(User& user) {
     system("cls");
 }
 
-
-// Outbox Menu
+// Sent Emails Menu
 void composeEmail(User& user) {
     system("cls");
     DynArray<User>& users = ResourceManager::getUsers();
@@ -370,35 +358,66 @@ void composeEmail(User& user) {
     std::cout << std::endl << std::endl; 
 
     Email email(ResourceManager::nextEmailId(), user.getEmailAddress(), receiver_str, subject, body);
-    user.sendEmail(email);
+    std::cout << "\n\n";
+    bool valid = false;
 
-    ColorFormat::println("Email sent successfully.", Color::Green);
+    while (!valid) {
+        system("cls");
+        std::cout << "Email:" << std::endl;
+        std::cout << "-----------------------------------" << std::endl;
+        email.display();
+        std::cout << "-----------------------------------" << std::endl;
+        std::cout << "\n\n";
+        std::cout << "1. Save as draft" << std::endl;
+        std::cout << "2. Send email" << std::endl;
+        int choice = Console::getIntUserInput("Enter your choice: ");
+
+        if (choice == 1) {
+            user.composeDraftEmail(email);
+            ColorFormat::println("\nEmail Draft created successfully.", Color::Green);
+            valid = true;
+        } else if (choice == 2) {
+            user.sendEmail(email);
+            ColorFormat::println("\nEmail sent successfully.", Color::Green);
+            valid = true;
+        } else {
+            ColorFormat::println("\nInvalid input. Please enter 1 or 2.", Color::Yellow);
+        }
+    }
+
+    Console::clearCin();
     std::cin.get();
+    system("cls");
+}
+
+void selectFromSent(User& user) {
+    system("cls");
+    
+    user.viewSentEmails();
+
+    int choice = Console::getIntUserInput("\n\n Select the ID of Email you want to view: ");
+
+    // Email email = user.getFromSent(choice);
+
 
     system("cls");
 }
 
-void selectFromOutbox(User& user) {
+void deleteFromSent(User& user) {
     system("cls");
 
     system("cls");
 }
 
-void deleteFromOutbox(User& user) {
-    system("cls");
-    system("cls");
-}
 
-
-
-void viewOutbox(User& user) {
+void viewSentEmails(User& user) {
     system("cls");
 
     std::string choices[] = { 
         "1. Compose Email",
         "2. Select Email to View",
         "3. Delete Email",
-        "4. Go back" 
+        "0. Go back" 
     };
 
     int size = sizeof(choices) / sizeof(choices[0]);
@@ -419,7 +438,7 @@ void viewOutbox(User& user) {
 
         if (!Console::validateIntInput(choice)) {
             system("cls");
-            std::cout << "Invalid input. Please enter a number between 1 and " << size << ".\n" << std::endl;
+            std::cout << "Invalid input. Please enter a number between 1 and " << size - 1 << ".\n" << std::endl;
             continue;
         }
 
@@ -427,19 +446,15 @@ void viewOutbox(User& user) {
             case 1:
                 composeEmail(user);
                 break;
-
             case 2:
-                selectFromOutbox(user);
+                selectFromSent(user);
                 break;
-
             case 3:
-                deleteFromOutbox(user);
+                deleteFromSent(user);
                 break;
-
-            case 4:
+            case 0:
                 system("cls");
                 return;
-
             default:
                 break;
 
@@ -447,6 +462,66 @@ void viewOutbox(User& user) {
     }
     system("cls");
 }
+
+// Draft Emails Menu
+void viewDraftEmails(User& user) {
+    system("cls");
+
+    // if (user.getOutbox().getDraftEmails().isEmpty()) {
+    //     std::cout << "No drafts found." << std::endl;
+    //     std::cin.get();
+    //     system("cls");
+    //     return;
+    // }
+
+    std::string choices[] = { 
+        "1. Edit Email",
+        "2. Delete Email",
+        "3. Send Email",
+        "0. Go back" 
+    };
+
+    int size = sizeof(choices) / sizeof(choices[0]);
+
+    while (true) {
+        user.viewDraftEmails();
+        std::cout << std::endl;
+
+        std::cout << "Menu" << std::endl;
+        std::cout << "------------------------" << std::endl;
+        for (size_t i = 0; i < size; i++) {
+            std::cout << choices[i] << std::endl;
+        }
+        std::cout << "------------------------" << std::endl;
+
+        int choice;
+        std::cout << "Enter your choice: ";
+
+        if (!Console::validateIntInput(choice)) {
+            system("cls");
+            std::cout << "Invalid input. Please enter a number between 1 and " << size - 1 << ".\n" << std::endl;
+            continue;
+        }
+
+        switch (choice) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 0:
+                system("cls");
+                return;
+            default:
+                break;
+
+        }
+    }
+
+    system("cls");
+}
+
 
 void spamDetection(User& user) {
     std::cout << "Managing Spam Folder..." << std::endl;
@@ -461,11 +536,12 @@ void priorityHandling(User& user) {
 void displayMenu() {
     ColorFormat::println("Main Menu", Color::Cyan);
     std::cout << "1. View Inbox\n"
-              << "2. View Outbox\n"
+              << "2. View Sent Emails\n"
+              << "2. View Draft Emails\n"
               << "3. Search and Retrieval\n"
               << "4. Spam Detection and Management\n"
               << "5. Priority Handling\n"
-              << "6. Back to User Selection\n"
+              << "0. Back to User Selection\n"
               << "Enter your choice: ";
 }
 
@@ -478,7 +554,7 @@ User userSelectionMenu(DynArray<User>& users) {
             std::cout << i + 1 << ". " << users[i].getName() << " - " << users[i].getEmailAddress() << std::endl;
         }
         
-        std::cout << size + 1 << ". Exit Application" << std::endl;
+        std::cout << "0. Exit Application" << std::endl;
         std::cout << "Enter your choice: ";
 
         int choice;
@@ -497,7 +573,7 @@ User userSelectionMenu(DynArray<User>& users) {
             return users[choice - 1];
         }
 
-        if (choice == size + 1) {
+        if (choice == 0) {
             exit(0);
         }
 
@@ -523,6 +599,7 @@ int main(int argc, char** argv) {
         std::cin >> choice;
 
 		if (std::cin.fail()) {
+            system("cls");
             std::cout << "Invalid input. Please enter a number between 1 and 6.\n";
             Console::clearCin();
             continue;
@@ -533,22 +610,26 @@ int main(int argc, char** argv) {
                 viewInbox(user);
                 break;
             case 2:
-                viewOutbox(user);
-                break;
+                viewSentEmails(user);
+                break;            
             case 3:
-                searchAndRetrieval(user); // Pass the selected user
+                viewDraftEmails(user);
                 break;
             case 4:
-                spamDetection(user);
+                searchAndRetrieval(user); // Pass the selected user
                 break;
             case 5:
-                priorityHandling(user);
+                spamDetection(user);
                 break;
             case 6:
+                priorityHandling(user);
+                break;
+            case 0:
                 system("cls");
                 user = userSelectionMenu(users); // Update user reference
                 break;            
             default:
+                system("cls");
                 std::cout << "Invalid choice. Please try again.\n";
         }
 	}

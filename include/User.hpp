@@ -45,7 +45,7 @@ public:
     void deleteFromInbox(int index);
     void replyFromInbox(int index) const;
 
-    void composeDraftEmail(Email& email, User& user);
+    void composeDraftEmail(Email& email);
     void sendEmail(Email& email, User& receiver);
     void sendEmail(Email& email);
     void receiveEmail(Email& email);

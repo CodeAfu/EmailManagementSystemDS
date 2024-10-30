@@ -85,8 +85,8 @@ void User::receiveEmail(Email& email) {
     m_inbox.push(email);
 }
 
-void User::composeDraftEmail(Email& email, User& receiver) {
-    m_outbox.addDraft(email, receiver);
+void User::composeDraftEmail(Email& email) {
+    m_outbox.addDraft(email);
 }
 
 void User::viewDraftEmails() const {
@@ -156,20 +156,14 @@ void User::viewSentEmails() const {
 
 void User::sendDraftEmails() {
     auto& email_service = EmailService::GetInstance();
-    LLQueue<OutRequest> drafts = m_outbox.getDraftRequests();
+    LLQueue<Email> drafts = m_outbox.getDraftEmails();
 
     while (!drafts.isEmpty()) {
-        OutRequest request = drafts.dequeue();
-
-        request.email->setIsDraft(false);
-        request.email->setIsSent(true);
-
-        m_outbox.addSentEmail(*request.email);
-        ColorFormat::println(m_name + " sent a draft email " + request.email->getSubject() 
-                                  + " to " + request.receiver->getName(), Color::BrightCyan);
-        email_service.addRequest(request.email, request.receiver);
+        Email email = drafts.dequeue();
+        this->sendEmail(email);
     }
-    email_service.sendAllRequests(); // TODO: needs to be be revised, called inside main
+
+    email_service.sendAllRequests();
 }
 
 void User::sendEmail(Email& email, User& receiver) {
