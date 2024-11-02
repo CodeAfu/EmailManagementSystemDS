@@ -13,33 +13,6 @@
 
 #define LOG(x) std::cout << x << std::endl
 
-void sampleDataRetrieval(const User& user) {
-    Inbox inbox = user.getInbox(); // Has Inbox emails, stored in stack data structure
-    Outbox outbox = user.getOutbox(); // Has Draft and Sent emails, stored in queue data structure
-
-    Stack<Email> inbox_emails = inbox.getEmails(); // Get Inbox emails
-    LLQueue<Email> sent_emails = outbox.getSentEmails(); // Get sent emails
-    LLQueue<Email> draft_emails = outbox.getDraftEmails(); // Get draft emails
-
-    // For Stack, use pop() and push() to manipulate data, peek() to view top of stack. 
-    // see <Stack.hpp> for implementation
-
-    // For Queue, use enqueue() and dequeue() to manipulate data, getFront() to view top of queue. 
-    // see <LLQueue.hpp> for implementation
-
-    // Iterate Stack:
-    while (!inbox_emails.isEmpty()) {
-        Email email = inbox_emails.pop();
-    }
-
-    // Iterate Queue:
-    while (!sent_emails.isEmpty()) {
-        Email email = sent_emails.dequeue();
-    }
-    while (draft_emails.isEmpty()) {
-        Email email = draft_emails.dequeue();
-    }
-}
 
 // Function to display emails for a specific user
 void displayEmails(const std::string &userEmail) {
@@ -74,63 +47,67 @@ void displayEmails(const std::string &userEmail) {
 }
 
 // Function to search and retrieve emails based on subject
-void searchAndRetrieval(const User& user) { // Ensure user is passed as a reference
+void searchAndRetrieval(const User& user) {
     std::cout << "Enter the subject to search: ";
     std::string searchSubject;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear leftover newline
     std::getline(std::cin, searchSubject);
     searchSubject = Formatter::trim(searchSubject); // Trim input
 
-    // Open the email CSV file
-    std::ifstream emailFile("data/emails.csv");
-    if (!emailFile.is_open()) {
-        std::cerr << "Error opening data/emails.csv. Please ensure the file exists in the correct directory." << std::endl;
-        return;
-    }
+    const Inbox& userInbox = user.getInbox(); // Get the user's inbox
+    Stack<Email> emailStack = userInbox.getEmails(); // Get a copy of the emails for iteration
+    const Outbox& userOutbox = user.getOutbox(); // Get the user's outbox
+    LLQueue<Email> draftEmails = userOutbox.getDraftEmails(); // Get draft emails
+    LLQueue<Email> sentEmails = userOutbox.getSentEmails(); // Get sent emails
 
-    std::string emailLine;
     bool found = false;
     std::cout << "Searching for emails with subject: " << searchSubject << std::endl;
 
-    // Loop through each line in the email file
-    while (std::getline(emailFile, emailLine)) {
-        std::stringstream ss(emailLine);
-        std::string sender, receiver, subject, body;
-
-        // Read the CSV line
-        std::getline(ss, sender, ',');
-        std::getline(ss, receiver, ',');
-        std::getline(ss, subject, ',');
-        std::getline(ss, body);
-
-        // Trim the subject
-        subject = Formatter::trim(subject);
-
-        // Check for empty subject
-        if (subject.empty()) {
-            continue; // Skip if subject is empty
+    // Function to search emails in a stack (inbox)
+    while (!emailStack.isEmpty()) {
+        Email email = emailStack.pop(); // Pop the email from the stack
+        if (Formatter::toLower(email.getSubject()).find(Formatter::toLower(searchSubject)) != std::string::npos) {
+            found = true;
+            // Display the email details
+            std::cout << "From: " << email.getSender() 
+                      << "\nTo: " << email.getReceiver() 
+                      << "\nSubject: " << email.getSubject() 
+                      << "\nBody: " << email.getBody() 
+                      << "\n------------------------------------" << std::endl;
         }
+    }
 
-        // Check if the email's subject matches the search subject
-        if (Formatter::toLower(subject).find(Formatter::toLower(searchSubject)) != std::string::npos) {
-            // Check if the user's email matches the sender or receiver
-            if (user.getEmailAddress() == receiver || user.getEmailAddress() == sender) {
-                found = true;
-                // Display the email details
-                std::cout << "From: " << sender 
-                          << "\nTo: " << receiver 
-                          << "\nSubject: " << subject 
-                          << "\nBody: " << body 
-                          << "\n------------------------------------" << std::endl;
-            }
+    // Search in the user's sent emails
+    while (!sentEmails.isEmpty()) {
+        Email email = sentEmails.dequeue(); // Assuming dequeue method is available
+        if (Formatter::toLower(email.getSubject()).find(Formatter::toLower(searchSubject)) != std::string::npos) {
+            found = true;
+            // Display the email details
+            std::cout << "From: " << email.getSender() 
+                      << "\nTo: " << email.getReceiver() 
+                      << "\nSubject: " << email.getSubject() 
+                      << "\nBody: " << email.getBody() 
+                      << "\n------------------------------------" << std::endl;
+        }
+    }
+
+    // Search in the user's draft emails
+    while (!draftEmails.isEmpty()) {
+        Email email = draftEmails.dequeue(); // Assuming dequeue method is available
+        if (Formatter::toLower(email.getSubject()).find(Formatter::toLower(searchSubject)) != std::string::npos) {
+            found = true;
+            // Display the email details
+            std::cout << "Draft From: " << email.getSender() 
+                      << "\nTo: " << email.getReceiver() 
+                      << "\nSubject: " << email.getSubject() 
+                      << "\nBody: " << email.getBody() 
+                      << "\n------------------------------------" << std::endl;
         }
     }
 
     if (!found) {
         std::cout << "No emails found with the subject containing: " << searchSubject << std::endl;
     }
-
-    emailFile.close();
 }
 
 /// Inbox Menus
