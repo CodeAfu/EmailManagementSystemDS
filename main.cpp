@@ -13,6 +13,34 @@
 
 #define LOG(x) std::cout << x << std::endl
 
+void sampleDataRetrieval(const User& user) {
+    Inbox inbox = user.getInbox(); // Has Inbox emails, stored in stack data structure
+    Outbox outbox = user.getOutbox(); // Has Draft and Sent emails, stored in queue data structure
+
+    Stack<Email> inbox_emails = inbox.getEmails(); // Get Inbox emails
+    LLQueue<Email> sent_emails = outbox.getSentEmails(); // Get sent emails
+    LLQueue<Email> draft_emails = outbox.getDraftEmails(); // Get draft emails
+
+    // For Stack, use pop() and push() to manipulate data, peek() to view top of stack. 
+    // see <Stack.hpp> for implementation
+
+    // For Queue, use enqueue() and dequeue() to manipulate data, getFront() to view top of queue. 
+    // see <LLQueue.hpp> for implementation
+
+    // Iterate Stack:
+    while (!inbox_emails.isEmpty()) {
+        Email email = inbox_emails.pop();
+    }
+
+    // Iterate Queue:
+    while (!sent_emails.isEmpty()) {
+        Email email = sent_emails.dequeue();
+    }
+    while (draft_emails.isEmpty()) {
+        Email email = draft_emails.dequeue();
+    }
+}
+
 // Function to display emails for a specific user
 void displayEmails(const std::string &userEmail) {
     std::ifstream emailFile("data/emails.csv");

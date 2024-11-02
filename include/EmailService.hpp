@@ -2,7 +2,7 @@
 
 #include <mutex>
 
-#include "OutRequest.hpp"
+#include "EmailRequest.hpp"
 #include "ArrQueue.hpp"
 #include "DynArray.hpp"
 
@@ -34,7 +34,7 @@ public:
     static void clear();
     static size_t size();
     static bool isEmpty();
-    static OutRequest getNext();
+    static EmailRequest getNext();
     static void displayAll();
     static void displayNext();
     static void subscribeUser(User* user);
@@ -43,10 +43,10 @@ public:
 // Internal Methods
 private:
     EmailService() {};
-    static void enqueueRequest(OutRequest&& request);
+    static void enqueueRequest(EmailRequest&& request);
 
 private:
-    ArrQueue<OutRequest> m_requests; // Has pointer to Email and User
+    ArrQueue<EmailRequest> m_requests; // Has pointer to Email and User
 
     // std::mutex m_mutex;
 };

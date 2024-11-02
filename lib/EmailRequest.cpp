@@ -1,23 +1,23 @@
-#include "OutRequest.hpp"
+#include "EmailRequest.hpp"
 #include "User.hpp"
 #include "ColorFormat.hpp"
 
-OutRequest::OutRequest() 
+EmailRequest::EmailRequest() 
     : receiver(nullptr), email(nullptr) {}
 
-OutRequest::OutRequest(Email* email, User* receiver)
+EmailRequest::EmailRequest(Email* email, User* receiver)
     : email(email), receiver(receiver) {}
 
-OutRequest::~OutRequest() {
+EmailRequest::~EmailRequest() {
     // setNullPtr();
 }
 
-void OutRequest::setNullPtr() {
+void EmailRequest::setNullPtr() {
     receiver = nullptr;
     email = nullptr;
 }
 
-void OutRequest::send() {
+void EmailRequest::send() {
     if (receiver && email) {
         email->setIsSent(true);
         email->setIsDraft(false);

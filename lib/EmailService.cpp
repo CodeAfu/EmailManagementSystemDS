@@ -4,12 +4,12 @@
 #include "EmailService.hpp"
 #include "ArrQueue.hpp"
 #include "ColorFormat.hpp"
-#include "OutRequest.hpp"
+#include "EmailRequest.hpp"
 
 /// This makes more sense for a multithreaded application lol
 // Static Methods
 void EmailService::addRequest(Email* email, User* user) {
-    OutRequest request(email, user);
+    EmailRequest request(email, user);
     enqueueRequest(std::move(request));
     // ColorFormat::println("Added Request to EmailService: " + std::to_string(m_requests.size()), Color::Green);
 }
@@ -18,7 +18,7 @@ void EmailService::sendAllRequests() {
     auto& instance = GetInstance();
     // std::lock_guard<std::mutex> lock(instance.m_mutex);
     while (instance.m_requests.size() > 0) {
-        OutRequest request = instance.m_requests.dequeue();
+        EmailRequest request = instance.m_requests.dequeue();
         ColorFormat::println("[EmailService] \'" + request.email->getSubject() + "\' sent to \'"
                            + request.receiver->getName() + "\'", Color::BrightCyan);
         request.send();
@@ -42,7 +42,7 @@ void EmailService::clear() {
     auto& instance = GetInstance();
     // std::lock_guard<std::mutex> lock(instance.m_mutex);
     while (!instance.m_requests.isEmpty()) {
-        instance.m_requests.dequeue().~OutRequest();
+        instance.m_requests.dequeue().~EmailRequest();
     }
     ColorFormat::println("Cleared EmailService: " + std::to_string(instance.m_requests.size()), Color::Yellow);
 }
@@ -59,7 +59,7 @@ bool EmailService::isEmpty() {
     return instance.m_requests.isEmpty();
 }
 
-OutRequest EmailService::getNext() {
+EmailRequest EmailService::getNext() {
     auto& instance = GetInstance();
     // std::lock_guard<std::mutex> lock(instance.m_mutex);
     return instance.m_requests.getFront();
@@ -68,7 +68,7 @@ OutRequest EmailService::getNext() {
 void EmailService::displayAll() {
     auto& instance = GetInstance();
     // std::lock_guard<std::mutex> lock(instance.m_mutex);
-    ArrQueue<OutRequest> temp = instance.m_requests;
+    ArrQueue<EmailRequest> temp = instance.m_requests;
     while (!instance.m_requests.isEmpty()) {
         temp.dequeue().email->display();
     }
@@ -98,7 +98,7 @@ void EmailService::displayNext() {
 // }
 
 // Internal Methods
-void EmailService::enqueueRequest(OutRequest&& request) {
+void EmailService::enqueueRequest(EmailRequest&& request) {
     auto& instance = GetInstance();
     // std::lock_guard<std::mutex> lock(instance.m_mutex);
     instance.m_requests.enqueue(std::move(request));

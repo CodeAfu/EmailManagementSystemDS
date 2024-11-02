@@ -58,7 +58,7 @@ public:
         return result;
     }
 
-    T& popRef() {
+    T& popRef() { // Not recommended
         if (isEmpty()) {
             throw std::out_of_range("Stack is empty");
         }

@@ -4,7 +4,7 @@
 #include "User.hpp"
 #include "Helper.hpp"
 #include "Email.hpp"
-#include "OutRequest.hpp"
+#include "EmailRequest.hpp"
 #include "Helper.hpp"
 #include "ResourceManager.hpp"
 

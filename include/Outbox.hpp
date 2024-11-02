@@ -1,7 +1,7 @@
 #pragma once
 
 #include "LLQueue.hpp"
-#include "OutRequest.hpp"
+#include "EmailRequest.hpp"
 
 class User;
 

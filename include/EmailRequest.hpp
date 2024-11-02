@@ -4,10 +4,10 @@
 // struct Email;
 class User;
 
-struct OutRequest {
-    OutRequest();
-    OutRequest(Email* email, User* receiver);
-    ~OutRequest();
+struct EmailRequest {
+    EmailRequest();
+    EmailRequest(Email* email, User* receiver);
+    ~EmailRequest();
 
     void setNullPtr(); 
     void send();

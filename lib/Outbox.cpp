@@ -1,14 +1,13 @@
 #include <iostream>
 
 #include "Outbox.hpp"
-#include "OutRequest.hpp"
+#include "EmailRequest.hpp"
 #include "EmailService.hpp"
 
 // LLQueue<Email> Outbox::getDraftEmails() const {
 //     LLQueue<Email> emails;
 
-
-//     Node<OutRequest>* current = m_drafts.getFrontNode();
+//     Node<EmailRequest>* current = m_drafts.getFrontNode();
 //     while (current != nullptr) {
 //         emails.enqueue(*current->data.email);
 //         current = current->next;
@@ -26,17 +25,6 @@ LLQueue<Email>& Outbox::getDraftEmails() {
 }
 
 LLQueue<Email> Outbox::getSentEmails() const {
-    // LLQueue<Email> emails;
-    // if (m_sentEmails.isEmpty())
-    //     return emails;
-    
-    // Node<Email>* current = m_sentEmails.getFrontNode();
-    // while (current != nullptr) {
-    //     emails.enqueue(current->data);
-    //     current = current->next;
-    // }
-
-    // return emails;
     return m_sentEmails;
 }
 
