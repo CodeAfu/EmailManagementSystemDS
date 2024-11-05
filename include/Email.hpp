@@ -95,14 +95,14 @@ public:
     //         m_isSpam = other.m_isSpam;
     //         m_isSent = other.m_isSent;
     //         m_isRead = other.m_isRead;
-    //         m_isDraft = other.m_isDraft;
+    //         m_isDraft = other.m_isDraft; 
     //         // m_timestamp = std::move(other.m_timestamp);
     //     }
     //     return *this;
     // }
 
     /// Getters and Setters
-    int getId() const { return m_id; }
+int getId() const { return m_id; }
     void setId(int id) { m_id = id; }
 
     std::string getSender() const { return m_sender; }

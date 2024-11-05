@@ -24,7 +24,7 @@ public:
 
             instance.m_users.emplaceBack(id, name, email);
             User& user = instance.m_users[i];
-            instance.m_userTree.insertUser(user);
+            instance.m_userTree.insertUser(id);
         }
     }
 
@@ -81,6 +81,18 @@ public:
     static DynArray<User>& getUsers() {
         return GetInstance().m_users;
     }
+
+    static User* getUserByIdPtr(int id) {
+        DynArray<User>& users = GetInstance().getUsers();
+
+        for (int i = 0; i < users.size(); i++) {
+            if (users[i].getId() == id) {
+                return &users[i];
+            }
+        }
+
+        return nullptr;
+    }
     
     static void printUserList() {
         DynArray<User>& users = ResourceManager::getUsers();
@@ -108,14 +120,15 @@ public:
     }
 
 private:
+    ResourceManager() : m_idxGen(), m_userTree() {};
+    ~ResourceManager() {}
+    
+private:
     ResourceManager(const ResourceManager&) = delete;
     ResourceManager& operator=(const ResourceManager&) = delete;
     ResourceManager(ResourceManager&&) = delete;
     ResourceManager& operator=(ResourceManager&&) = delete;
 
-private:
-    ResourceManager() : m_idxGen(), m_userTree() {};
-    ~ResourceManager() {}
 
 private:
     DynArray<User> m_users;

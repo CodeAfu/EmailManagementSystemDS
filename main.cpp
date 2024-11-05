@@ -13,39 +13,6 @@
 
 #define LOG(x) std::cout << x << std::endl
 
-
-// Function to display emails for a specific user
-void displayEmails(const std::string &userEmail) {
-    std::ifstream emailFile("data/emails.csv");
-    if (!emailFile.is_open()) {
-        std::cerr << "Error opening data/emails.csv. Please ensure the file exists in the correct directory." << std::endl;
-        return;
-    }
-
-    std::string emailLine;
-    std::cout << "Displaying emails for: " << userEmail << std::endl;
-
-    while (std::getline(emailFile, emailLine)) {
-        std::stringstream ss(emailLine);
-        std::string sender, receiver, subject, body;
-
-        std::getline(ss, sender, ',');
-        std::getline(ss, receiver, ',');
-        std::getline(ss, subject, ',');
-        std::getline(ss, body);
-
-        if (Formatter::toLower(sender) == Formatter::toLower(userEmail) 
-            || Formatter::toLower(receiver) == Formatter::toLower(userEmail)) {
-            std::cout << "From: " << sender 
-                      << "\nTo: " << receiver 
-                      << "\nSubject: " << subject 
-                      << "\nBody: " << body 
-                      << "\n------------------------------------" << std::endl;
-        }
-    }
-    emailFile.close();
-}
-
 // Function to search and retrieve emails based on subject
 void searchAndRetrieval(const User& user) {
     std::cout << "Enter the subject to search: ";
@@ -68,7 +35,7 @@ void searchAndRetrieval(const User& user) {
         Email email = emailStack.pop(); // Pop the email from the stack
         if (Formatter::toLower(email.getSubject()).find(Formatter::toLower(searchSubject)) != std::string::npos) {
             found = true;
-            // Display the email details
+            // Display the email detailsmain
             std::cout << "From: " << email.getSender() 
                       << "\nTo: " << email.getReceiver() 
                       << "\nSubject: " << email.getSubject() 
@@ -221,8 +188,6 @@ void replyFromInbox(User& user) {
             ColorFormat::println("Invalid input. Please enter Y or N.", Color::Yellow);
         }
     }
-
-    auto& instance = ResourceManager::GetInstance();
 
     Email out = Email(ResourceManager::nextEmailId(), user.getEmailAddress(), receiver, new_subject, body);
     user.sendEmail(out);

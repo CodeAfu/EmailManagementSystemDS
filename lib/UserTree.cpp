@@ -9,11 +9,11 @@ UserTree::~UserTree() {
     m_root = nullptr;
 }
 
-void UserTree::insertUser(User& user) {
+void UserTree::insertUser(int id) {
     if (m_root == nullptr) {
-        m_root = new BSTUserNode(&user);
+        m_root = new BSTUserNode(id);
     } else {
-        insertUserRecursive(m_root, user);
+        insertUserRecursive(m_root, id);
     }
 }
 
@@ -30,20 +30,27 @@ BSTUserNode* UserTree::getRoot() {
 }
 
 // Recursive Methods
-void UserTree::insertUserRecursive(BSTUserNode* node, User& user) {
-    if (Formatter::toLower(user.getEmailAddress()) < Formatter::toLower(node->user->getEmailAddress())) {
+void UserTree::insertUserRecursive(BSTUserNode* node, int id) {
+    User* new_user = ResourceManager::getUserByIdPtr(id);
+    User* node_user = ResourceManager::getUserByIdPtr(node->userId);
+
+    if (new_user == nullptr || node_user == nullptr) {
+        throw std::runtime_error("[UserTree::insertUserRecursive] new_user or node_user is null");
+    }
+
+    if (Formatter::toLower(new_user->getEmailAddress()) < Formatter::toLower(node_user->getEmailAddress())) {
         // Insert in the left subtree
         if (node->left == nullptr) {
-            node->left = new BSTUserNode(&user);
+            node->left = new BSTUserNode(id);
         } else {
-            insertUserRecursive(node->left, user);
+            insertUserRecursive(node->left, id);
         }
     } else {
         // Insert in the right subtree
         if (node->right == nullptr) {
-            node->right = new BSTUserNode(&user);
+            node->right = new BSTUserNode(id);
         } else {
-            insertUserRecursive(node->right, user);
+            insertUserRecursive(node->right, id);
         }
     }
 }
@@ -52,10 +59,16 @@ User* UserTree::searchUserRecursive(BSTUserNode* node, const std::string& email_
     if (node == nullptr) {
         return nullptr;
     }
-    if (Formatter::toLower(node->user->getEmailAddress()) == Formatter::toLower(email_address)) {
-        return node->user;
+
+    User* node_user = ResourceManager::getUserByIdPtr(node->userId);
+    if (node_user == nullptr) {
+        throw std::runtime_error("[UserTree::searchUserRecursive] node_user is null");
     }
-    if (Formatter::toLower(email_address) < Formatter::toLower(node->user->getEmailAddress())) {
+    
+    if (Formatter::toLower(node_user->getEmailAddress()) == Formatter::toLower(email_address)) {
+        return node_user;
+    }
+    if (Formatter::toLower(email_address) < Formatter::toLower(node_user->getEmailAddress())) {
         return searchUserRecursive(node->left, email_address);
     }
     return searchUserRecursive(node->right, email_address);
@@ -63,8 +76,14 @@ User* UserTree::searchUserRecursive(BSTUserNode* node, const std::string& email_
 
 void UserTree::inOrderDisplayRecursive(BSTUserNode* node) {
     if (node == nullptr) return;  // Base case
+    User* node_user = ResourceManager::getUserByIdPtr(node->userId);
+
+    if (node_user == nullptr) {
+        throw std::runtime_error("[UserTree:inOrderDisplayRecursive] node_user is null");
+    }
+
     inOrderDisplayRecursive(node->left);  // Visit left subtree
-    std::cout << "Name: " << node->user->getName() 
-            << ", Email: " << node->user->getEmailAddress() << std::endl;  // Process current node
+    std::cout << "Name: " << node_user->getName() 
+            << ", Email: " << node_user->getEmailAddress() << std::endl;  // Process current node
     inOrderDisplayRecursive(node->right);  // Visit right subtree
 }

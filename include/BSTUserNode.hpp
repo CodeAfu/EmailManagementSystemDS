@@ -3,17 +3,14 @@
 #include "User.hpp"
 
 struct BSTUserNode {
-    User* user;
+    int userId;
     BSTUserNode* left;
     BSTUserNode* right;
 
     BSTUserNode() : left(nullptr), right(nullptr) {}
 
-    BSTUserNode(User& user)
-        : user(&user), left(nullptr), right(nullptr) {}
-
-    BSTUserNode(User* user)
-        : user(user), left(nullptr), right(nullptr) {}
+    BSTUserNode(int id)
+        : userId(id), left(nullptr), right(nullptr) {}
 
     ~BSTUserNode() {
         deleteSubtree(left);

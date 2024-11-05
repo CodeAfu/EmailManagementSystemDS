@@ -8,14 +8,14 @@ public:
     ~UserTree();
 
 public:
-    void insertUser(User& user);
-    User* searchUser(const std::string& name);
+    void insertUser(int id);
+    User* searchUser(const std::string& email_address);
     void inOrderDisplay();
     BSTUserNode* getRoot();
 
 private:
-    void insertUserRecursive(BSTUserNode* node, User& user);
-    User* searchUserRecursive(BSTUserNode* node, const std::string& name);
+    void insertUserRecursive(BSTUserNode* node, int id);
+    User* searchUserRecursive(BSTUserNode* node, const std::string& email_address);
     void inOrderDisplayRecursive(BSTUserNode* node);
 
 private:
