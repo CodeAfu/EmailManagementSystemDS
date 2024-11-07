@@ -14,8 +14,9 @@ User::User() {}
 User::User(int id, std::string name, std::string emailAddress) 
     : m_id(id), m_name(name), m_emailAddress(emailAddress), 
       s_emailService(&EmailService::GetInstance()) {
-
+    
     m_priorityService = PriorityService(&m_inbox, &m_outbox);
+    m_importantUserList.pushBack("manager@workplace.com");
 }
 
 User::~User() {
@@ -30,7 +31,8 @@ User::User(const User& other)
         m_outbox(other.m_outbox),
         m_searchService(other.m_searchService),
         m_spamDetectionService(other.m_spamDetectionService),
-        m_priorityService(other.m_priorityService) {}
+        m_priorityService(other.m_priorityService),
+        m_importantUserList(other.m_importantUserList) {}
 
 User& User::operator=(const User& other) {
     if (this != &other) {
@@ -42,6 +44,7 @@ User& User::operator=(const User& other) {
         m_searchService = other.m_searchService;
         m_spamDetectionService = other.m_spamDetectionService;
         m_priorityService = other.m_priorityService;
+        m_importantUserList = other.m_importantUserList;
     }
     return *this;
 }
@@ -54,7 +57,8 @@ User::User(User&& other) noexcept
         m_outbox(std::move(other.m_outbox)),
         m_searchService(std::move(other.m_searchService)),
         m_spamDetectionService(std::move(other.m_spamDetectionService)),
-        m_priorityService(std::move(other.m_priorityService)) {}
+        m_priorityService(std::move(other.m_priorityService)),
+        m_importantUserList(std::move(other.m_importantUserList)) {}
 
 User& User::operator=(User&& other) noexcept {
     if (this != &other) {
@@ -65,7 +69,8 @@ User& User::operator=(User&& other) noexcept {
         m_outbox = std::move(other.m_outbox);
         m_searchService = std::move(other.m_searchService);
         m_spamDetectionService = std::move(other.m_spamDetectionService);
-        m_priorityService = std::move(other.m_priorityService);
+        m_priorityService = std::move(other.m_priorityService),
+        m_importantUserList = std::move(other.m_importantUserList);
     }
     return *this;
 }
@@ -79,6 +84,15 @@ std::string User::getEmailAddress() const { return m_emailAddress; }
 /// @brief Use only for internal methods, avoid using in the CLI
 void User::receiveEmail(Email& email) {
     // m_spamDetectionService.filter(email)
+    const std::string sender = email.getSender();
+
+    if (m_importantUserList.contains(sender)) {
+        if (email.getPriority() == PriorityLevel::Low) {
+            email.setPriority(PriorityLevel::Medium);
+        } else if (email.getPriority() == PriorityLevel::Medium) {
+            email.setPriority(PriorityLevel::High);
+        }
+    }
     m_inbox.push(email);
 }
 
@@ -392,4 +406,13 @@ size_t User::getOutboxSize() const {
 size_t User::getInboxSize() const {
     return m_inbox.size();
 }
+
 /* Features */
+void User::addToImportantList(const std::string& email_address) {
+    User* user = ResourceManager::getReceiver(email_address);
+    if (!user) {
+        std::cout << "[AddToImportantList] User not found." << std::endl;
+        return;
+    }
+    m_importantUserList.pushBack(user->getEmailAddress());
+}

@@ -56,6 +56,15 @@ public:
         return m_size <= 0;
     }
 
+    bool contains(const T& data) {
+        for (int i = 0; i < m_size; i++) {
+            if (m_arr[i] == data) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     void pushBack(const T& data) {
         --m_offset;
         if (m_size >= m_capacity) {

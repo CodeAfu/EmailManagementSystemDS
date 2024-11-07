@@ -13,8 +13,8 @@ Stack<Email>& Inbox::getEmails() {
 
 void Inbox::push(const Email& email) {
     m_emails.emplace(email.getId(), email.getSender(), email.getReceiver(), 
-                    email.getSubject(), email.getBody(), email.isImportant(),
-                    email.isSent(), email.isSpam(), email.isDraft(), email.isRead());
+                     email.getSubject(), email.getBody(), email.getPriority(),
+                     email.isImportant(), email.isSent(), email.isSpam(), email.isDraft(), email.isRead());
 }
 
 void Inbox::removeEmail() {

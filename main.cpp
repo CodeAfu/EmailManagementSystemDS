@@ -36,11 +36,11 @@ void searchAndRetrieval(const User& user) {
         Email email = emailStack.pop(); // Pop the email from the stack
         if (Formatter::toLower(email.getSubject()).find(Formatter::toLower(searchSubject)) != std::string::npos) {
             found = true;
-            // Display the email detailsmain
-            std::cout << "From: " << email.getSender() 
-                      << "\nTo: " << email.getReceiver() 
-                      << "\nSubject: " << email.getSubject() 
-                      << "\nBody: " << email.getBody() 
+            // Display the email details
+            std::cout << "From: " << email.getSender()
+                      << "\nTo: " << email.getReceiver()
+                      << "\nSubject: " << email.getSubject()
+                      << "\nBody: " << email.getBody()
                       << "\n------------------------------------" << std::endl;
         }
     }
@@ -842,10 +842,11 @@ void composeEmail(User& user) {
     std::string subject = Console::getStringUserInput("Subject: ");
     std::cout << std::endl;
     std::string body = Console::getStringUserInput("Body: ");
-    std::cout << std::endl << std::endl; 
+    std::cout << std::endl << std::endl;
 
     // Build Email
     Email email(ResourceManager::nextEmailId(), user.getEmailAddress(), receiver_str, subject, body);
+    PriorityLevel priority = email.getPriority();
 
     // Mark email as important?
     std::string is_important;
@@ -853,10 +854,8 @@ void composeEmail(User& user) {
         is_important = Console::getStringUserInput("Mark as Important? (Y/N): ");
         if (is_important == "Y" || is_important == "y") {
             email.setIsImportant(true);
-            assertPriority(email);
         } else if (is_important == "N" || is_important == "n") {
-            email.setPriority(PriorityLevel::Low);
-            email.setIsImportant(false);
+        email.setIsImportant(false);
         } else {
             ColorFormat::println("Invalid input. Please enter Y or N.", Color::Yellow);
         }

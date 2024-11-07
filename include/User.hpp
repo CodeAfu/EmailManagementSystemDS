@@ -63,6 +63,7 @@ public:
     size_t getInboxSize() const;
 
     /// Features
+    void addToImportantList(const std::string& email_address);
 
 private:
     /// User Information
@@ -79,5 +80,7 @@ private:
     SpamDetectionService m_spamDetectionService;
     PriorityService m_priorityService;
     
+    DynArray<std::string> m_importantUserList;
+
     EmailService* s_emailService = nullptr; // Singleton
 };

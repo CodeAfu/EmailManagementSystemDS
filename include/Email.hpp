@@ -15,18 +15,21 @@ public:
 
     Email(int id, const std::string& sender, const std::string& receiver, 
           const std::string& subject, const std::string& body)
-        : m_id(id), m_sender(sender), m_receiver(receiver), m_subject(subject), m_body(body), m_priority(PriorityLevel::Low) { }
+        : m_id(id), m_sender(sender), m_receiver(receiver), 
+          m_subject(subject), m_body(body), m_priority(PriorityLevel::Low) { }
 
     Email(int id, const std::string& sender, const std::string& receiver, 
           const std::string& subject, const std::string& body, PriorityLevel priority)
-        : m_id(id), m_sender(sender), m_receiver(receiver), m_subject(subject), m_body(body), m_priority(priority) { }
+        : m_id(id), m_sender(sender), m_receiver(receiver), 
+          m_subject(subject), m_body(body), m_priority(priority) { }
 
     Email(int id, const std::string& sender, const std::string& receiver, 
-          const std::string& subject, const std::string& body, 
+          const std::string& subject, const std::string& body, PriorityLevel priority,
           bool is_important, bool is_sent, bool is_spam, bool is_draft, bool is_read)
-        : m_id(id), m_sender(sender), m_receiver(receiver), m_subject(subject), m_body(body),
+        : m_id(id), m_sender(sender), m_receiver(receiver), m_subject(subject), m_body(body), m_priority(priority),
           m_isImportant(is_important), m_isSent(is_sent), m_isSpam(is_spam), 
           m_isDraft(is_draft), m_isRead(is_read) {
+
         // ColorFormat::println("Email Created: " + std::to_string(m_id), Color::Green);
     }
 
@@ -128,7 +131,22 @@ public:
     
     // Boolean Flags
     bool isImportant() const { return m_isImportant; }
-    void setIsImportant(bool flag) { m_isImportant = flag; }
+    void setIsImportant(bool flag) {
+        if (flag != m_isImportant && flag) {
+            if (m_priority == PriorityLevel::Low) {
+                m_priority = PriorityLevel::Medium;
+            } else if (m_priority == PriorityLevel::Medium) {
+                m_priority = PriorityLevel::High;
+            }
+        } else if (flag != m_isImportant && !flag) {
+            if (m_priority == PriorityLevel::High) {
+                m_priority = PriorityLevel::Medium;
+            } else if (m_priority == PriorityLevel::Medium) {
+                m_priority = PriorityLevel::Low;
+            }
+        }
+        m_isImportant = flag;
+    }
 
     bool isRead() const { return m_isRead; }
     void setIsRead(bool flag) { m_isRead = flag; }

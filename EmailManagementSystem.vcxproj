@@ -139,7 +139,9 @@
     <ClCompile Include="lib\helper\Formatter.cpp" />
     <ClCompile Include="lib\helper\Seed.cpp" />
     <ClCompile Include="lib\Inbox.cpp" />
+    <ClCompile Include="lib\menus\PriorityQueueMenu.cpp" />
     <ClCompile Include="lib\Outbox.cpp" />
+    <ClCompile Include="lib\PriorityQueue.cpp" />
     <ClCompile Include="lib\PriorityService.cpp" />
     <ClCompile Include="lib\SearchService.cpp" />
     <ClCompile Include="lib\SpamDetectionService.cpp" />
@@ -162,6 +164,9 @@
     <ClInclude Include="include\Node.hpp" />
     <ClInclude Include="include\Outbox.hpp" />
     <ClInclude Include="include\ColorFormat.hpp" />
+    <ClInclude Include="include\PriorityLevel.hpp" />
+    <ClInclude Include="include\PriorityQueue.hpp" />
+    <ClInclude Include="include\PriorityQueueMenu.hpp" />
     <ClInclude Include="include\PriorityService.hpp" />
     <ClInclude Include="include\ResourceManager.hpp" />
     <ClInclude Include="include\SearchService.hpp" />
