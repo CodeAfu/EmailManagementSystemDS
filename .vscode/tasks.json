@@ -14,6 +14,7 @@
                 // "-DDEBUG_AGGR=1",
                 "lib/*.cpp",
                 "lib/helper/*.cpp",             // Compile all cpp files in lib
+                "lib/menus/*.cpp",             // Compile all cpp files in lib
                 "main.cpp",               // Your main file
                 "-o",                     // Specify output file
                 "${workspaceFolder}/main.exe" // Output executable name

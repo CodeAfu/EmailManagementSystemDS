@@ -13,7 +13,6 @@ class User {
 public:
     User();
     User(int id, std::string name, std::string emailAddress);
-    
     ~User();
     
     User(const User& other);
@@ -42,6 +41,8 @@ public:
     // Email* getFromInboxPtr(int id);
     Email getFromSent(int id);
     Email getFromDraft(int id);
+    PriorityQueue& getPriorityQueueRef();
+    PriorityService& getPriorityServiceRef();
     void updateFromDraft(const Email& email);
     const Outbox& getOutbox() const;
     Outbox& getOutbox();
@@ -61,8 +62,6 @@ public:
     size_t getOutboxSize() const;
     size_t getInboxSize() const;
 
-
-
     /// Features
 
 private:
@@ -79,5 +78,6 @@ private:
     SearchService m_searchService;
     SpamDetectionService m_spamDetectionService;
     PriorityService m_priorityService;
+    
     EmailService* s_emailService = nullptr; // Singleton
 };

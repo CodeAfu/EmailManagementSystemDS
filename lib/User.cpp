@@ -14,15 +14,12 @@ User::User() {}
 User::User(int id, std::string name, std::string emailAddress) 
     : m_id(id), m_name(name), m_emailAddress(emailAddress), 
       s_emailService(&EmailService::GetInstance()) {
-    
-    // s_emailService->subscribeUser(this);
+
+    m_priorityService = PriorityService(&m_inbox, &m_outbox);
 }
 
 User::~User() {
-    // std::cout << "User " << m_name << " deleted." << std::endl;
-    // s_emailService->unsubscribeUser(this);
     s_emailService = nullptr;
-    // ColorFormat::println("[BAD] User " + m_name + " deleted.", Color::BrightRed);
 }
 
 User::User(const User& other) 
@@ -336,6 +333,15 @@ Email User::getFromSent(int id) {
 
 Email User::getFromDraft(int id) {
     return m_outbox.getDraftById(id);
+}
+
+PriorityQueue& User::getPriorityQueueRef() {
+    return m_priorityService.getPriorityQueueRef();
+}
+
+PriorityService& User::getPriorityServiceRef() {
+    m_priorityService.refreshStorage(&m_inbox, &m_outbox);
+    return m_priorityService;
 }
 
 void User::updateFromDraft(const Email& email) {

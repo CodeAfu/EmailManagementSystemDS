@@ -10,6 +10,7 @@
 #include "Helper.hpp"
 #include "Email.hpp"
 #include "User.hpp"
+#include "PriorityQueueMenu.hpp"
 
 #define LOG(x) std::cout << x << std::endl
 
@@ -796,6 +797,29 @@ void viewDraftEmails(User& user) {
     system("cls");
 }
 
+void assertPriority(Email& email) {
+    while (true) {
+        int priority = Console::getIntUserInput("Set priority level (1/2/3): ");    
+
+        switch (priority) {
+            case 1:
+                email.setPriority(PriorityLevel::High);
+                break;
+            case 2:
+                email.setPriority(PriorityLevel::Medium);
+                break;
+            case 3:
+                email.setPriority(PriorityLevel::Low);
+                break;
+            case 0:
+                return;
+            default:
+                ColorFormat::println("Invalid input. Please enter a number between 1 and 3.", Color::Yellow);
+                continue;
+        }
+    }
+}
+
 void composeEmail(User& user) {
     system("cls");
 
@@ -829,7 +853,9 @@ void composeEmail(User& user) {
         is_important = Console::getStringUserInput("Mark as Important? (Y/N): ");
         if (is_important == "Y" || is_important == "y") {
             email.setIsImportant(true);
+            assertPriority(email);
         } else if (is_important == "N" || is_important == "n") {
+            email.setPriority(PriorityLevel::Low);
             email.setIsImportant(false);
         } else {
             ColorFormat::println("Invalid input. Please enter Y or N.", Color::Yellow);
@@ -873,8 +899,11 @@ void spamDetection(User& user) {
 }
 
 void priorityHandling(User& user) {
-    std::cout << "Managing Email Priority..." << std::endl;
-    // TODO: Implement priority handling options
+    system("cls");
+
+    PriorityQueueMenu::run(user);
+
+    system("cls");
 }
 
 void displayMenu() {

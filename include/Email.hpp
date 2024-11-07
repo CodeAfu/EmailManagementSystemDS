@@ -7,6 +7,7 @@
 
 #include "ColorFormat.hpp"
 #include "Timestamp.hpp"
+#include "PriorityLevel.hpp"
 
 class Email {
 public:
@@ -14,9 +15,11 @@ public:
 
     Email(int id, const std::string& sender, const std::string& receiver, 
           const std::string& subject, const std::string& body)
-        : m_id(id), m_sender(sender), m_receiver(receiver), m_subject(subject), m_body(body) {
-        // ColorFormat::println("Email Created: " + std::to_string(m_id), Color::Green);
-    }
+        : m_id(id), m_sender(sender), m_receiver(receiver), m_subject(subject), m_body(body), m_priority(PriorityLevel::Low) { }
+
+    Email(int id, const std::string& sender, const std::string& receiver, 
+          const std::string& subject, const std::string& body, PriorityLevel priority)
+        : m_id(id), m_sender(sender), m_receiver(receiver), m_subject(subject), m_body(body), m_priority(priority) { }
 
     Email(int id, const std::string& sender, const std::string& receiver, 
           const std::string& subject, const std::string& body, 
@@ -102,7 +105,7 @@ public:
     // }
 
     /// Getters and Setters
-int getId() const { return m_id; }
+    int getId() const { return m_id; }
     void setId(int id) { m_id = id; }
 
     std::string getSender() const { return m_sender; }
@@ -116,6 +119,9 @@ int getId() const { return m_id; }
 
     std::string getBody() const { return m_body; }
     void setBody(const std::string& body) { m_body = body; }
+
+    PriorityLevel getPriority() const { return m_priority; }
+    void setPriority(PriorityLevel priority) { m_priority = priority; }
 
     // std::string getDate() const { return m_timestamp.getDate(); }
     // std::string getTime() const { return m_timestamp.getTime(); }
@@ -135,7 +141,6 @@ int getId() const { return m_id; }
 
     bool isSpam() const { return m_isSpam; }
     void setIsSpam(bool flag) { m_isSpam = flag; }
-
 
     /// Helpers
     void display() const {
@@ -167,6 +172,7 @@ private:
         m_receiver.swap(other.m_receiver);
         m_subject.swap(other.m_subject);
         m_body.swap(other.m_body);
+        std::swap(m_priority, other.m_priority);
         std::swap(m_isImportant, other.m_isImportant);
         std::swap(m_isSpam, other.m_isSpam);
         std::swap(m_isSent, other.m_isSent);
@@ -180,6 +186,7 @@ private:
     std::string m_receiver = "";
     std::string m_subject = "";
     std::string m_body = "";
+    PriorityLevel m_priority = PriorityLevel::Low;
 
     /// Flags
     bool m_isImportant = false;

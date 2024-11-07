@@ -123,7 +123,8 @@ public:
 
     T dequeue() {
         if (isEmpty()) {
-            throw std::out_of_range("LLQueue is empty");
+            std::cout << "[LLQueue] Queue is Empty\n";
+            return T();
         }
         Node<T>* temp = m_front;
         m_front = m_front->next;

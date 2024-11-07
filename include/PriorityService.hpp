@@ -1,13 +1,25 @@
 #pragma once
 
-// TODO: Import Data Structure
+#include "PriorityQueue.hpp"
+
+class Inbox;
+class Outbox;
 
 class PriorityService {
 public:
-    PriorityService() = default;
-    ~PriorityService() = default;
+    PriorityService();
+    PriorityService(Inbox* inbox, Outbox* outbox);
+    ~PriorityService();
+
+public:
+    PriorityQueue& getPriorityQueueRef();
+    void populatePriorityQueue();
+
+
+    void refreshStorage(Inbox* inbox, Outbox* outbox);
 
 private:
-    // TODO: Store Data Structure
-
+    Inbox* m_inbox;
+    Outbox* m_outbox;
+    PriorityQueue m_priorityQueue = PriorityQueue(100);
 };
