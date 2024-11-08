@@ -182,7 +182,7 @@ void User::sendEmail(Email& email, User& receiver) {
 }
 
 void User::sendEmail(Email& email) {
-    User* receiver = ResourceManager::getReceiver(email.getReceiver());
+    User* receiver = ResourceManager::getUser(email.getReceiver());
 
     if (!receiver) {
         ColorFormat::println("[ERROR] " + email.getReceiver() + " not found.", Color::Red);
@@ -409,7 +409,7 @@ size_t User::getInboxSize() const {
 
 /* Features */
 void User::addToImportantList(const std::string& email_address) {
-    User* user = ResourceManager::getReceiver(email_address);
+    User* user = ResourceManager::getUser(email_address);
     if (!user) {
         std::cout << "[AddToImportantList] User not found." << std::endl;
         return;

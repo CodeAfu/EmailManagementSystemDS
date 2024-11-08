@@ -548,7 +548,7 @@ void editDraftEmail(User& user) {
 
             std::string receiver_str = Console::getStringUserInput("To: ");
             receiver_str = Formatter::trim(receiver_str);
-            User* receiver = ResourceManager::getReceiver(receiver_str);
+            User* receiver = ResourceManager::getUser(receiver_str);
 
             if (receiver == nullptr) {
                 ColorFormat::println("Please enter email address of a valid user.", Color::Yellow);
@@ -830,7 +830,7 @@ void composeEmail(User& user) {
     Console::clearCin();
     std::string receiver_str = Console::getStringUserInput("To: ");
     receiver_str = Formatter::trim(receiver_str);
-    User* receiver = ResourceManager::getReceiver(receiver_str);
+    User* receiver = ResourceManager::getUser(receiver_str);
     if (receiver == nullptr) {
         ColorFormat::println("Please enter email address of a valid user.", Color::Yellow);
         std::cin.get();

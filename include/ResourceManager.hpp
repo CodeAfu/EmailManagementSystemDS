@@ -48,16 +48,20 @@ public:
             ColorFormat::println(users[i].getName() + " - " + users[i].getEmailAddress(), Color::BrightGreen);
         }
 
-        emma.sendEmail(emails[0]);
-        sophia.sendEmail(emails[1]);
-        mia.sendEmail(emails[2]);
-        liam.sendEmail(emails[3]);
-        noah.sendEmail(emails[4]);
-        emma.sendEmail(emails[5]);
-        sophia.sendEmail(emails[6]);
-        noah.sendEmail(emails[7]);
-        sophia.sendEmail(emails[8]);
-        noah.sendEmail(emails[9]);
+        // emma.sendEmail(emails[0]);
+        // sophia.sendEmail(emails[1]);
+        // mia.sendEmail(emails[2]);
+        // liam.sendEmail(emails[3]);
+        // noah.sendEmail(emails[4]);
+        // emma.sendEmail(emails[5]);
+        // sophia.sendEmail(emails[6]);
+        // noah.sendEmail(emails[7]);
+        // sophia.sendEmail(emails[8]);
+        // noah.sendEmail(emails[9]);
+
+        for (int i = 0; i < emails.size(); i++) {
+            ResourceManager::sendEmail(emails[i]);
+        }
 
         ColorFormat::println("User Data populated!\n", Color::BrightGreen);
     }
@@ -93,6 +97,21 @@ public:
 
         return nullptr;
     }
+
+    static void sendEmail(Email& email) {
+        const std::string sender_address = email.getSender();
+        const std::string receiver_address = email.getReceiver();
+
+        auto& instance = GetInstance();
+
+        User* sender = instance.getUser(sender_address);
+        if (sender == nullptr) {
+            ColorFormat::print("[ERROR] Sender not found: " + sender_address, Color::Red);
+            return;
+        }
+
+        sender->sendEmail(email);
+    }
     
     static void printUserList() {
         DynArray<User>& users = ResourceManager::getUsers();
@@ -114,7 +133,7 @@ public:
     //     }
     // }
 
-    static User* getReceiver(const std::string& email_address) {
+    static User* getUser(const std::string& email_address) {
         auto& tree = GetInstance().m_userTree;
         return tree.searchUser(email_address);;
     }
