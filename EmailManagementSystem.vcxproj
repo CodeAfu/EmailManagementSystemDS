@@ -31,6 +31,8 @@
     <ClCompile Include="lib\services\PriorityService.cpp" />
     <ClCompile Include="lib\services\SearchService.cpp" />
     <ClCompile Include="lib\services\SpamDetectionService.cpp" />
+    <ClCompile Include="lib\ui\InboxMenu.cpp" />
+    <ClCompile Include="lib\ui\OutboxMenu.cpp" />
     <ClCompile Include="lib\ui\PriorityQueueMenu.cpp" />
     <ClCompile Include="lib\utils\ColorFormat.cpp" />
     <ClCompile Include="lib\utils\Console.cpp" />
@@ -59,6 +61,8 @@
     <ClInclude Include="include\services\PriorityService.hpp" />
     <ClInclude Include="include\services\SearchService.hpp" />
     <ClInclude Include="include\services\SpamDetectionService.hpp" />
+    <ClInclude Include="include\ui\InboxMenu.hpp" />
+    <ClInclude Include="include\ui\OutboxMenu.hpp" />
     <ClInclude Include="include\ui\PriorityQueueMenu.hpp" />
     <ClInclude Include="include\utils\ColorFormat.hpp" />
     <ClInclude Include="include\utils\Helper.hpp" />

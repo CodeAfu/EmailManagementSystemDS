@@ -29,6 +29,8 @@ namespace PriorityQueueMenu {
     }
 
     void run(User& user) {
+        system("cls");
+
         user.getPriorityServiceRef().populatePriorityQueue();
 
         int choice;
@@ -93,6 +95,7 @@ namespace PriorityQueueMenu {
                 break;
             case 0:
                 std::cout << "Exiting the program.\n";
+                system("cls");
                 return;
             default:
                 std::cout << "Invalid choice. Please enter a number between 1 and 10.\n";
