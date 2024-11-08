@@ -9,12 +9,22 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "-std=c++17",
-                "-Iinclude",              // Include directory for header files
+                "-Iinclude",
+                "-Iinclude/core",
+                "-Iinclude/data_structures",
+                "-Iinclude/email",
+                "-Iinclude/services",
+                "-Iinclude/ui",
+                "-Iinclude/utils",
                 // "-DDEBUG=1",
                 // "-DDEBUG_AGGR=1",
-                "lib/*.cpp",
-                "lib/helper/*.cpp",             // Compile all cpp files in lib
-                "lib/menus/*.cpp",             // Compile all cpp files in lib
+                // "lib/*.cpp",
+                "lib/core/*.cpp",
+                "lib/data_structures/*.cpp",
+                "lib/email/*.cpp",
+                "lib/services/*.cpp",
+                "lib/utils/*.cpp",             // Compile all cpp files in lib
+                "lib/ui/*.cpp",             // Compile all cpp files in lib
                 "main.cpp",               // Your main file
                 "-o",                     // Specify output file
                 "${workspaceFolder}/main.exe" // Output executable name

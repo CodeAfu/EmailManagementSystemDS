@@ -4,12 +4,18 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/include",
-                "${workspaceFolder}/**" // This includes all subdirectories
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/include/core",
+                "${workspaceFolder}/include/data_structures",
+                "${workspaceFolder}/include/email",
+                "${workspaceFolder}/include/services",
+                "${workspaceFolder}/include/ui",
+                "${workspaceFolder}/include/utils"
             ],
             "defines": [],
             "compilerPath": "C:\\msys64\\ucrt64\\bin\\g++.exe",
             "cStandard": "c11",
-            "cppStandard": "c++17", // or c++20 based on your preference
+            "cppStandard": "c++17",
             "intelliSenseMode": "gcc-x64"
         }
     ],
