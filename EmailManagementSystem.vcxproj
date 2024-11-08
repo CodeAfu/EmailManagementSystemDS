@@ -18,6 +18,52 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="lib\core\Email.cpp" />
+    <ClCompile Include="lib\core\User.cpp" />
+    <ClCompile Include="lib\data_structures\UserTree.cpp" />
+    <ClCompile Include="lib\email\Inbox.cpp" />
+    <ClCompile Include="lib\email\Outbox.cpp" />
+    <ClCompile Include="lib\email\Timestamp.cpp" />
+    <ClCompile Include="lib\services\EmailRequest.cpp" />
+    <ClCompile Include="lib\services\EmailService.cpp" />
+    <ClCompile Include="lib\services\PriorityQueue.cpp" />
+    <ClCompile Include="lib\services\PriorityService.cpp" />
+    <ClCompile Include="lib\services\SearchService.cpp" />
+    <ClCompile Include="lib\services\SpamDetectionService.cpp" />
+    <ClCompile Include="lib\ui\PriorityQueueMenu.cpp" />
+    <ClCompile Include="lib\utils\ColorFormat.cpp" />
+    <ClCompile Include="lib\utils\Console.cpp" />
+    <ClCompile Include="lib\utils\Formatter.cpp" />
+    <ClCompile Include="lib\utils\Seed.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\core\Email.hpp" />
+    <ClInclude Include="include\core\ResourceManager.hpp" />
+    <ClInclude Include="include\core\User.hpp" />
+    <ClInclude Include="include\data_structures\ArrQueue.hpp" />
+    <ClInclude Include="include\data_structures\BSTUserNode.hpp" />
+    <ClInclude Include="include\data_structures\DynArray.hpp" />
+    <ClInclude Include="include\data_structures\LLQueue.hpp" />
+    <ClInclude Include="include\data_structures\Node.hpp" />
+    <ClInclude Include="include\data_structures\Stack.hpp" />
+    <ClInclude Include="include\data_structures\UserTree.hpp" />
+    <ClInclude Include="include\email\Inbox.hpp" />
+    <ClInclude Include="include\email\Outbox.hpp" />
+    <ClInclude Include="include\email\PriorityLevel.hpp" />
+    <ClInclude Include="include\email\Timestamp.hpp" />
+    <ClInclude Include="include\services\EmailRequest.hpp" />
+    <ClInclude Include="include\services\EmailService.hpp" />
+    <ClInclude Include="include\services\PriorityQueue.hpp" />
+    <ClInclude Include="include\services\PriorityService.hpp" />
+    <ClInclude Include="include\services\SearchService.hpp" />
+    <ClInclude Include="include\services\SpamDetectionService.hpp" />
+    <ClInclude Include="include\ui\PriorityQueueMenu.hpp" />
+    <ClInclude Include="include\utils\ColorFormat.hpp" />
+    <ClInclude Include="include\utils\Helper.hpp" />
+    <ClInclude Include="include\utils\IdxGen.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -104,7 +150,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/include;$(ProjectDir)/include/core;$(ProjectDir)/include/data_structures;$(ProjectDir)/include/email;$(ProjectDir)/include/services;$(ProjectDir)/include/ui;$(ProjectDir)/include/utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -120,7 +166,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/include;$(ProjectDir)/include/core;$(ProjectDir)/include/data_structures;$(ProjectDir)/include/email;$(ProjectDir)/include/services;$(ProjectDir)/include/ui;$(ProjectDir)/include/utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -130,52 +176,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="lib\ColorFormat.cpp" />
-    <ClCompile Include="lib\Email.cpp" />
-    <ClCompile Include="lib\EmailRequest.cpp" />
-    <ClCompile Include="lib\EmailService.cpp" />
-    <ClCompile Include="lib\helper\Console.cpp" />
-    <ClCompile Include="lib\helper\Formatter.cpp" />
-    <ClCompile Include="lib\helper\Seed.cpp" />
-    <ClCompile Include="lib\Inbox.cpp" />
-    <ClCompile Include="lib\menus\PriorityQueueMenu.cpp" />
-    <ClCompile Include="lib\Outbox.cpp" />
-    <ClCompile Include="lib\PriorityQueue.cpp" />
-    <ClCompile Include="lib\PriorityService.cpp" />
-    <ClCompile Include="lib\SearchService.cpp" />
-    <ClCompile Include="lib\SpamDetectionService.cpp" />
-    <ClCompile Include="lib\Timestamp.cpp" />
-    <ClCompile Include="lib\User.cpp" />
-    <ClCompile Include="lib\UserTree.cpp" />
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\ArrQueue.hpp" />
-    <ClInclude Include="include\BSTUserNode.hpp" />
-    <ClInclude Include="include\DynArray.hpp" />
-    <ClInclude Include="include\Email.hpp" />
-    <ClInclude Include="include\EmailRequest.hpp" />
-    <ClInclude Include="include\EmailService.hpp" />
-    <ClInclude Include="include\Helper.hpp" />
-    <ClInclude Include="include\IdxGen.hpp" />
-    <ClInclude Include="include\Inbox.hpp" />
-    <ClInclude Include="include\LLQueue.hpp" />
-    <ClInclude Include="include\Node.hpp" />
-    <ClInclude Include="include\Outbox.hpp" />
-    <ClInclude Include="include\ColorFormat.hpp" />
-    <ClInclude Include="include\PriorityLevel.hpp" />
-    <ClInclude Include="include\PriorityQueue.hpp" />
-    <ClInclude Include="include\PriorityQueueMenu.hpp" />
-    <ClInclude Include="include\PriorityService.hpp" />
-    <ClInclude Include="include\ResourceManager.hpp" />
-    <ClInclude Include="include\SearchService.hpp" />
-    <ClInclude Include="include\SpamDetectionService.hpp" />
-    <ClInclude Include="include\Stack.hpp" />
-    <ClInclude Include="include\Timestamp.hpp" />
-    <ClInclude Include="include\User.hpp" />
-    <ClInclude Include="include\UserTree.hpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
