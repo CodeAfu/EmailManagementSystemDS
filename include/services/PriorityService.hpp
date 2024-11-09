@@ -15,7 +15,6 @@ public:
     PriorityQueue& getPriorityQueueRef();
     void populatePriorityQueue();
 
-
     void refreshStorage(Inbox* inbox, Outbox* outbox);
 
 private:

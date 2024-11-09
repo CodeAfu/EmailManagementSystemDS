@@ -34,6 +34,8 @@
     <ClCompile Include="lib\ui\InboxMenu.cpp" />
     <ClCompile Include="lib\ui\OutboxMenu.cpp" />
     <ClCompile Include="lib\ui\PriorityQueueMenu.cpp" />
+    <ClCompile Include="lib\ui\SearchAndRetrievalMenu.cpp" />
+    <ClCompile Include="lib\ui\SpamDetectionMenu.cpp" />
     <ClCompile Include="lib\utils\ColorFormat.cpp" />
     <ClCompile Include="lib\utils\Console.cpp" />
     <ClCompile Include="lib\utils\Formatter.cpp" />
@@ -64,6 +66,8 @@
     <ClInclude Include="include\ui\InboxMenu.hpp" />
     <ClInclude Include="include\ui\OutboxMenu.hpp" />
     <ClInclude Include="include\ui\PriorityQueueMenu.hpp" />
+    <ClInclude Include="include\ui\SearchAndRetrievalMenu.hpp" />
+    <ClInclude Include="include\ui\SpamDetectionMenu.hpp" />
     <ClInclude Include="include\utils\ColorFormat.hpp" />
     <ClInclude Include="include\utils\Helper.hpp" />
     <ClInclude Include="include\utils\IdxGen.hpp" />

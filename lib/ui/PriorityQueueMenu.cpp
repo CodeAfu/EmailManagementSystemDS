@@ -38,6 +38,7 @@ namespace PriorityQueueMenu {
             displayMenu();
 
             if (!(std::cin >> choice)) {
+                system("cls");
                 std::cout << "Invalid input. Please enter a number between 1 and 10.\n";
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -49,47 +50,60 @@ namespace PriorityQueueMenu {
 
             switch (choice) {
             case 1:
+                system("cls");
                 user.getPriorityQueueRef().displayHighPriority();
                 break;
             case 2:
+                system("cls");
                 user.getPriorityQueueRef().displayMediumPriority();
                 break;
             case 3:
+                system("cls");
                 user.getPriorityQueueRef().displayLowPriority();
                 break;
             case 4:
+                system("cls");
                 user.getPriorityQueueRef().displayAll();
                 break;
             case 5:
+                system("cls");
                 user.getPriorityQueueRef().displaySubjectSummary();
                 break;
             case 6:
+                system("cls");
                 std::cout << "Enter priority level (1 = Low, 2 = Medium, 3 = High): ";
                 int priorityLevel;
                 std::cin >> priorityLevel;
                 priority = static_cast<PriorityLevel>(priorityLevel);
                 std::cout << "Enter keyword to search: ";
                 std::cin >> keyword;
+                system("cls");
                 user.getPriorityQueueRef().searchEmailsByKeyword(priority, keyword);
                 break;
             case 7:
+                system("cls");
                 std::cout << "Enter priority level (1 = Low, 2 = Medium, 3 = High): ";
                 std::cin >> priorityLevel;
                 priority = static_cast<PriorityLevel>(priorityLevel);
+                system("cls");
                 user.getPriorityQueueRef().sortEmailsBySender(priority);
                 std::cout << "Emails sorted by sender.\n";
                 break;
             case 8:
+                system("cls");
                 std::cout << "Enter priority level (1 = Low, 2 = Medium, 3 = High): ";
                 std::cin >> priorityLevel;
                 priority = static_cast<PriorityLevel>(priorityLevel);
+                system("cls");
                 user.getPriorityQueueRef().markAllAsRead(priority);
                 std::cout << "All emails marked as read.\n";
                 break;
             case 9:
+                system("cls");
                 std::cout << "Enter priority level (1 = Low, 2 = Medium, 3 = High): ";
                 std::cin >> priorityLevel;
                 priority = static_cast<PriorityLevel>(priorityLevel);
+                system("cls");
                 user.getPriorityQueueRef().markAllAsUnread(priority);
                 std::cout << "All emails marked as unread.\n";
                 break;
@@ -98,6 +112,7 @@ namespace PriorityQueueMenu {
                 system("cls");
                 return;
             default:
+                system("cls");
                 std::cout << "Invalid choice. Please enter a number between 1 and 10.\n";
             }
         }

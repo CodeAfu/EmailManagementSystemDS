@@ -42,14 +42,18 @@ namespace InboxMenu {
     void viewUnreadEmails(User& user) {
         system("cls");
 
+        bool found = false;
         Inbox& inbox = user.getInbox();
         Inbox temp;
         std::string choice = "";
 
+        // loop through inbox and display unread emails
         Console::clearCin();
         while (!inbox.isEmpty() && Formatter::toLower(choice) != "q") {
+            // Iterate by popping emails from original inbox
             Email email = inbox.pop();
             if (!email.isRead()) {
+                found = true;
                 email.display();
                 email.setIsRead(true);
                 choice = Console::getStringUserInput("\n\nPress any key to continue, Q to exit: ");
@@ -58,6 +62,15 @@ namespace InboxMenu {
             system("cls");
         }
 
+        // Display error message if all emails are read
+        if (!found) {
+            ColorFormat::print("All Emails have been read.", Color::Yellow);
+            std::cout << "\n\nPress any key to continue..." << std::endl;
+            std::cin.get();
+            system("cls");
+        }
+
+        // Populate original inbox with emails
         while (!temp.isEmpty()) {
             inbox.push(temp.pop());
         }
