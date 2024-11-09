@@ -77,21 +77,27 @@ public:
 
     T getFront() const {
         if (isEmpty()) {
-            throw std::out_of_range("LLQueue is empty");
+            ColorFormat::println("LLQueue is empty", Color::Yellow);
+            return T();
+            // throw std::out_of_range("LLQueue is empty");
         }
         return m_front->data;
     }
 
     Node<T>* getFrontNode() const {
         if (isEmpty()) {
-            throw std::out_of_range("LLQueue is empty");
+            // ColorFormat::println("LLQueue is empty", Color::Yellow);
+            return nullptr;
+            // throw std::out_of_range("LLQueue is empty");
         }
         return m_front;
     }
 
     T getRear() const {
         if (isEmpty()) {
-            throw std::out_of_range("LLQueue is empty");
+            ColorFormat::println("LLQueue is empty", Color::Yellow);
+            return T();
+            // throw std::out_of_range("LLQueue is empty");
         }
         return m_rear->data;
     }

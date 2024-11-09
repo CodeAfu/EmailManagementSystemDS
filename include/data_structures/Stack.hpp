@@ -82,6 +82,14 @@ public:
         return m_arr[m_topIdx];
     }
 
+    T& operator[](size_t index) {
+        return m_arr[index];
+    }
+
+    const T& operator[](size_t index) const {
+        return m_arr[index];
+    }
+
 private:
     DynArray<T> m_arr;
     int m_topIdx = -1;

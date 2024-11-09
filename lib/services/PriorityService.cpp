@@ -18,27 +18,31 @@ PriorityQueue& PriorityService::getPriorityQueueRef() {
 }
 
 void PriorityService::populatePriorityQueue() {
-    Stack<Email> inbox = m_inbox->getEmails();
-    LLQueue<Email> draftEmails = m_outbox->getDraftEmails();
-    LLQueue<Email> sentEmails = m_outbox->getSentEmails();
+    m_priorityQueue.clearAll();
+    Stack<Email*> inbox = m_inbox->getEmailPtrs();
+    // LLQueue<Email*> draftEmails = m_outbox->getDraftEmailPtrs();
+    // LLQueue<Email*> sentEmails = m_outbox->getSentEmailPtrs();
 
-    for (int i = 0; i < inbox.size(); i++) {
-        Email inboxEmail = inbox.pop();
-        Email draftEmail = draftEmails.dequeue();
-        Email sentEmail = sentEmails.dequeue();
-
-        if (inboxEmail.getId() != -1) {
-            m_priorityQueue.insert(inboxEmail);
-        }
-
-        if (draftEmail.getId() != -1) {
-            m_priorityQueue.insert(draftEmail);
-        }
-
-        if (sentEmail.getId() != -1) {
-            m_priorityQueue.insert(sentEmail);
+    while (!inbox.isEmpty()) {
+        Email* inboxEmail = inbox.pop();
+        if (inboxEmail->getId() != -1) {
+            m_priorityQueue.insert(*inboxEmail);
         }
     }
+
+    // for (int i = 0; i < draftEmails.size(); i++) {
+    //     Email* draftEmail = draftEmails.dequeue();
+    //     if (draftEmail->getId() != -1) {
+    //         m_priorityQueue.insert(*draftEmail);
+    //     }
+    // }
+
+    // for (int i = 0; i < sentEmails.size(); i++) {
+    //     Email* sentEmail = sentEmails.dequeue();
+    //     if (sentEmail->getId() != -1) {
+    //         m_priorityQueue.insert(*sentEmail);
+    //     }
+    // }
 }
 
 void PriorityService::refreshStorage(Inbox* inbox, Outbox* outbox) {

@@ -10,8 +10,8 @@ public:
     explicit PriorityQueue(int capacity = 100);
 
     // Insert an email into the appropriate priority queue
-    void insert(const Email& email);
-
+    void insert(Email& email);
+    
     // Check if there are emails in each priority queue
     bool hasHighPriority() const { return !highPriorityQueue.empty(); }
     bool hasMediumPriority() const { return !mediumPriorityQueue.empty(); }
@@ -36,13 +36,13 @@ private:
     void displaySubjectSummaryForQueue(const std::vector<Email>& queue) const;
 
     // Helper method to get queue by priority (non-const and const versions)
-    std::vector<Email>& getQueueByPriority(PriorityLevel priority);
-    const std::vector<Email>& getQueueByPriority(PriorityLevel priority) const; // Const version for read-only access
+    std::vector<Email*>& getQueueByPriority(PriorityLevel priority);
+    const std::vector<Email*>& getQueueByPriority(PriorityLevel priority) const; // Const version for read-only access
 
     // Separate priority queues
-    std::vector<Email> highPriorityQueue;
-    std::vector<Email> mediumPriorityQueue;
-    std::vector<Email> lowPriorityQueue;
+    std::vector<Email*> highPriorityQueue;
+    std::vector<Email*> mediumPriorityQueue;
+    std::vector<Email*> lowPriorityQueue;
 
     // Capacity limit for emails
     int capacity;

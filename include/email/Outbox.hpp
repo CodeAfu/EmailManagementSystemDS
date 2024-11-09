@@ -13,8 +13,10 @@ public:
 public:
     LLQueue<Email> getDraftEmails() const;
     LLQueue<Email>& getDraftEmails();
+    LLQueue<Email*> getDraftEmailPtrs();
     LLQueue<Email> getSentEmails() const;
     LLQueue<Email>& getSentEmails();
+    LLQueue<Email*> getSentEmailPtrs();
     Email getSentById(int id);
     Email getDraftById(int id);
 

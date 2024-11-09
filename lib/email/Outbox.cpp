@@ -4,18 +4,6 @@
 #include "EmailRequest.hpp"
 #include "EmailService.hpp"
 
-// LLQueue<Email> Outbox::getDraftEmails() const {
-//     LLQueue<Email> emails;
-
-//     Node<EmailRequest>* current = m_drafts.getFrontNode();
-//     while (current != nullptr) {
-//         emails.enqueue(*current->data.email);
-//         current = current->next;
-//     }
-
-//     return emails;
-// }
-
 LLQueue<Email> Outbox::getDraftEmails() const {
     return m_draftEmails;
 }
@@ -24,12 +12,38 @@ LLQueue<Email>& Outbox::getDraftEmails() {
     return m_draftEmails;
 }
 
+LLQueue<Email*> Outbox::getDraftEmailPtrs() {
+    Node<Email>* temp = m_draftEmails.getFrontNode();
+    LLQueue<Email*> emailPtrs;
+
+    while (temp != nullptr) {
+        Email* email = &(temp->data);
+        emailPtrs.enqueue(email);
+        temp = temp->next;
+    }
+
+    return emailPtrs;
+}
+    
 LLQueue<Email> Outbox::getSentEmails() const {
     return m_sentEmails;
 }
 
 LLQueue<Email>& Outbox::getSentEmails() {
     return m_sentEmails;
+}
+
+LLQueue<Email*> Outbox::getSentEmailPtrs() {
+    Node<Email>* temp = m_sentEmails.getFrontNode();
+    LLQueue<Email*> emailPtrs;
+
+    while (temp != nullptr) {
+        Email* email = &(temp->data);
+        emailPtrs.enqueue(email);
+        temp = temp->next;
+    }
+
+    return emailPtrs;
 }
 
 Email Outbox::getSentById(int id) {

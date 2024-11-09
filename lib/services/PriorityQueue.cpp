@@ -9,19 +9,19 @@ PriorityQueue::PriorityQueue(int capacity) : capacity(capacity) {
     lowPriorityQueue.reserve(capacity / 3);
 }
 
-void PriorityQueue::insert(const Email& email) {
+void PriorityQueue::insert(Email& email) {
     switch (email.getPriority()) {
         case PriorityLevel::High:
-            highPriorityQueue.push_back(email);
+            highPriorityQueue.push_back(&email);
             break;
         case PriorityLevel::Medium:
-            mediumPriorityQueue.push_back(email);
+            mediumPriorityQueue.push_back(&email);
             break;
         case PriorityLevel::Low:
-            lowPriorityQueue.push_back(email);
+            lowPriorityQueue.push_back(&email);
             break;
         default:
-            lowPriorityQueue.push_back(email);
+            lowPriorityQueue.push_back(&email);
             break;
     }
 
@@ -45,7 +45,7 @@ void PriorityQueue::displayHighPriority() const {
     }
     std::cout << "High Priority Emails:\n";
     for (const auto& email : highPriorityQueue) {
-        email.display();
+        email->display();
         std::cout << "-------------------\n";
     }
 }
@@ -57,7 +57,7 @@ void PriorityQueue::displayMediumPriority() const {
     }
     std::cout << "Medium Priority Emails:\n";
     for (const auto& email : mediumPriorityQueue) {
-        email.display();
+        email->display();
         std::cout << "-------------------\n";
     }
 }
@@ -69,7 +69,7 @@ void PriorityQueue::displayLowPriority() const {
     }
     std::cout << "Low Priority Emails:\n";
     for (const auto& email : lowPriorityQueue) {
-        email.display();
+        email->display();
         std::cout << "-------------------\n";
     }
 }
@@ -91,7 +91,7 @@ void PriorityQueue::displaySubjectSummary() const {
     else {
         std::unordered_map<std::string, int> subjectCount;
         for (const auto& email : highPriorityQueue) {
-            subjectCount[email.getSubject()]++;
+            subjectCount[email->getSubject()]++;
         }
         for (const auto& pair : subjectCount) {
             std::cout << "Subject: " << pair.first << " - " << pair.second << " emails\n";
@@ -105,7 +105,7 @@ void PriorityQueue::displaySubjectSummary() const {
     else {
         std::unordered_map<std::string, int> subjectCount;
         for (const auto& email : mediumPriorityQueue) {
-            subjectCount[email.getSubject()]++;
+            subjectCount[email->getSubject()]++;
         }
         for (const auto& pair : subjectCount) {
             std::cout << "Subject: " << pair.first << " - " << pair.second << " emails\n";
@@ -119,7 +119,7 @@ void PriorityQueue::displaySubjectSummary() const {
     else {
         std::unordered_map<std::string, int> subjectCount;
         for (const auto& email : lowPriorityQueue) {
-            subjectCount[email.getSubject()]++;
+            subjectCount[email->getSubject()]++;
         }
         for (const auto& pair : subjectCount) {
             std::cout << "Subject: " << pair.first << " - " << pair.second << " emails\n";
@@ -137,9 +137,9 @@ void PriorityQueue::searchEmailsByKeyword(PriorityLevel priority, const std::str
         << " Priority Emails:\n";
 
     for (const auto& email : queue) {
-        if (email.getSubject().find(keyword) != std::string::npos ||
-            email.getBody().find(keyword) != std::string::npos) {
-            email.display();
+        if (email->getSubject().find(keyword) != std::string::npos ||
+            email->getBody().find(keyword) != std::string::npos) {
+            email->display();
             std::cout << "-------------------\n";
 
             found = true;
@@ -153,8 +153,8 @@ void PriorityQueue::searchEmailsByKeyword(PriorityLevel priority, const std::str
 
 void PriorityQueue::sortEmailsBySender(PriorityLevel priority) {
     auto& queue = getQueueByPriority(priority);
-    std::sort(queue.begin(), queue.end(), [](const Email& a, const Email& b) {
-        return a.getSender() < b.getSender();
+    std::sort(queue.begin(), queue.end(), [](Email* a, Email* b) {
+        return a->getSender() < b->getSender();
         });
     std::cout << "Sorted "
         << (priority == PriorityLevel::High ? "High" :
@@ -163,7 +163,7 @@ void PriorityQueue::sortEmailsBySender(PriorityLevel priority) {
 
     if (!queue.empty()) {
         for (const auto& email : queue) {
-            email.display();
+            email->display();
             std::cout << "-------------------\n";
         }
     }
@@ -174,8 +174,8 @@ void PriorityQueue::sortEmailsBySender(PriorityLevel priority) {
 
 void PriorityQueue::markAllAsRead(PriorityLevel priority) {
     auto& queue = getQueueByPriority(priority);
-    for (Email email : queue) {
-        email.setIsRead(true);
+    for (Email* email : queue) {
+        email->setIsRead(true);
     }
     std::cout << "Marked all "
         << (priority == PriorityLevel::High ? "High" :
@@ -183,7 +183,7 @@ void PriorityQueue::markAllAsRead(PriorityLevel priority) {
         << " Priority Emails as Read.\n";
 
     for (const auto& email : queue) {
-        email.display();
+        email->display();
         std::cout << "-------------------\n";
 
     }
@@ -191,8 +191,8 @@ void PriorityQueue::markAllAsRead(PriorityLevel priority) {
 
 void PriorityQueue::markAllAsUnread(PriorityLevel priority) {
     auto& queue = getQueueByPriority(priority);
-    for (Email& email : queue) {
-        email.setIsRead(false);
+    for (Email* email : queue) {
+        email->setIsRead(false);
     }
     std::cout << "Marked all "
         << (priority == PriorityLevel::High ? "High" :
@@ -200,7 +200,7 @@ void PriorityQueue::markAllAsUnread(PriorityLevel priority) {
         << " Priority Emails as Unread.\n";
 
     for (const auto& email : queue) {
-        email.display();
+        email->display();
         std::cout << "-------------------\n";
 
     }
@@ -213,13 +213,13 @@ void PriorityQueue::clearAll() {
     currentSize = 0;
 }
 
-std::vector<Email>& PriorityQueue::getQueueByPriority(PriorityLevel priority) {
+std::vector<Email*>& PriorityQueue::getQueueByPriority(PriorityLevel priority) {
     if (priority == PriorityLevel::High) return highPriorityQueue;
     if (priority == PriorityLevel::Medium) return mediumPriorityQueue;
     return lowPriorityQueue;
 }
 
-const std::vector<Email>& PriorityQueue::getQueueByPriority(PriorityLevel priority) const {
+const std::vector<Email*>& PriorityQueue::getQueueByPriority(PriorityLevel priority) const {
     if (priority == PriorityLevel::High) return highPriorityQueue;
     if (priority == PriorityLevel::Medium) return mediumPriorityQueue;
     return lowPriorityQueue;

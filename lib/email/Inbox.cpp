@@ -11,6 +11,16 @@ Stack<Email>& Inbox::getEmails() {
     return m_emails;
 }
 
+Stack<Email*> Inbox::getEmailPtrs() {
+    Stack<Email*> ptrs;
+
+    for (size_t i = 0; i < m_emails.size(); i++) {
+        ptrs.push(&m_emails[i]);
+    }
+    
+    return ptrs;
+}
+
 void Inbox::push(const Email& email) {
     m_emails.emplace(email.getId(), email.getSender(), email.getReceiver(), 
                      email.getSubject(), email.getBody(), email.getPriority(),
@@ -23,6 +33,10 @@ void Inbox::removeEmail() {
 
 Email Inbox::peek() const {
     return m_emails.peek();
+}
+
+Email& Inbox::peek(int idx) {
+    return m_emails[idx];        
 }
 
 Email Inbox::pop() {

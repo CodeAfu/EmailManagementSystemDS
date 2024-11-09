@@ -350,11 +350,14 @@ Email User::getFromDraft(int id) {
 }
 
 PriorityQueue& User::getPriorityQueueRef() {
+    m_priorityService.refreshStorage(&m_inbox, &m_outbox);
+    m_priorityService.populatePriorityQueue();
     return m_priorityService.getPriorityQueueRef();
 }
 
 PriorityService& User::getPriorityServiceRef() {
     m_priorityService.refreshStorage(&m_inbox, &m_outbox);
+    m_priorityService.populatePriorityQueue();
     return m_priorityService;
 }
 
