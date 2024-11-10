@@ -2,7 +2,8 @@
 
 #include <vector>
 
-#include "Email.hpp"
+class Email;
+enum class PriorityLevel;
 
 class PriorityQueue {
 public:

@@ -1,7 +1,9 @@
-#include "PriorityQueue.hpp"
 #include <iostream>
 #include <unordered_map>
 #include <algorithm>
+
+#include "PriorityQueue.hpp"
+#include "Email.hpp"
 
 PriorityQueue::PriorityQueue(int capacity) : capacity(capacity) {
     highPriorityQueue.reserve(capacity / 3);
