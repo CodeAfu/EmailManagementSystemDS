@@ -419,11 +419,6 @@ size_t User::getInboxSize() const {
 
 /* Features */
 void User::addToImportantList(const std::string& email_address) {
-    User* user = ResourceManager::getUser(email_address);
-    if (!user) {
-        std::cout << "[AddToImportantList] User not found." << std::endl;
-        return;
-    }
     if (m_importantUserList.contains(email_address)) {
         std::cout << "[AddToImportantList] User already in list." << std::endl;
         return;
@@ -432,5 +427,5 @@ void User::addToImportantList(const std::string& email_address) {
         std::cout << "[AddToImportantList] You cannot add yourself to the important list." << std::endl;
     }
 
-    m_importantUserList.pushBack(user->getEmailAddress());
+    m_importantUserList.pushBack(email_address);
 }

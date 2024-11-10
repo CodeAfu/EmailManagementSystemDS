@@ -229,7 +229,7 @@ namespace InboxMenu {
         std::string choices[] = { 
             "1. View Last Email",
             "2. Select Email to View",
-            "3. Read Unread Emails",
+            "3. View Unread Emails",
             "4. Reply Email",
             "5. Delete Top Email",
             "6. Delete Email",

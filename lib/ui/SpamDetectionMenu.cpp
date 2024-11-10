@@ -16,7 +16,7 @@ namespace SpamDetectionMenu {
         EmailQueue& spamBox = spamDetectionService.getSpamBox();
 
         if (!spamBox.isEmpty()) {
-            ColorFormat::println(std::to_string(spamBox.size()) + "Spam Emails Detected", Color::Yellow);
+            ColorFormat::println("Spam Emails Detected", Color::Yellow);
         } else {
             ColorFormat::println("No Spam Emails Detected", Color::Green);
         }
