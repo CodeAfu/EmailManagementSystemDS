@@ -1,13 +1,26 @@
 #pragma once
 
-// TODO: Import Data Structure
+#include "EmailQueue.hpp"
+#include "Email.hpp"
 
 class SpamDetectionService {
 public:
-    SpamDetectionService() = default;
-    ~SpamDetectionService() = default;
+    SpamDetectionService();
+    SpamDetectionService(Inbox* inbox);
+    ~SpamDetectionService();
+
+    void refresh(Inbox* inbox);
+    void clear();
+
+    EmailQueue& getInbox();
+    EmailQueue& getSpamBox();
+
+    bool detectSpam(const Email& email);
+    void filterSpam();
 
 private:
-    // TODO: Store Data Structure
+    Inbox* m_userInboxPtr;
 
+    EmailQueue m_inbox;
+    EmailQueue m_spamBox;
 };

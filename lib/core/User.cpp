@@ -16,7 +16,9 @@ User::User(int id, std::string name, std::string emailAddress)
       s_emailService(&EmailService::GetInstance()) {
     
     m_priorityService = PriorityService(&m_inbox, &m_outbox);
-    m_importantUserList.pushBack("manager@workplace.com");
+    m_spamDetectionService = SpamDetectionService(&m_inbox);
+
+    this->addToImportantList("manager@workplace.com");
 }
 
 User::~User() {
@@ -361,6 +363,11 @@ PriorityService& User::getPriorityServiceRef() {
     return m_priorityService;
 }
 
+SpamDetectionService& User::getSpamDetectionServiceRef() {
+    m_spamDetectionService.refresh(&m_inbox);
+    return m_spamDetectionService;
+}
+
 void User::updateFromDraft(const Email& email) {
     m_outbox.updateDraftEmail(email);
 }
@@ -417,5 +424,13 @@ void User::addToImportantList(const std::string& email_address) {
         std::cout << "[AddToImportantList] User not found." << std::endl;
         return;
     }
+    if (m_importantUserList.contains(email_address)) {
+        std::cout << "[AddToImportantList] User already in list." << std::endl;
+        return;
+    }
+    if (m_emailAddress == email_address) {
+        std::cout << "[AddToImportantList] You cannot add yourself to the important list." << std::endl;
+    }
+
     m_importantUserList.pushBack(user->getEmailAddress());
 }

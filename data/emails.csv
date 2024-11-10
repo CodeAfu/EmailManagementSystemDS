@@ -1,17 +1,22 @@
 sender,receiver,subject,body,Priority
 emma.johnson@gmail.com,liam.wilson@outlook.com,Meeting Reminder,"Hi Liam, I wanted to remind you about our meeting scheduled for tomorrow at 10 AM. Please let me know if you have any questions. Looking forward to our discussion.",2
-sophia.brown@yahoo.com,noah.davis@gmail.com,Project Update,"Hi Noah, I've made some progress on our project and wanted to share the latest updates with you. Please find the details in the attached document. Let me know if you have any feedback.",3
+sophia.brown@yahoo.com,noah.davis@gmail.com,Project Update,"Hi Noah, I've made some progress on our project and wanted to share the latest updates with you. Please find the details in the attached document. Let me know if you have any feedback.",2
 mia.smith@outlook.com,emma.johnson@gmail.com,Weekly Report,"Hi Emma, Attached is the weekly report. Please review and let me know if there are any questions or additional information needed. Thanks!",1
 liam.wilson@outlook.com,sophia.brown@yahoo.com,Re: Meeting Reminder,"Hi Sophia, Thank you for the reminder. I'll be there at 10 AM. Looking forward to it!",2
-noah.davis@gmail.com,mia.smith@outlook.com,Re: Project Update,"Hi Mia, Thanks for the updates. I'll review the document and get back to you soon.",3
-emma.johnson@gmail.com,noah.davis@gmail.com,Collaborative Project,"Hi Noah, Would you be interested in collaborating on a new project? Let me know your thoughts.",3
+noah.davis@gmail.com,mia.smith@outlook.com,Re: Project Update,"Hi Mia, Thanks for the updates. I'll review the document and get back to you soon.",2
+emma.johnson@gmail.com,noah.davis@gmail.com,Collaborative Project,"Hi Noah, Would you be interested in collaborating on a new project? Let me know your thoughts.",2
 sophia.brown@yahoo.com,mia.smith@outlook.com,Coffee Meeting,"Hi Mia, Can we meet for coffee next week to discuss our collaboration?",1
 noah.davis@gmail.com,liam.wilson@outlook.com,Invoice Details,"Hi Liam, Can you please confirm that you have received the invoice?",1
 liam.wilson@outlook.com,emma.johnson@gmail.com,Re: Meeting Reminder,"Hi Emma, Just wanted to confirm that the meeting is still on for tomorrow at 10 AM.",2
-sophia.brown@yahoo.com,noah.davis@gmail.com,Re: Project Update,"Hi Noah, Thanks for the updates. I'll review the document and get back to you soon.",3
-noah.davis@gmail.com,liam.wilson@outlook.com,Project Update,"Hi Liam, I've made some progress on the project. I'll send you the updates soon.",3
+sophia.brown@yahoo.com,noah.davis@gmail.com,Re: Project Update,"Hi Noah, Thanks for the updates. I'll review the document and get back to you soon.",2
+noah.davis@gmail.com,liam.wilson@outlook.com,Project Update,"Hi Liam, I've made some progress on the project. I'll send you the updates soon.",2
+sophia.brown@yahoo.com,noah.davis@gmail.com,Lottery Tickets,"Hey, come get a lottery ticket to win 1 MILLION DOLLARS!!! go to totallynotascamwebsite(dot)com and sign up here with your bank credentials!",1
+scammer@gmail.com,noah.davis@gmail.com,URGENT RESPONSE NEEDED,"[WARNING] Your bank account has been compromised! You are required to take immediate! Visit máybánk(dot)com for more information.",2
+scammer@gmail.com,noah.davis@gmail.com,Win A Free iPhone!,"Sign up to this to enter the giveaway! legitsite(dot)com/iphone-giveaway",1
+scammer@gmail.com,noah.davis@gmail.com,Congratulations!,"Congratulations, You have won a free GREEN CARD!! Click here to claim it now!",1
 manager@workplace.com,emma.johnson@gmail.com,Employee Meeting,"This is a sample message for an employee meeting. The meeting will be held in the main conference room on Friday at 2 PM. Please make sure to attend.",3
 manager@workplace.com,liam.wilson@outlook.com,Employee Meeting,"This is a sample message for an employee meeting. The meeting will be held in the main conference room on Friday at 2 PM. Please make sure to attend.",3
 manager@workplace.com,sophia.brown@yahoo.com,Employee Meeting,"This is a sample message for an employee meeting. The meeting will be held in the main conference room on Friday at 2 PM. Please make sure to attend.",3
 manager@workplace.com,noah.davis@gmail.com,Employee Meeting,"This is a sample message for an employee meeting. The meeting will be held in the main conference room on Friday at 2 PM. Please make sure to attend.",3
 manager@workplace.com,mia.smith@outlook.com,Employee Meeting,"This is a sample message for an employee meeting. The meeting will be held in the main conference room on Friday at 2 PM. Please make sure to attend.",3
+manager@workplace.com,emma.johnson@gmail.com,Team Meeting,"This is a sample message for a team meeting. The meeting will be held in the conference room on Monday at 1 PM. Please make sure to attend.",3   

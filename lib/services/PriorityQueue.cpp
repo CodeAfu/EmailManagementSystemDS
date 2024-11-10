@@ -43,10 +43,10 @@ void PriorityQueue::displayHighPriority() const {
         std::cout << "No high-priority emails in the queue.\n";
         return;
     }
-    std::cout << "High Priority Emails:\n";
+    ColorFormat::println("High Priority Emails:", Color::BrightGreen);
     for (const auto& email : highPriorityQueue) {
         email->display();
-        std::cout << "-------------------\n";
+        ColorFormat::print("-------------------------------\n", Color::BrightBlack);
     }
 }
 
@@ -55,10 +55,10 @@ void PriorityQueue::displayMediumPriority() const {
         std::cout << "No medium-priority emails in the queue.\n";
         return;
     }
-    std::cout << "Medium Priority Emails:\n";
+    ColorFormat::println("Medium Priority Emails:", Color::BrightYellow);
     for (const auto& email : mediumPriorityQueue) {
         email->display();
-        std::cout << "-------------------\n";
+        ColorFormat::print("-------------------------------\n", Color::BrightBlack);
     }
 }
 
@@ -67,10 +67,10 @@ void PriorityQueue::displayLowPriority() const {
         std::cout << "No low-priority emails in the queue.\n";
         return;
     }
-    std::cout << "Low Priority Emails:\n";
+    ColorFormat::println("Low Priority Emails:", Color::BrightBlue);
     for (const auto& email : lowPriorityQueue) {
         email->display();
-        std::cout << "-------------------\n";
+        ColorFormat::print("-------------------------------\n", Color::BrightBlack);
     }
 }
 
@@ -140,7 +140,7 @@ void PriorityQueue::searchEmailsByKeyword(PriorityLevel priority, const std::str
         if (email->getSubject().find(keyword) != std::string::npos ||
             email->getBody().find(keyword) != std::string::npos) {
             email->display();
-            std::cout << "-------------------\n";
+            ColorFormat::print("-------------------------------\n", Color::BrightBlack);
 
             found = true;
         }
@@ -164,7 +164,7 @@ void PriorityQueue::sortEmailsBySender(PriorityLevel priority) {
     if (!queue.empty()) {
         for (const auto& email : queue) {
             email->display();
-            std::cout << "-------------------\n";
+            ColorFormat::print("-------------------------------\n", Color::BrightBlack);
         }
     }
     else {
@@ -184,7 +184,7 @@ void PriorityQueue::markAllAsRead(PriorityLevel priority) {
 
     for (const auto& email : queue) {
         email->display();
-        std::cout << "-------------------\n";
+        ColorFormat::print("-------------------------------\n", Color::BrightBlack);
 
     }
 }
@@ -201,8 +201,7 @@ void PriorityQueue::markAllAsUnread(PriorityLevel priority) {
 
     for (const auto& email : queue) {
         email->display();
-        std::cout << "-------------------\n";
-
+        ColorFormat::print("-------------------------------\n", Color::BrightBlack);
     }
 }
 

@@ -43,6 +43,7 @@ public:
     Email getFromDraft(int id);
     PriorityQueue& getPriorityQueueRef();
     PriorityService& getPriorityServiceRef();
+    SpamDetectionService& getSpamDetectionServiceRef();
     void updateFromDraft(const Email& email);
     const Outbox& getOutbox() const;
     Outbox& getOutbox();
