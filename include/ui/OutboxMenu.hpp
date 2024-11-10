@@ -1,13 +1,13 @@
 #pragma once
 
 namespace OutboxMenu::Sent {
-    void viewSentEmails(User& user);
+    void run(User& user);
 }
 
 namespace OutboxMenu::Draft {
-    void viewDraftEmails(User& user);
+    void run(User& user);
 }
 
 namespace OutboxMenu::Compose {
-    void composeEmail(User& user);
+    void run(User& user);
 }

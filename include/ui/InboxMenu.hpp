@@ -1,5 +1,5 @@
 #pragma once
 
 namespace InboxMenu {
-    void viewInbox(User& user);
+    void run(User& user);
 }

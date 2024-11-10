@@ -88,16 +88,16 @@ int main(int argc, char** argv) {
 
         switch (choice) {
             case 1:
-                InboxMenu::viewInbox(*current_user);
+                InboxMenu::run(*current_user);
                 break;
             case 2:
-                OutboxMenu::Sent::viewSentEmails(*current_user);
+                OutboxMenu::Sent::run(*current_user);
                 break;
             case 3:
-                OutboxMenu::Draft::viewDraftEmails(*current_user);
+                OutboxMenu::Draft::run(*current_user);
                 break;
             case 4:
-                OutboxMenu::Compose::composeEmail(*current_user);
+                OutboxMenu::Compose::run(*current_user);
                 break;
             case 5:
                 SearchAndRetrievalMenu::run(*current_user);

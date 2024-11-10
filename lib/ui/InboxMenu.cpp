@@ -214,7 +214,7 @@ namespace InboxMenu {
         system("cls");
     }
 
-    void viewInbox(User& user) {
+    void run(User& user) {
         system("cls");
 
         if (user.getInbox().isEmpty()) {

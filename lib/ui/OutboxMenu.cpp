@@ -81,7 +81,7 @@ namespace OutboxMenu::Sent {
     }
 
 
-    void viewSentEmails(User& user) {
+    void run(User& user) {
         system("cls");
         
         if (user.getOutbox().getSentEmails().isEmpty()) {
@@ -387,7 +387,7 @@ namespace OutboxMenu::Draft {
         system("cls");
     }
 
-    void viewDraftEmails(User& user) {
+    void run(User& user) {
         system("cls");
 
         if (user.getOutbox().getDraftEmails().isEmpty()) {
@@ -460,7 +460,7 @@ namespace OutboxMenu::Draft {
 }
 
 namespace OutboxMenu::Compose {
-    void composeEmail(User& user) {
+    void run(User& user) {
         system("cls");
 
         // Get receivers list
