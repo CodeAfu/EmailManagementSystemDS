@@ -5,7 +5,7 @@
 #include "Helper.hpp"
 #include "ResourceManager.hpp"
 
-namespace OutboxMenu {
+namespace OutboxMenu::Sent {
 
     void selectFromSent(User& user) {
         system("cls");
@@ -138,6 +138,10 @@ namespace OutboxMenu {
         system("cls");
     }
 
+}
+
+
+namespace OutboxMenu::Draft {
     // Draft Emails Menu
     void viewDraftEmail(User& user) {
         system("cls");
@@ -453,6 +457,9 @@ namespace OutboxMenu {
         system("cls");
     }
 
+}
+
+namespace OutboxMenu::Compose {
     void composeEmail(User& user) {
         system("cls");
 
@@ -524,5 +531,4 @@ namespace OutboxMenu {
         std::cin.get();
         system("cls");
     }
-
 }

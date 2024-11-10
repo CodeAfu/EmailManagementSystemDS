@@ -31,6 +31,10 @@ void PriorityQueue::insert(Email& email) {
     }
 }
 
+bool PriorityQueue::hasHighPriority() const { return !highPriorityQueue.empty(); }
+bool PriorityQueue::hasMediumPriority() const { return !mediumPriorityQueue.empty(); }
+bool PriorityQueue::hasLowPriority() const { return !lowPriorityQueue.empty(); }
+
 void PriorityQueue::balanceLoad() {
     capacity *= 2;
     highPriorityQueue.reserve(capacity / 3);

@@ -13,9 +13,9 @@ public:
     void insert(Email& email);
     
     // Check if there are emails in each priority queue
-    bool hasHighPriority() const { return !highPriorityQueue.empty(); }
-    bool hasMediumPriority() const { return !mediumPriorityQueue.empty(); }
-    bool hasLowPriority() const { return !lowPriorityQueue.empty(); }
+    bool hasHighPriority() const;
+    bool hasMediumPriority() const;
+    bool hasLowPriority() const;
 
     // Display functions
     void displayHighPriority() const;

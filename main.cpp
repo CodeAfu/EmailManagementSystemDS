@@ -91,13 +91,13 @@ int main(int argc, char** argv) {
                 InboxMenu::viewInbox(*current_user);
                 break;
             case 2:
-                OutboxMenu::viewSentEmails(*current_user);
+                OutboxMenu::Sent::viewSentEmails(*current_user);
                 break;
             case 3:
-                OutboxMenu::viewDraftEmails(*current_user);
+                OutboxMenu::Draft::viewDraftEmails(*current_user);
                 break;
             case 4:
-                OutboxMenu::composeEmail(*current_user);
+                OutboxMenu::Compose::composeEmail(*current_user);
                 break;
             case 5:
                 SearchAndRetrievalMenu::run(*current_user);
