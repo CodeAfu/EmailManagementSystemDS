@@ -11,7 +11,7 @@ public:
     void insert(Email* email);
     void display() const;
     void displaySubjectSummary() const;
-    bool searchByKeyword(const char* keyword) const;
+    bool searchByKeyword(const std::string& keyword) const;
     void sortBySender();
     void markAllAsRead();
     void markAllAsUnread();

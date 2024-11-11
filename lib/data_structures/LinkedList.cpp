@@ -1,18 +1,15 @@
 #define _CRT_SECURE_NO_WARNINGS  // Suppress warnings about unsafe functions
 #include <iostream>
-#include <cstring> // For strcpy_s, strcmp, and strstr
 #include "LinkedList.hpp"
 #include "Email.hpp"
 
 // Helper structure to store subject counts in a linked list
 struct SubjectCountNode {
-    char subject[256];
+    std::string subject;
     int count;
     SubjectCountNode* next;
 
-    SubjectCountNode(const char* subj) : count(1), next(nullptr) {
-        strcpy_s(subject, sizeof(subject), subj);
-    }
+    SubjectCountNode(std::string subj) : subject(subj), count(1), next(nullptr) { }
 };
 
 LinkedList::LinkedList() : head(nullptr) {}
@@ -59,13 +56,13 @@ void LinkedList::displaySubjectSummary() const {
 
     Node* current = head;
     while (current) {
-        const char* currentSubject = current->email->getSubject();
+        std::string currentSubject = current->email->getSubject();
         SubjectCountNode* subjectCurrent = subjectHead;
         SubjectCountNode* prev = nullptr;
         bool found = false;
 
         while (subjectCurrent) {
-            if (strcmp(subjectCurrent->subject, currentSubject) == 0) {
+            if (subjectCurrent->subject == currentSubject) {
                 subjectCurrent->count++;
                 found = true;
                 break;
@@ -99,12 +96,15 @@ void LinkedList::displaySubjectSummary() const {
     }
 }
 
-bool LinkedList::searchByKeyword(const char* keyword) const {
+bool LinkedList::searchByKeyword(const std::string& keyword) const {
     Node* current = head;
     bool found = false;
 
     while (current) {
-        if (strstr(current->email->getSubject(), keyword) || strstr(current->email->getBody(), keyword)) {
+        const std::string& subject = current->email->getSubject();
+        const std::string& body = current->email->getBody();
+        
+        if (subject.find(keyword) != std::string::npos || body.find(keyword) != std::string::npos) {
             current->email->display();
             found = true;
         }
@@ -126,13 +126,13 @@ void LinkedList::sortBySender() {
         Node* current = head;
         head = head->next;
 
-        if (!sorted || strcmp(current->email->getSender(), sorted->email->getSender()) < 0) {
+        if (!sorted || current->email->getSender() < sorted->email->getSender()) {
             current->next = sorted;
             sorted = current;
         }
         else {
             Node* s = sorted;
-            while (s->next && strcmp(s->next->email->getSender(), current->email->getSender()) < 0) {
+            while (s->next && s->next->email->getSender() < current->email->getSender()) {
                 s = s->next;
             }
             current->next = s->next;

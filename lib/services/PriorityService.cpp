@@ -6,7 +6,7 @@
 
 PriorityService::PriorityService() { }
 
-PriorityService::PriorityService(Inbox* inbox, Outbox* outbox) : m_inbox(inbox), m_outbox(outbox) { }
+PriorityService::PriorityService(Inbox* inbox) : m_inbox(inbox) { }
 
 PriorityService::~PriorityService() { 
     m_inbox = nullptr;
