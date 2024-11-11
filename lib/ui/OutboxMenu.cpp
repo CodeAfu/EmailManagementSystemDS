@@ -32,6 +32,18 @@ namespace OutboxMenu::Sent {
         system("cls");
     }
 
+    void viewFrontEmail(User& user) {
+        system("cls");
+
+        Outbox& outbox = user.getOutbox();
+        outbox.getSentEmails().getFront().display();
+
+        std::cout << "\n\nPress any key to continue..." << std::endl;
+        Console::clearCin();
+        std::cin.get();
+        system("cls");
+    }
+
     void deleteFromSent(User& user) {
         system("cls");
 
@@ -95,6 +107,7 @@ namespace OutboxMenu::Sent {
 
         std::string choices[] = { 
             "1. Select Email to View",
+            "2. View Front Email",
             "2. Delete Email",
             "0. Go back" 
         };
@@ -126,6 +139,9 @@ namespace OutboxMenu::Sent {
                     selectFromSent(user);
                     break;
                 case 2:
+                    viewFrontEmail(user);
+                    break;
+                case 3:
                     deleteFromSent(user);
                     break;
                 case 0:
@@ -163,6 +179,62 @@ namespace OutboxMenu::Draft {
         Console::clearCin();
         std::cin.get();
 
+        system("cls");
+    }
+
+    void iterateEmails(User& user) {
+        system("cls");
+
+        Outbox& outbox = user.getOutbox();
+        Outbox temp;
+
+        Console::clearCin();
+
+        while (!outbox.getDraftEmails().isEmpty()) {
+            Email email = outbox.getDraftEmails().dequeue();
+            email.display();
+
+            std::string prompt = "\n\nSend this email? (Y)es / (N)o / (Q)uit ): ";
+            std::string choice;
+
+            std::cout << prompt;
+            std::getline(std::cin, choice);
+            
+            while (Formatter::toLower(choice) != "y" && Formatter::toLower(choice) != "n" 
+                && Formatter::toLower(choice) != "q") {
+                system("cls");
+                email.display();
+                std::cout << std::endl << std::endl;
+                ColorFormat::println("Invalid input. Please enter 'Y', 'N', or 'Q'.", Color::Yellow);
+                std::cout << prompt;
+                std::getline(std::cin, choice);
+            }
+
+            if (Formatter::toLower(choice) == "q") {
+                temp.addDraft(email);
+                while (!outbox.getDraftEmails().isEmpty()) {
+                    Email email = outbox.getDraftEmails().dequeue();
+                    temp.addDraft(email);
+                }
+                break;
+            }
+            
+            if (Formatter::toLower(choice) == "n") {
+                temp.addDraft(email);
+                system("cls");
+                continue;
+            }
+
+            user.deleteFromDraft(email.getId());
+            user.sendEmail(email);
+
+            std::cout << "\n\nEmail Sent Successfully!\n";
+            std::cin.get();
+            system("cls");
+        }
+
+
+        outbox = temp;
         system("cls");
     }
 
@@ -400,6 +472,7 @@ namespace OutboxMenu::Draft {
 
         std::string choices[] = { 
             "1. View Email",
+            "2. Iterate Through Emails",
             "2. Edit Email",
             "3. Delete Email",
             "4. Send Email",
@@ -434,15 +507,18 @@ namespace OutboxMenu::Draft {
                     viewDraftEmail(user);
                     break;
                 case 2:
-                    editDraftEmail(user);
+                    iterateEmails(user);
                     break;
                 case 3:
-                    deleteDraftEmail(user);
+                    editDraftEmail(user);
                     break;
                 case 4:
-                    sendDraftEmail(user);
+                    deleteDraftEmail(user);
                     break;
                 case 5:
+                    sendDraftEmail(user);
+                    break;
+                case 6:
                     sendAllDraftEmails(user);
                     break;
                 case 0:

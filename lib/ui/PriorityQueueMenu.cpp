@@ -113,8 +113,8 @@ namespace PriorityQueueMenu {
                 break;
             }
             case 0:
-                system("cls");
                 std::cout << "Exiting the program.\n";
+                system("cls");
                 return;
             default:
                 system("cls");
