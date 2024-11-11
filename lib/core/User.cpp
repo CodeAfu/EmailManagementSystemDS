@@ -288,61 +288,6 @@ Email User::readFromInbox(int id) {
     return res;
 }
 
-
-
-// Email& User::getFromInbox(int id) {
-//     int size = m_inbox.size();
-
-//     Stack<Email>& inbox_ref = m_inbox.getEmails();
-//     Stack<Email> temp;
-//     Email* out = nullptr;
-
-//     while (!inbox_ref.isEmpty()) {
-//         Email email = inbox_ref.pop();
-//         temp.push(email);
-
-//         if (email.getId() == id) {
-//             out = &email;
-//             break;
-//         }
-//     }
-
-//     while (!temp.isEmpty()) {
-//         inbox_ref.push(temp.pop());
-//     }
-
-//     if (out) {
-//         return *out;
-//     } else {
-//         throw std::runtime_error("GetFromInbox&: Email not found");
-//     }
-// }
-
-// Email* User::getFromInboxPtr(int id) {
-//     int size = m_inbox.size();
-
-//     Stack<Email>& inbox_ref = m_inbox.getEmails();
-//     Stack<Email> temp;
-//     Email* out = nullptr;
-
-//     while (!inbox_ref.isEmpty()) {
-//         Email& email = inbox_ref.popRef();
-//         temp.push(email);
-
-//         if (email.getId() == id) {
-//             out = &email;
-//             break;
-//         }
-//     }
-
-//     while (!temp.isEmpty()) {
-//         inbox_ref.push(temp.pop());
-//     }
-
-//     return out;
-// }
-
-
 Email User::getFromSent(int id) {
     return m_outbox.getSentById(id);
 }
@@ -383,12 +328,12 @@ void User::deleteFromInbox(int id) {
     while (!m_inbox.isEmpty()) {
         Email email = m_inbox.pop();
         if (email.getId() == id) {
-            break;
+            continue;
         }
         temp.push(email);
     }
 
-    if (!temp.isEmpty()) {
+    while (!temp.isEmpty()) {
         m_inbox.push(temp.pop());
     }
 }
