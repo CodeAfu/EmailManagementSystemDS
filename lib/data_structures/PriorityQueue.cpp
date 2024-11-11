@@ -21,6 +21,7 @@ void PriorityQueue::insert(Email* email) {
         lowPriorityQueue.insert(email);
         break;
     default:
+        lowPriorityQueue.insert(email);
         break;
     }
 }
