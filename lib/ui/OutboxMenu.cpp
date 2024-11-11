@@ -473,10 +473,10 @@ namespace OutboxMenu::Draft {
         std::string choices[] = { 
             "1. View Email",
             "2. Iterate Through Emails",
-            "2. Edit Email",
-            "3. Delete Email",
-            "4. Send Email",
-            "5. Send All Emails",
+            "3. Edit Email",
+            "4. Delete Email",
+            "5. Send Email",
+            "6. Send All Emails",
             "0. Go back" 
         };
 
