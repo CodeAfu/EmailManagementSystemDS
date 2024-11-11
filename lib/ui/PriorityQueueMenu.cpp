@@ -51,21 +51,27 @@ namespace PriorityQueueMenu {
 
         switch (choice) {
             case 1:
+                system("cls");
                 user.getPriorityQueueRef().displayHighPriority();
                 break;
             case 2:
+                system("cls");
                 user.getPriorityQueueRef().displayMediumPriority();
                 break;
             case 3:
+                system("cls");
                 user.getPriorityQueueRef().displayLowPriority();
                 break;
             case 4:
+                system("cls");
                 user.getPriorityQueueRef().displayAll();
                 break;
             case 5:
+                system("cls");
                 user.getPriorityQueueRef().displaySubjectSummary();
                 break;
             case 6: {
+                system("cls");
                 int priorityLevel;
                 std::cout << "Enter priority level (1 = Low, 2 = Medium, 3 = High): ";
                 std::cin >> priorityLevel;
@@ -77,6 +83,7 @@ namespace PriorityQueueMenu {
                 break;
             }
             case 7: {
+                system("cls");
                 int priorityLevel;
                 std::cout << "Enter priority level (1 = Low, 2 = Medium, 3 = High): ";
                 std::cin >> priorityLevel;
@@ -86,6 +93,7 @@ namespace PriorityQueueMenu {
                 break;
             }
             case 8: {
+                system("cls");
                 int priorityLevel;
                 std::cout << "Enter priority level (1 = Low, 2 = Medium, 3 = High): ";
                 std::cin >> priorityLevel;
@@ -95,6 +103,7 @@ namespace PriorityQueueMenu {
                 break;
             }
             case 9: {
+                system("cls");
                 int priorityLevel;
                 std::cout << "Enter priority level (1 = Low, 2 = Medium, 3 = High): ";
                 std::cin >> priorityLevel;
@@ -104,9 +113,11 @@ namespace PriorityQueueMenu {
                 break;
             }
             case 0:
+                system("cls");
                 std::cout << "Exiting the program.\n";
                 return;
             default:
+                system("cls");
                 std::cout << "Invalid choice. Please enter a number between 1 and 9.\n";
             }
         }
