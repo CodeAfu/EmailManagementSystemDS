@@ -43,10 +43,10 @@ namespace SearchAndRetrievalMenu {
             if (Formatter::toLower(email.getSubject()).find(Formatter::toLower(searchSubject)) != std::string::npos) {
                 found = true;
                 // Display the email details
-                std::cout << "From: " << email.getSender() 
-                        << "\nTo: " << email.getReceiver() 
-                        << "\nSubject: " << email.getSubject() 
-                        << "\nBody: " << email.getBody() 
+                std::cout << "From: " << email.getSender()
+                        << "\nTo: " << email.getReceiver()
+                        << "\nSubject: " << email.getSubject()
+                        << "\nBody: " << email.getBody()
                         << "\n------------------------------------" << std::endl;
             }
         }

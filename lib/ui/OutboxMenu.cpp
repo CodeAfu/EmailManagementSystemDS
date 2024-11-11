@@ -137,7 +137,6 @@ namespace OutboxMenu::Sent {
         }
         system("cls");
     }
-
 }
 
 
@@ -456,7 +455,6 @@ namespace OutboxMenu::Draft {
 
         system("cls");
     }
-
 }
 
 namespace OutboxMenu::Compose {

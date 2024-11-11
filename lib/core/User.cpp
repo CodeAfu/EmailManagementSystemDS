@@ -15,7 +15,7 @@ User::User(int id, std::string name, std::string emailAddress)
     : m_id(id), m_name(name), m_emailAddress(emailAddress), 
       s_emailService(&EmailService::GetInstance()) {
     
-    m_priorityService = PriorityService(&m_inbox, &m_outbox);
+    m_priorityService = PriorityService(&m_inbox);
     m_spamDetectionService = SpamDetectionService(&m_inbox);
 
     this->addToImportantList("manager@workplace.com");
@@ -352,13 +352,13 @@ Email User::getFromDraft(int id) {
 }
 
 PriorityQueue& User::getPriorityQueueRef() {
-    m_priorityService.refreshStorage(&m_inbox, &m_outbox);
+    m_priorityService.refreshStorage(&m_inbox);
     m_priorityService.populatePriorityQueue();
     return m_priorityService.getPriorityQueueRef();
 }
 
 PriorityService& User::getPriorityServiceRef() {
-    m_priorityService.refreshStorage(&m_inbox, &m_outbox);
+    m_priorityService.refreshStorage(&m_inbox);
     m_priorityService.populatePriorityQueue();
     return m_priorityService;
 }

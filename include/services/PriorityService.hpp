@@ -8,17 +8,17 @@ class Outbox;
 class PriorityService {
 public:
     PriorityService();
-    PriorityService(Inbox* inbox, Outbox* outbox);
+    PriorityService(Inbox* inbox);
     ~PriorityService();
 
 public:
     PriorityQueue& getPriorityQueueRef();
     void populatePriorityQueue();
 
-    void refreshStorage(Inbox* inbox, Outbox* outbox);
+    void refreshStorage(Inbox* inbox);
 
 private:
     Inbox* m_inbox;
     Outbox* m_outbox;
-    PriorityQueue m_priorityQueue = PriorityQueue(100);
+    PriorityQueue m_priorityQueue;
 };

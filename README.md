@@ -5,22 +5,22 @@
 - Use "run.bat" to run the project on terminal
 
 ## Development Tasks
-- User Class [🔨] 
-- Email Class [🔨]
+- User Class [✅] 
+- Email Class [✅]
 - Load Sample Data [✅]
     - data/emails.csv [✅]
     - data/user.csv [✅]
-- Console Application Flow [🔨]
+- Console Application Flow [✅]
 - User Inbox System [✅]
     - Stack Data Structure [✅]
-- Email Sending System: Queue [🔨]
+- Email Sending System: Queue [✅]
     - Queue Data Structure [✅]
-- Email Search and Retrieval [❓]
-    - (Refer below for DS) [❓]
-- Spam Email Detection [❓]
-    - Priority Queue [❓]
-- Prioritize Email [❓]
-    - Priority Queue [❓]
+- Email Search and Retrieval [✅]
+    - (Refer below for DS) [✅]
+- Spam Email Detection [✅]
+    - Queue [✅]
+- Prioritize Email [✅]
+    - Priority Queue [✅]
 
 ## Responsibilities (According to the Assignment Specification)
 - Main Menu - **[Kee Gene]**
