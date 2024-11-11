@@ -42,9 +42,6 @@
     <ClCompile Include="lib\services\EmailService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lib\services\PriorityQueue.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="lib\services\PriorityService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -88,6 +85,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="lib\utils\IdxGen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\data_structures\LinkedList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\data_structures\PriorityQueue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,9 +143,6 @@
     <ClInclude Include="include\services\EmailService.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\services\PriorityQueue.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\services\PriorityService.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -177,6 +177,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\data_structures\EmailQueue.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\data_structures\LinkedList.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\data_structures\PriorityQueue.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

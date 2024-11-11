@@ -23,13 +23,14 @@
     <ClCompile Include="lib\core\ResourceManager.cpp" />
     <ClCompile Include="lib\core\User.cpp" />
     <ClCompile Include="lib\data_structures\EmailQueue.cpp" />
+    <ClCompile Include="lib\data_structures\LinkedList.cpp" />
+    <ClCompile Include="lib\data_structures\PriorityQueue.cpp" />
     <ClCompile Include="lib\data_structures\UserTree.cpp" />
     <ClCompile Include="lib\email\Inbox.cpp" />
     <ClCompile Include="lib\email\Outbox.cpp" />
     <ClCompile Include="lib\email\Timestamp.cpp" />
     <ClCompile Include="lib\services\EmailRequest.cpp" />
     <ClCompile Include="lib\services\EmailService.cpp" />
-    <ClCompile Include="lib\services\PriorityQueue.cpp" />
     <ClCompile Include="lib\services\PriorityService.cpp" />
     <ClCompile Include="lib\services\SearchService.cpp" />
     <ClCompile Include="lib\services\SpamDetectionService.cpp" />
@@ -53,8 +54,10 @@
     <ClInclude Include="include\data_structures\BSTUserNode.hpp" />
     <ClInclude Include="include\data_structures\DynArray.hpp" />
     <ClInclude Include="include\data_structures\EmailQueue.hpp" />
+    <ClInclude Include="include\data_structures\LinkedList.hpp" />
     <ClInclude Include="include\data_structures\LLQueue.hpp" />
     <ClInclude Include="include\data_structures\Node.hpp" />
+    <ClInclude Include="include\data_structures\PriorityQueue.hpp" />
     <ClInclude Include="include\data_structures\Stack.hpp" />
     <ClInclude Include="include\data_structures\UserTree.hpp" />
     <ClInclude Include="include\email\Inbox.hpp" />
@@ -63,7 +66,6 @@
     <ClInclude Include="include\email\Timestamp.hpp" />
     <ClInclude Include="include\services\EmailRequest.hpp" />
     <ClInclude Include="include\services\EmailService.hpp" />
-    <ClInclude Include="include\services\PriorityQueue.hpp" />
     <ClInclude Include="include\services\PriorityService.hpp" />
     <ClInclude Include="include\services\SearchService.hpp" />
     <ClInclude Include="include\services\SpamDetectionService.hpp" />
